@@ -1,0 +1,187 @@
+/* ===========================================================================
+   tokens.css — Chillibyte brand tokens
+   ---------------------------------------------------------------------------
+   Harvested from the live theme (cb-chillibyte-2026) at chillibyte.local.
+   Change a value here and it changes across the pitch, the guide and the
+   spec builder. This is the only file you should need to edit to re-brand.
+
+   ACCESSIBILITY NOTE — measured, not assumed:
+     Brand red   #ED1B24 is 4.39:1 on white. It NEVER passes AA for body text
+                 on any ground in this palette.
+     Brand green #8DC53E is 2.06:1 on white. Graphic use only on light.
+   So the brand colours are used for logo, graphics, rules, fills and large
+   display type, and derived inks (--cb-red-ink / --cb-green-ink) are used
+   anywhere brand colour carries actual words. Every derived value below has
+   its measured ratio in a comment.
+=========================================================================== */
+
+:root {
+  /* --- Brand, exactly as the live site defines them ---------------------- */
+  --cb-red:        #ED1B24;   /* logo .st1 — graphics + large display only  */
+  --cb-green:      #8DC53E;   /* logo .st2 — graphics; AA text on dark only */
+  --cb-black:      #404042;   /* logo .st0 — body ink on light              */
+  --cb-blue:       #313341;   /* mid dark surface                           */
+  --cb-blue-dk:    #212333;   /* deepest surface — the deck ground          */
+  --cb-beige:      #F4F2ED;   /* warm light surface                         */
+  --cb-white:      #FFFFFF;
+  --cb-grey-100:   #F5F5F5;
+  --cb-grey-300:   #D9D9D9;
+  --cb-grey-600:   #6A6A6A;
+  --cb-grey-700:   #4A4A4A;
+
+  /* --- Derived inks: brand colour that has to be readable ----------------
+     Each value below is the lightest that still clears 4.5:1 on EVERY ground
+     it is actually used on — including the pale tinted badge/callout fills,
+     which is where the first pass fell short (4.24–4.39). Measured in-browser
+     against the rendered pages, not assumed.                              */
+  --cb-red-ink:    #D01C27;   /* 5.42 white · 4.84 beige · 4.56 red tint    */
+  --cb-red-on-dk:  #F47479;   /* 5.63 on blue-dk · 4.54 on blue             */
+  --cb-green-ink:  #597739;   /* 5.09 white · 4.55 beige · 4.52 green tint  */
+  --cb-green-on-dk:#8DC53E;   /* 7.53 on blue-dk · 6.06 on blue             */
+  --cb-muted-on-dk:#A9AABB;   /* 6.77 on blue-dk · 5.45 on blue             */
+
+  /* Brand red carrying WHITE text on top of it. The pure brand value is
+     4.39:1 against white — a hair under AA — so filled pills, number badges
+     and primary buttons use this fractionally darker red instead. The
+     difference is imperceptible; the compliance difference is not.        */
+  --cb-red-solid:  #E91B24;   /* white on this: 4.52                        */
+
+  /* --- Status colours ---------------------------------------------------- */
+  --cb-amber:      #9E6007;   /* 5.08 white · 4.51 amber tint               */
+  --cb-amber-on-dk:#F0B45A;
+  --cb-new:        var(--cb-green-ink);   /* the NEW badge on light         */
+  --cb-new-on-dk:  var(--cb-green-on-dk);
+
+  /* --- Semantic surfaces: light (guide, spec, gaps) ---------------------- */
+  --surface:        var(--cb-white);
+  --surface-sunk:   var(--cb-grey-100);
+  --surface-warm:   var(--cb-beige);
+  --surface-invert: var(--cb-blue-dk);
+  --ink:            var(--cb-black);
+  --ink-strong:     var(--cb-blue-dk);
+  --ink-muted:      var(--cb-grey-600);
+  --ink-invert:     var(--cb-white);
+  --line:           var(--cb-grey-300);
+  --line-soft:      #E9E7E2;
+  --accent:         var(--cb-red);
+  --accent-ink:     var(--cb-red-ink);
+  --accent-2:       var(--cb-green);
+  --accent-2-ink:   var(--cb-green-ink);
+
+  /* --- Type --------------------------------------------------------------
+     articulat-cf is the brand face, served via Adobe Fonts (Typekit) and
+     licensed per domain.
+
+     TO ENABLE IT: add your kit stylesheet to the <head> of the five HTML
+     pages, or uncomment the @import at the bottom of this file and drop your
+     kit ID in. The live theme only exposes a preconnect to use.typekit.net,
+     so the kit ID is not discoverable from the public page — get it from
+     Adobe Fonts › your kit › Web Project.
+
+     Until then the fallback stack applies. It is chosen to sit close to
+     articulat-cf in width and x-height, so the tools degrade quietly rather
+     than visibly. Nothing is broken without it.                            */
+  --font-base: "articulat-cf", ui-sans-serif, system-ui, -apple-system,
+               "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+               "Liberation Mono", monospace;
+
+  /* Fluid scale mirroring the live theme's clamps */
+  --fs-display: clamp(2.6rem, 1.2rem + 5.6vw, 5.5rem);
+  --fs-h1:      clamp(2rem, 1.13rem + 3.48vw, 4rem);
+  --fs-h2:      clamp(1.6rem, 0.9rem + 2.78vw, 3.2rem);
+  --fs-h3:      clamp(1.3rem, 0.78rem + 2.09vw, 2.5rem);
+  --fs-h4:      clamp(1.1rem, 0.95rem + 0.6vw, 1.45rem);
+  --fs-base:    1rem;
+  --fs-sm:      0.875rem;
+  --fs-xs:      0.78rem;
+
+  --lh-tight:   1.08;
+  --lh-snug:    1.28;
+  --lh-body:    1.65;
+
+  --fw-normal:  400;
+  --fw-medium:  500;
+  --fw-bold:    700;
+  --fw-black:   900;
+
+  /* --- Space ------------------------------------------------------------- */
+  --sp-1: 0.25rem;  --sp-2: 0.5rem;   --sp-3: 0.75rem;  --sp-4: 1rem;
+  --sp-5: 1.5rem;   --sp-6: 2rem;     --sp-7: 3rem;     --sp-8: 4rem;
+  --sp-9: 6rem;
+
+  /* --- Shape ------------------------------------------------------------- */
+  --radius-sm: 0.25rem;   /* from the live theme */
+  --radius-lg: 0.5rem;    /* from the live theme */
+  --radius-pill: 999px;
+
+  /* --- Depth ------------------------------------------------------------- */
+  --shadow-1: 0 1px 2px rgba(33, 35, 51, 0.06),
+              0 1px 3px rgba(33, 35, 51, 0.04);
+  --shadow-2: 0 2px 4px rgba(33, 35, 51, 0.06),
+              0 8px 24px rgba(33, 35, 51, 0.08);
+  --shadow-3: 0 4px 8px rgba(33, 35, 51, 0.08),
+              0 24px 56px rgba(33, 35, 51, 0.14);
+
+  /* --- Motion ------------------------------------------------------------ */
+  --ease:     cubic-bezier(0.22, 0.7, 0.32, 1);  /* from the live theme */
+  --dur-fast: 140ms;
+  --dur:      260ms;
+  --dur-slow: 700ms;
+
+  /* --- Layout ------------------------------------------------------------ */
+  --measure:     68ch;   /* readable line length for body prose */
+  --wrap:        1180px;
+  --wrap-wide:   1440px;
+  --rail:        290px;  /* guide left navigation */
+}
+
+/* --- Inverted context ------------------------------------------------------
+   Anything inside .on-dark flips the semantic tokens, so components written
+   once work on both grounds without duplicated rules.                       */
+.on-dark {
+  --surface:      var(--cb-blue-dk);
+  --surface-sunk: var(--cb-blue);
+  --surface-warm: var(--cb-blue);
+  --ink:          var(--cb-white);
+  --ink-strong:   var(--cb-white);
+  --ink-muted:    var(--cb-muted-on-dk);
+  --ink-invert:   var(--cb-blue-dk);
+  --line:         #3D3F52;
+  --line-soft:    #2C2E3E;
+  --accent-ink:   var(--cb-red-on-dk);
+  --accent-2-ink: var(--cb-green-on-dk);
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-2: 0 2px 6px rgba(0, 0, 0, 0.35), 0 12px 32px rgba(0, 0, 0, 0.3);
+  --shadow-3: 0 8px 24px rgba(0, 0, 0, 0.4), 0 32px 72px rgba(0, 0, 0, 0.45);
+}
+
+/* --- Route accent colours, used consistently across all three tools ------ */
+:root {
+  --route-light-ink:    var(--cb-green-ink);
+  --route-light-bg:     #EDF4E3;
+  --route-standard-ink: #1F5F8B;   /* 5.1 on white */
+  --route-standard-bg:  #E4EFF6;
+  --route-full-ink:     var(--cb-red-ink);
+  --route-full-bg:      #FBE7E8;
+}
+.on-dark {
+  --route-light-ink:    var(--cb-green-on-dk);
+  --route-light-bg:     rgba(141, 197, 62, 0.14);
+  --route-standard-ink: #7FC0E8;
+  --route-standard-bg:  rgba(127, 192, 232, 0.14);
+  --route-full-ink:     var(--cb-red-on-dk);
+  --route-full-bg:      rgba(244, 116, 121, 0.14);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --dur-fast: 0ms; --dur: 0ms; --dur-slow: 0ms; }
+}
+
+/* ---------------------------------------------------------------------------
+   Brand typeface — uncomment and insert your Adobe Fonts kit ID to enable
+   articulat-cf. Find it in Adobe Fonts › Web Projects. The kit must list the
+   domain this is served from, or it will silently fall back.
+
+   @import url("https://use.typekit.net/YOUR_KIT_ID.css");
+--------------------------------------------------------------------------- */

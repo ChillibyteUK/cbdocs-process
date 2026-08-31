@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Process guide — Chillibyte website delivery</title>
+<meta name="description" content="The working reference for Chillibyte's website delivery process: every step in depth, with instructions, worked examples and downloadable templates.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23212333'/%3E%3Crect x='7' y='7' width='8' height='18' rx='2' fill='%23ED1B24'/%3E%3Crect x='18' y='7' width='7' height='11' rx='2' fill='%238DC53E'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/guide.css">
+</head>
+<body class="guide-body">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="guide-top">
+  <a class="guide-brand" href="../index.html">
+    <img class="logo" src="../assets/img/chillibyte.svg" alt="Chillibyte">
+    <span class="guide-brand-label">Process guide</span>
+  </a>
+
+  <div class="guide-search-wrap">
+    <label class="visually-hidden" for="guide-search">Search the process</label>
+    <input id="guide-search" class="guide-search" type="search" autocomplete="off"
+           placeholder="Search steps, gates, artefacts…  (press /)">
+    <div id="guide-results" class="guide-results" hidden role="listbox" aria-label="Search results"></div>
+  </div>
+
+  <nav class="guide-top-nav" aria-label="Tools">
+    <a href="../pitch/index.html">Pitch</a>
+    <a href="../spec/index.html">Spec builder</a>
+    <a href="../gaps.html">Gaps</a>
+    <button id="shortcut-btn" class="btn btn-sm btn-ghost" type="button" aria-haspopup="dialog">
+      <kbd>?</kbd> Shortcuts
+    </button>
+  </nav>
+</header>
+
+<div class="guide-shell">
+
+  <aside class="guide-rail" id="rail">
+    <div class="rail-inner">
+
+      <div class="rail-route" role="group" aria-labelledby="rail-route-label">
+        <span class="eyebrow" id="rail-route-label">Viewing as route</span>
+        <div class="route-toggle" id="route-toggle">
+          <button type="button" data-route="light">Light</button>
+          <button type="button" data-route="standard" aria-pressed="true">Standard</button>
+          <button type="button" data-route="full">Full</button>
+        </div>
+        <p class="rail-route-note" id="route-note"></p>
+      </div>
+
+      <nav class="rail-nav" id="rail-nav" aria-label="Process steps"></nav>
+
+      <nav class="rail-nav rail-nav-ref" aria-label="Reference">
+        <p class="rail-heading">Reference</p>
+        <ul>
+          <li><a href="#/reference/roles">Roles &amp; RACI</a></li>
+          <li><a href="#/reference/gates">Gates index</a></li>
+          <li><a href="#/reference/artefacts">Artefacts &amp; templates</a></li>
+          <li><a href="#/reference/logs">Decision, change &amp; variation</a></li>
+          <li><a href="#/reference/routes">Routes compared</a></li>
+          <li><a href="#/reference/rules">Rules of engagement</a></li>
+          <li><a href="#/reference/togaf">TOGAF alignment</a></li>
+          <li><a href="#/reference/example">The worked example</a></li>
+          <li><a href="#/reference/glossary">Glossary</a></li>
+        </ul>
+      </nav>
+
+    </div>
+  </aside>
+
+  <main class="guide-main" id="main" tabindex="-1">
+    <div id="view" class="view"></div>
+
+    <nav class="step-pager" id="pager" aria-label="Step navigation"></nav>
+  </main>
+
+</div>
+
+<dialog id="shortcuts" class="shortcuts">
+  <h2>Keyboard shortcuts</h2>
+  <dl class="shortcut-list">
+    <dt><kbd>/</kbd></dt><dd>Focus search</dd>
+    <dt><kbd>j</kbd></dt><dd>Next step</dd>
+    <dt><kbd>k</kbd></dt><dd>Previous step</dd>
+    <dt><kbd>g</kbd></dt><dd>Go to the pipeline overview</dd>
+    <dt><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd></dt><dd>Switch route: light, standard, full</dd>
+    <dt><kbd>?</kbd></dt><dd>This panel</dd>
+    <dt><kbd>Esc</kbd></dt><dd>Close</dd>
+  </dl>
+  <form method="dialog"><button class="btn btn-dark" type="submit">Close</button></form>
+</dialog>
+
+<button class="rail-toggle no-print" id="rail-toggle" type="button" aria-expanded="false" aria-controls="rail">
+  <span aria-hidden="true">☰</span> Steps
+</button>
+
+<script type="module" src="../assets/js/guide.js"></script>
+</body>
+</html>

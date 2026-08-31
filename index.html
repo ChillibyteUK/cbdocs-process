@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Website delivery process — Chillibyte</title>
+<meta name="description" content="The Chillibyte website delivery process: a management pitch, an interactive working guide, and a project spec builder.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23212333'/%3E%3Crect x='7' y='7' width='8' height='18' rx='2' fill='%23ED1B24'/%3E%3Crect x='18' y='7' width='7' height='11' rx='2' fill='%238DC53E'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/pages.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div class="wrap">
+  <header class="page-top">
+    <img class="logo" src="assets/img/chillibyte.svg" alt="Chillibyte">
+    <nav aria-label="Sections">
+      <a href="gaps.html">Gap analysis</a>
+      <a href="#templates">Templates</a>
+    </nav>
+  </header>
+
+  <main id="main" tabindex="-1">
+
+    <section class="hero">
+      <span class="eyebrow eyebrow-accent">Website delivery process</span>
+      <h1>From discovery to launch, without giving the margin away.</h1>
+      <p class="lede">Three tools built on one shared model of the process: a case to put to
+      management, a working reference for the team, and a scoping tool for new projects.
+      Change the process in one place and all three update.</p>
+    </section>
+
+    <div class="doors">
+      <a class="door door-1" href="pitch/index.html">
+        <span class="door-num">1</span>
+        <h2>The pitch</h2>
+        <p>A twenty-slide case for adopting the process: what the current approach costs, why it
+        happens, what changes, and what recovering part of it is worth. Includes a live calculator
+        so the room can set its own numbers.</p>
+        <span class="go">Present it →</span>
+        <span class="meta">Keyboard-driven · speaker notes · exports to PDF</span>
+      </a>
+
+      <a class="door door-2" href="guide/index.html">
+        <span class="door-num">2</span>
+        <h2>The guide</h2>
+        <p>The working reference. Every step high-level and in depth, with instructions, entry and
+        exit criteria, pitfalls, approval gates, and a worked example threaded through all twenty
+        steps as one continuous project.</p>
+        <span class="go">Open the guide →</span>
+        <span class="meta">Searchable · route-aware · links to every template</span>
+      </a>
+
+      <a class="door door-3" href="spec/index.html">
+        <span class="door-num">3</span>
+        <h2>The spec builder</h2>
+        <p>Answer fifteen questions about a new project. Get the steps it needs, the ones it does
+        not <em>and why</em>, a work-package breakdown, an estimate baseline and a client-ready
+        exclusions list.</p>
+        <span class="go">Scope a project →</span>
+        <span class="meta">Shareable link · Markdown and CSV export</span>
+      </a>
+    </div>
+
+    <section class="band">
+      <h2>What the process is</h2>
+      <div class="numbers" id="stats"></div>
+      <p style="margin-top:var(--sp-6)">The order is deliberate: sitemap before page outlines,
+      outlines before wireframes, blocks before design, specification before build. Each stage
+      narrows uncertainty before the next begins, so design becomes the application of a system to
+      a known structure rather than the place where the project gets figured out.</p>
+      <p>Three routes — light, standard and full — mean it scales down. Steps are omitted
+      deliberately and the reason is recorded, which is what makes an omission defensible rather
+      than an oversight.</p>
+    </section>
+
+    <section class="band">
+      <h2>What changed in this version</h2>
+      <p>The operating model was reviewed against its own goals. Twenty-two gaps were found and
+      twenty-one are now built into the process. The reasoning behind each one is recorded in the
+      <a href="gaps.html">gap analysis</a>.</p>
+      <div class="grid grid-2" style="margin-top:var(--sp-5)">
+        <div class="card card-accent">
+          <h3>The commercial edges</h3>
+          <ul>
+            <li>An <strong>estimate baseline</strong>, so change can be measured rather than asserted</li>
+            <li>A <strong>variation order</strong> route, so an accepted change can be charged for</li>
+            <li>A <strong>sales handover</strong> gate, so what was sold enters the record</li>
+            <li>A <strong>warranty boundary</strong>, so post-launch work has an end</li>
+            <li><strong>Revision limits</strong>, so rounds are counted rather than absorbed</li>
+          </ul>
+        </div>
+        <div class="card card-accent-2">
+          <h3>The capacity edges</h3>
+          <ul>
+            <li>Every step is a <strong>work package</strong> with entry and exit criteria, so it can
+            be handed to anyone</li>
+            <li>Owner and approver are <strong>separated</strong>, so gates are not self-approved</li>
+            <li>Every gate has a <strong>fail path</strong>, so a rejection is not improvised</li>
+            <li><strong>Conditional triggers</strong>, so risk drives inclusion rather than page count</li>
+            <li>An <strong>approval SLA</strong>, so silence does not stall a project indefinitely</li>
+          </ul>
+        </div>
+      </div>
+      <p style="margin-top:var(--sp-5)"><a href="gaps.html">Read the full gap analysis →</a></p>
+    </section>
+
+    <section class="band" id="templates">
+      <h2>Templates</h2>
+      <p>Nine document templates and one workbook containing every tracker. Generated from the
+      source scripts in <code>build/</code> — regenerate them rather than editing the binaries, so
+      the process and the paperwork cannot drift apart.</p>
+      <div class="grid grid-2" style="margin-top:var(--sp-5)">
+        <div class="card">
+          <h3>Documents</h3>
+          <ul class="list-plain" id="docx-list"></ul>
+        </div>
+        <div class="card">
+          <h3>Trackers</h3>
+          <p><a href="templates/xlsx/chillibyte-project-trackers.xlsx" download>
+            <strong>chillibyte-project-trackers.xlsx</strong></a> — thirteen tabs: gate tracker,
+            estimate baseline, decision log, change log, variation register, sitemap, page
+            inventory, content matrix, block inventory, risks, QA and launch.</p>
+          <p class="muted" style="font-size:var(--fs-sm)">Dropdowns, frozen panes and filters are
+          set up. Row 4 of each tab is a worked example — type over it.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="band">
+      <h2>Before you present this</h2>
+      <div class="note note-warn">
+        <p>Four things are deliberately left for you to decide:</p>
+        <ul style="margin-top:var(--sp-3)">
+          <li><strong>The commercial basis</strong> in <code>data/assumptions.js</code> is real
+          (£75/hr, £8,000 average project, 25 projects a year). The <em>leak hours</em> and
+          <em>process overhead</em> are still estimates — the trial exists to replace them with
+          measurements.</li>
+          <li><strong>The per-step effort bands</strong> in <code>data/steps.js</code> are a
+          starting calibration. Record actuals on three projects and correct them.</li>
+          <li><strong>Halcyon Thermal</strong>, the worked example, is invented. Swap it for a real
+          sanitised project if you would rather the guide referenced actual work.</li>
+          <li><strong>Everything tagged New</strong> is an authored addition. Review and reject
+          anything you disagree with — the tags exist so nothing was smuggled in.</li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>Chillibyte website delivery process &nbsp;·&nbsp; static HTML, no build step, no dependencies
+    &nbsp;·&nbsp; <a href="gaps.html">Gap analysis</a></p>
+  </footer>
+</div>
+
+<script type="module">
+import { steps } from './data/steps.js';
+import { gates, phases } from './data/process.js';
+import { gapStats } from './data/gaps.js';
+import { esc } from './assets/js/ui.js';
+
+document.getElementById('stats').innerHTML = `
+  <div><span class="n">${steps.length}</span><span class="l">work packages</span></div>
+  <div><span class="n">${phases.length}</span><span class="l">phases</span></div>
+  <div><span class="n">${gates.length}</span><span class="l">approval gates</span></div>
+  <div><span class="n">3</span><span class="l">routes: light, standard, full</span></div>
+  <div><span class="n">${gapStats.authored}</span><span class="l">gaps closed</span></div>`;
+
+/* Several artefacts share one document (the discovery summary carries the
+   requirements list and the internal brief, for example), so the list is built
+   from the files themselves rather than reverse-mapped from artefact names. */
+const DOCS = [
+  ['sales-handover-note.docx',   'Sales handover note'],
+  ['discovery-summary.docx',     'Discovery summary'],
+  ['page-outline.docx',          'Page outline'],
+  ['block-specification.docx',   'Block specification'],
+  ['designer-brief.docx',        'Designer brief & style direction'],
+  ['build-specification.docx',   'Build specification'],
+  ['gate-ticket.docx',           'Basecamp gate ticket'],
+  ['client-approval-note.docx',  'Client approval note'],
+  ['variation-order.docx',       'Variation order']
+];
+
+document.getElementById('docx-list').innerHTML = DOCS.map(([file, name]) =>
+  `<li><a href="templates/docx/${esc(file)}" download>${esc(name)}</a></li>`).join('');
+</script>
+</body>
+</html>

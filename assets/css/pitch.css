@@ -1,0 +1,663 @@
+/* ===========================================================================
+   pitch.css — full-screen management deck
+=========================================================================== */
+
+html, body { height: 100%; overflow: hidden; }
+
+body.deck-body {
+  background: var(--cb-blue-dk);
+  color: #fff;
+}
+
+/* --- Stage ---------------------------------------------------------------- */
+
+.deck {
+  position: relative;
+  height: 100dvh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  display: none;
+  padding: clamp(1.75rem, 4vh, 4rem) clamp(1.5rem, 5vw, 6rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.slide.is-current { display: flex; }
+
+.slide-inner {
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* Slides that need to breathe on tall screens */
+.slide[data-fit="center"] .slide-inner { text-align: left; }
+
+/* --- Typography ----------------------------------------------------------- */
+
+.slide h2 {
+  font-size: clamp(1.9rem, 1.1rem + 3.2vw, 3.6rem);
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  color: #fff;
+  margin-bottom: clamp(1rem, 2vh, 1.75rem);
+  max-width: 22ch;
+}
+.slide h3 {
+  font-size: clamp(1.05rem, 0.9rem + 0.7vw, 1.45rem);
+  color: #fff;
+  margin-bottom: var(--sp-3);
+}
+.slide p { color: #D7D8E2; max-width: 62ch; }
+.slide .big {
+  font-size: clamp(1.05rem, 0.92rem + 0.8vw, 1.5rem);
+  line-height: 1.5;
+  color: #EDEDF2;
+  max-width: 46ch;
+}
+.slide strong { color: #fff; }
+.slide .accent { color: var(--cb-red-on-dk); }
+.slide .accent-2 { color: var(--cb-green); }
+
+.kicker {
+  display: block;
+  font-size: clamp(0.7rem, 0.66rem + 0.15vw, 0.82rem);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cb-green);
+  margin-bottom: var(--sp-4);
+}
+
+.slide hr.rule-brand { margin-bottom: clamp(1rem, 2.4vh, 2rem); }
+
+/* --- Title slide ---------------------------------------------------------- */
+
+.slide-title .logo { height: clamp(1.8rem, 3vw, 2.6rem); margin-bottom: clamp(2rem, 6vh, 4rem); }
+.slide-title h1 {
+  font-size: clamp(2.2rem, 1.1rem + 5vw, 5rem);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  color: #fff;
+  margin-bottom: var(--sp-5);
+  max-width: 18ch;
+}
+.slide-title .sub {
+  font-size: clamp(1rem, 0.9rem + 0.7vw, 1.4rem);
+  color: var(--cb-muted-on-dk);
+  max-width: 44ch;
+}
+.slide-title .meta {
+  margin-top: clamp(2rem, 7vh, 4.5rem);
+  font-size: var(--fs-sm);
+  color: var(--cb-muted-on-dk);
+}
+
+/* --- Grids ---------------------------------------------------------------- */
+
+.deck-grid {
+  display: grid;
+  gap: clamp(0.75rem, 1.6vw, 1.4rem);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+}
+.deck-grid-2 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); }
+
+.tile {
+  padding: clamp(0.9rem, 2vw, 1.6rem);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+}
+.tile h3 { margin-bottom: var(--sp-2); font-size: clamp(0.95rem, 0.88rem + 0.35vw, 1.15rem); }
+.tile p { font-size: clamp(0.8rem, 0.76rem + 0.2vw, 0.95rem); margin: 0; line-height: 1.5; }
+.tile-accent { border-left: 3px solid var(--cb-red); }
+.tile-accent-2 { border-left: 3px solid var(--cb-green); }
+
+/* --- Symptom list --------------------------------------------------------- */
+
+/* Each symptom must sit on ONE line — a wrapped bullet reads as a paragraph and
+   loses the drumbeat. The font size steps down on narrow viewports rather than
+   letting the text wrap. */
+.symptoms { list-style: none; padding: 0; margin: 0; max-width: none; }
+.symptoms li {
+  padding: clamp(0.55rem, 1.4vh, 0.95rem) 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: clamp(0.78rem, 0.42rem + 1.32vw, 1.5rem);
+  color: #EDEDF2;
+  max-width: none;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.symptoms li:last-child { border-bottom: 0; }
+.symptoms li::before {
+  content: "→";
+  color: var(--cb-red-on-dk);
+  margin-right: 0.7em;
+  font-weight: var(--fw-bold);
+}
+
+/* --- Unknowns list (opening slide) ---------------------------------------- */
+
+.unknowns {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: unk;
+  display: grid;
+  gap: clamp(0.3rem, 0.9vh, 0.6rem);
+}
+.unknowns li {
+  counter-increment: unk;
+  position: relative;
+  padding: clamp(0.4rem, 1.1vh, 0.7rem) 0 clamp(0.4rem, 1.1vh, 0.7rem) 2.6rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: clamp(0.86rem, 0.6rem + 0.95vw, 1.35rem);
+  line-height: 1.3;
+  color: #EDEDF2;
+  max-width: none;
+}
+.unknowns li::before {
+  content: counter(unk);
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  font-size: 0.72rem;
+  font-weight: var(--fw-black);
+  color: var(--cb-red-on-dk);
+  background: rgba(244, 116, 121, 0.16);
+  border-radius: 50%;
+}
+
+.fp-figure {
+  font-size: clamp(1.8rem, 1.2rem + 2.6vw, 3.2rem);
+  font-weight: var(--fw-black);
+  line-height: 1;
+  color: var(--cb-green);
+  font-variant-numeric: tabular-nums;
+  margin: 0.4rem 0 0.2rem;
+}
+
+.calc-caption {
+  font-size: clamp(0.75rem, 0.72rem + 0.15vw, 0.85rem);
+  color: var(--cb-muted-on-dk);
+  margin: 0;
+}
+
+/* --- Leak bars ------------------------------------------------------------ */
+
+.leaks { display: grid; gap: clamp(0.5rem, 1.4vh, 0.9rem); }
+.leak {
+  display: grid;
+  grid-template-columns: minmax(7rem, 12rem) minmax(0, 1fr) auto;
+  gap: var(--sp-4);
+  align-items: center;
+}
+.leak-name { font-weight: var(--fw-bold); color: #fff; font-size: clamp(0.82rem, 0.78rem + 0.25vw, 1rem); }
+.leak-track {
+  height: clamp(1.1rem, 2.4vh, 1.7rem);
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+/* The bars grow when the slide is REACHED, not when the deck loads — slides are
+   display:none until current, so a load-time animation plays to an empty room.
+
+   The RESTING state here is the fully drawn bar. deck.js animates from zero on
+   slide entry via the Web Animations API. If that never runs — printing, an
+   inactive tab, reduced motion, an old browser — the chart is simply already
+   correct. An earlier version rested at scaleX(0) and relied on JS to fill it
+   in; when the trigger missed, the slide showed four empty tracks, which is a
+   far worse failure than a missing flourish. */
+.leak-fill {
+  /* Must be block: this is a <span>, and an inline box silently ignores both
+     width and height — which rendered the bars invisible regardless of any
+     animation. The track above is a grid item so it gets blockified for free;
+     the fill is not, and does not. */
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--cb-red) 0%, #F47479 100%);
+  border-radius: var(--radius-sm);
+  transform-origin: left;
+  transform: scaleX(1);
+}
+
+.leak-val {
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--fw-bold);
+  color: var(--cb-red-on-dk);
+  font-size: clamp(0.82rem, 0.78rem + 0.25vw, 1rem);
+  white-space: nowrap;
+}
+@keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+/* --- Flow / pipeline ------------------------------------------------------ */
+
+.flow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: var(--sp-5);
+}
+.flow-item {
+  flex: 1 1 auto;
+  min-width: 5.5rem;
+  padding: clamp(0.45rem, 1.1vh, 0.75rem) clamp(0.4rem, 0.8vw, 0.7rem);
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-sm);
+  border-top: 2px solid var(--cb-red);
+  font-size: clamp(0.62rem, 0.58rem + 0.2vw, 0.78rem);
+  line-height: 1.25;
+  color: #EDEDF2;
+}
+.flow-item .fn {
+  display: block;
+  font-size: 0.62em;
+  font-weight: var(--fw-bold);
+  color: var(--cb-muted-on-dk);
+  margin-bottom: 2px;
+}
+.flow-item.has-gate { border-top-color: var(--cb-green); }
+.flow-item .fg {
+  display: block;
+  margin-top: 3px;
+  font-size: 0.6em;
+  font-weight: var(--fw-bold);
+  color: var(--cb-green);
+}
+
+/* --- Comparison ----------------------------------------------------------- */
+
+.compare {
+  display: grid;
+  gap: clamp(0.75rem, 1.6vw, 1.4rem);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+}
+.compare-col { padding: clamp(1rem, 2vw, 1.6rem); border-radius: var(--radius-lg); }
+.compare-before { background: rgba(244, 116, 121, 0.1); border: 1px solid rgba(244, 116, 121, 0.3); }
+.compare-after  { background: rgba(141, 197, 62, 0.1);  border: 1px solid rgba(141, 197, 62, 0.32); }
+.compare-col h3 { font-size: clamp(0.95rem, 0.88rem + 0.35vw, 1.15rem); }
+.compare-before h3 { color: var(--cb-red-on-dk); }
+.compare-after h3 { color: var(--cb-green); }
+.compare-col ul { padding-left: 1.1em; margin: 0; }
+.compare-col li {
+  color: #D7D8E2;
+  font-size: clamp(0.8rem, 0.76rem + 0.2vw, 0.95rem);
+  margin-bottom: var(--sp-2);
+  line-height: 1.45;
+}
+
+/* --- Calculator ----------------------------------------------------------- */
+
+.calc { display: grid; gap: clamp(1rem, 2.5vw, 2rem); grid-template-columns: minmax(0, 20rem) minmax(0, 1fr); }
+@media (max-width: 820px) { .calc { grid-template-columns: minmax(0, 1fr); } }
+
+.calc-inputs { display: grid; gap: clamp(0.55rem, 1.5vh, 1rem); align-content: start; }
+.calc-field label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--sp-3);
+  font-size: clamp(0.72rem, 0.7rem + 0.15vw, 0.85rem);
+  color: var(--cb-muted-on-dk);
+  margin-bottom: 4px;
+}
+.calc-field label b {
+  color: var(--cb-green);
+  font-variant-numeric: tabular-nums;
+  font-size: 1.1em;
+}
+.calc-field input[type="range"] {
+  width: 100%;
+  accent-color: var(--cb-red);
+  height: 1.4rem;
+}
+
+.calc-out { display: grid; gap: clamp(0.6rem, 1.5vh, 1rem); align-content: start; }
+.calc-headline {
+  padding: clamp(1rem, 2.5vw, 1.9rem);
+  background: rgba(141, 197, 62, 0.12);
+  border: 1px solid rgba(141, 197, 62, 0.35);
+  border-radius: var(--radius-lg);
+}
+/* Two headline figures: the same recovery in money and in time. Separated by a
+   rule so they read as a pair of distinct answers rather than one long number.
+   Stacks on narrow viewports, where the rule becomes horizontal. */
+/* Explicit column placement. With auto-placement the ::before divider claims
+   the first slot and shunts both figures out of order. */
+.calc-headline-pair {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  gap: clamp(0.9rem, 2.4vw, 1.8rem);
+  align-items: center;
+}
+.calc-headline-pair::before {
+  content: "";
+  grid-area: 1 / 2 / 2 / 3;
+  align-self: stretch;
+  background: rgba(141, 197, 62, 0.35);
+}
+.calc-fig { min-width: 0; }
+.calc-fig:nth-of-type(1) { grid-area: 1 / 1 / 2 / 2; }
+.calc-fig:nth-of-type(2) { grid-area: 1 / 3 / 2 / 4; }
+
+.calc-headline .v {
+  display: block;
+  font-size: clamp(1.6rem, 0.9rem + 3.2vw, 3.1rem);
+  font-weight: var(--fw-black);
+  line-height: 1.05;
+  color: var(--cb-green);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+}
+.calc-headline .v .u {
+  font-size: 0.44em;
+  font-weight: var(--fw-bold);
+  letter-spacing: 0;
+  margin-left: 0.16em;
+  opacity: 0.75;
+}
+.calc-headline .l {
+  display: block;
+  margin-top: var(--sp-2);
+  color: #EDEDF2;
+  font-size: clamp(0.76rem, 0.72rem + 0.22vw, 0.92rem);
+  line-height: 1.35;
+}
+.calc-foot {
+  margin: clamp(0.7rem, 1.8vh, 1.1rem) 0 0;
+  padding-top: clamp(0.6rem, 1.5vh, 0.9rem);
+  border-top: 1px solid rgba(141, 197, 62, 0.22);
+  font-size: clamp(0.72rem, 0.69rem + 0.15vw, 0.82rem);
+  line-height: 1.45;
+  color: var(--cb-muted-on-dk);
+  max-width: none;
+}
+
+@media (max-width: 700px) {
+  .calc-headline-pair { grid-template-columns: 1fr; }
+  .calc-headline-pair::before  { grid-area: 2 / 1 / 3 / 2; height: 1px; }
+  .calc-fig:nth-of-type(1) { grid-area: 1 / 1 / 2 / 2; }
+  .calc-fig:nth-of-type(2) { grid-area: 3 / 1 / 4 / 2; }
+}
+
+.calc-secondary { display: grid; gap: 1px; background: rgba(255,255,255,0.12); border-radius: var(--radius-lg); overflow: hidden; grid-template-columns: repeat(auto-fit, minmax(min(100%, 8rem), 1fr)); }
+.calc-secondary div { background: var(--cb-blue-dk); padding: clamp(0.6rem, 1.5vw, 1rem); }
+.calc-secondary .v { display: block; font-size: clamp(1.1rem, 0.9rem + 1vw, 1.7rem); font-weight: var(--fw-black); color: #fff; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.calc-secondary .l { display: block; font-size: 0.7rem; color: var(--cb-muted-on-dk); margin-top: 4px; line-height: 1.35; }
+
+/* --- (i) popovers ---------------------------------------------------------
+   Caveats and derivations belong on the slide, but not competing with it. An
+   (i) keeps them one click away: invisible when presenting, available when
+   challenged. */
+
+.info-note {
+  display: inline-grid;
+  place-items: center;
+  width: 1.35em;
+  height: 1.35em;
+  margin-left: 0.3em;
+  vertical-align: middle;
+  font-size: 0.72em;
+  font-weight: var(--fw-black);
+  font-style: normal;
+  line-height: 1;
+  color: var(--cb-blue-dk);
+  background: var(--cb-green);
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform var(--dur-fast) var(--ease);
+}
+.info-note::before { content: "i"; }
+.info-note:hover { transform: scale(1.15); }
+.info-note[aria-expanded="true"] { background: #fff; }
+
+.info-pop {
+  position: fixed;
+  z-index: 70;
+  max-width: min(30rem, calc(100vw - 2rem));
+  padding: var(--sp-4) var(--sp-5);
+  background: #15161F;
+  border: 1px solid var(--cb-green);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-3);
+  font-size: clamp(0.78rem, 0.74rem + 0.2vw, 0.92rem);
+  line-height: 1.55;
+  color: #D7D8E2;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+  pointer-events: none;
+}
+.info-pop.is-open { opacity: 1; transform: none; pointer-events: auto; }
+.info-pop strong { color: #fff; }
+.info-pop code {
+  background: rgba(255,255,255,0.1);
+  color: var(--cb-green);
+  padding: 0.1em 0.35em;
+  border-radius: var(--radius-sm);
+  font-size: 0.9em;
+}
+.info-pop p { margin: 0 0 0.6em; max-width: none; color: inherit; }
+.info-pop p:last-child { margin-bottom: 0; }
+
+.assumption-note {
+  font-size: clamp(0.7rem, 0.68rem + 0.12vw, 0.8rem);
+  color: var(--cb-muted-on-dk);
+  padding: var(--sp-3) var(--sp-4);
+  border-left: 3px solid var(--cb-amber-on-dk);
+  background: rgba(240, 180, 90, 0.09);
+  border-radius: var(--radius-sm);
+  max-width: none;
+}
+.assumption-note strong { color: var(--cb-amber-on-dk); }
+
+/* --- Big number ----------------------------------------------------------- */
+
+.bignum {
+  font-size: clamp(3rem, 1.5rem + 8vw, 8rem);
+  font-weight: var(--fw-black);
+  line-height: 0.92;
+  letter-spacing: -0.045em;
+  color: var(--cb-green);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Ask list ------------------------------------------------------------- */
+
+.ask { list-style: none; padding: 0; margin: 0; counter-reset: ask; }
+.ask li {
+  counter-increment: ask;
+  position: relative;
+  padding: clamp(0.5rem, 1.3vh, 0.85rem) 0 clamp(0.5rem, 1.3vh, 0.85rem) 3rem;
+  font-size: clamp(0.92rem, 0.84rem + 0.5vw, 1.25rem);
+  color: #EDEDF2;
+  max-width: 46ch;
+  line-height: 1.4;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.ask li:last-child { border-bottom: 0; }
+.ask li::before {
+  counter-increment: none;
+  content: counter(ask);
+  position: absolute;
+  left: 0; top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 2rem; height: 2rem;
+  font-size: 0.85rem;
+  font-weight: var(--fw-black);
+  color: var(--cb-blue-dk);
+  background: var(--cb-green);
+  border-radius: 50%;
+}
+
+/* --- Chrome --------------------------------------------------------------- */
+
+.deck-chrome {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-3) clamp(1rem, 3vw, 2.5rem);
+  z-index: 20;
+  pointer-events: none;
+}
+.deck-chrome > * { pointer-events: auto; }
+
+.deck-progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--cb-red), var(--cb-green));
+  transition: width var(--dur) var(--ease);
+  z-index: 30;
+}
+
+.deck-counter {
+  font-size: var(--fs-xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--cb-muted-on-dk);
+  letter-spacing: 0.06em;
+}
+.deck-btns { margin-left: auto; display: flex; flex-wrap: wrap; gap: var(--sp-2); justify-content: flex-end; }
+
+/* On a phone the chrome would otherwise push wider than the viewport. Keep the
+   controls that work by touch and drop the ones that only make sense on a
+   laptop with a keyboard and a projector. */
+@media (max-width: 560px) {
+  .deck-chrome { flex-wrap: wrap; gap: var(--sp-2); padding-bottom: var(--sp-4); }
+  #btn-full, #btn-print { display: none; }
+  .deck-btn { padding: 0.35em 0.6em; }
+}
+.deck-btn {
+  padding: 0.4em 0.8em;
+  font: inherit;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  color: var(--cb-muted-on-dk);
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.deck-btn:hover { color: #fff; background: rgba(255,255,255,0.14); }
+
+/* --- Notes ---------------------------------------------------------------- */
+
+.deck-notes {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  max-height: 45vh;
+  overflow-y: auto;
+  padding: var(--sp-5) clamp(1rem, 3vw, 2.5rem) var(--sp-8);
+  background: #15161F;
+  border-top: 2px solid var(--cb-green);
+  z-index: 25;
+  transform: translateY(101%);
+  transition: transform var(--dur) var(--ease);
+}
+.deck-notes.is-open { transform: none; }
+.deck-notes h4 {
+  font-size: var(--fs-xs);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--cb-green);
+  margin-bottom: var(--sp-3);
+}
+.deck-notes p { color: #C9CAD6; font-size: var(--fs-sm); max-width: 80ch; }
+.deck-notes p:last-child { margin-bottom: 0; }
+
+/* --- Overview grid -------------------------------------------------------- */
+
+.deck-overview {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgba(14, 15, 22, 0.97);
+  padding: clamp(1.5rem, 4vw, 3rem);
+  overflow-y: auto;
+  display: none;
+}
+.deck-overview.is-open { display: block; }
+.ov-grid {
+  display: grid;
+  gap: var(--sp-4);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr));
+}
+.ov-item {
+  aspect-ratio: 16 / 10;
+  padding: var(--sp-4);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  color: #fff;
+  overflow: hidden;
+  transition: border-color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
+}
+.ov-item:hover, .ov-item.is-current { border-color: var(--cb-green); background: rgba(141,197,62,0.12); }
+.ov-item .on { display: block; font-size: var(--fs-xs); color: var(--cb-muted-on-dk); margin-bottom: var(--sp-2); }
+.ov-item .ot { font-weight: var(--fw-bold); line-height: 1.25; font-size: var(--fs-sm); }
+
+/* --- Short viewports -------------------------------------------------------
+   Laptops at 800px tall leave very little vertical room once browser chrome is
+   accounted for. Rather than let a slide scroll — which looks broken when
+   presenting — tighten the padding and the type a step. */
+
+@media (max-height: 860px) {
+  .slide { padding-top: clamp(1rem, 2.5vh, 2rem); padding-bottom: clamp(1rem, 2.5vh, 2rem); }
+  .slide h2 { font-size: clamp(1.7rem, 1rem + 2.7vw, 3rem); margin-bottom: clamp(0.6rem, 1.4vh, 1.1rem); }
+  .slide .big { font-size: clamp(0.95rem, 0.86rem + 0.6vw, 1.25rem); line-height: 1.42; }
+  .kicker { margin-bottom: var(--sp-3); }
+  .tile { padding: clamp(0.7rem, 1.5vw, 1.15rem); }
+  .ask li { padding-top: clamp(0.3rem, 0.9vh, 0.55rem); padding-bottom: clamp(0.3rem, 0.9vh, 0.55rem); }
+  .unknowns li { padding-top: clamp(0.28rem, 0.8vh, 0.5rem); padding-bottom: clamp(0.28rem, 0.8vh, 0.5rem); }
+  .compare-col { padding: clamp(0.75rem, 1.6vw, 1.2rem); }
+}
+
+/* --- Reduced motion ------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .leak-fill { transform: scaleX(1); }
+}
+
+/* --- Print (PDF export) --------------------------------------------------- */
+
+@media print {
+  html, body { height: auto; overflow: visible; background: #fff; }
+  .deck { height: auto; }
+  .deck-chrome, .deck-progress, .deck-notes, .deck-overview { display: none !important; }
+
+  .slide {
+    position: relative;
+    inset: auto;
+    display: flex !important;
+    height: 190mm;
+    page-break-after: always;
+    break-after: page;
+    padding: 12mm;
+    background: var(--cb-blue-dk) !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    overflow: hidden;
+  }
+  .slide:last-child { page-break-after: auto; }
+  @page { size: A4 landscape; margin: 8mm; }
+}

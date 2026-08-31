@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gap analysis — Chillibyte website delivery process</title>
+<meta name="description" content="Findings from reviewing the website delivery operating model against its stated goals, ranked by severity, with the fix authored into the process.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23212333'/%3E%3Crect x='7' y='7' width='8' height='18' rx='2' fill='%23ED1B24'/%3E%3Crect x='18' y='7' width='7' height='11' rx='2' fill='%238DC53E'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/pages.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div class="wrap">
+  <header class="page-top no-print">
+    <a href="index.html"><img class="logo" src="assets/img/chillibyte.svg" alt="Chillibyte"></a>
+    <nav aria-label="Tools">
+      <a href="guide/index.html">Guide</a>
+      <a href="pitch/index.html">Pitch</a>
+      <a href="spec/index.html">Spec builder</a>
+    </nav>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <div class="gap-head">
+      <span class="eyebrow eyebrow-accent">Review findings</span>
+      <h1>Gap analysis</h1>
+      <hr class="rule-brand">
+      <p class="lede">The operating model and process overview reviewed against what they are meant
+      to achieve: less scope creep, less non-billable work, more people per project, greater
+      perceived client value, more client confidence, and more transparency.</p>
+      <p>Each finding names the gap, the consequence, and the fix. Where a fix is marked
+      <strong>fixed &amp; built in</strong>, it is already part of the process — reflected in the
+      guide, the spec builder and the templates. This page is the record of why each change was
+      made.</p>
+    </div>
+
+    <div class="numbers" id="gap-stats" style="margin-bottom:var(--sp-7)"></div>
+
+    <div class="gap-filter no-print" id="gap-filter" role="group" aria-label="Filter findings">
+      <button type="button" data-f="all" aria-pressed="true">All findings</button>
+      <button type="button" data-f="critical" aria-pressed="false">Critical</button>
+      <button type="button" data-f="high" aria-pressed="false">High</button>
+      <button type="button" data-f="medium" aria-pressed="false">Medium</button>
+      <button type="button" data-f="noted" aria-pressed="false">Not yet built in</button>
+    </div>
+
+    <div id="gap-list"></div>
+
+    <section class="band">
+      <h2>What was already right</h2>
+      <p>Worth stating plainly, because a list of twenty-two gaps reads more negatively than the
+      review actually was. The underlying model is sound and most of it needed no change.</p>
+      <ul class="list-check">
+        <li>The sequencing is correct, and the reasoning given for it is correct. Sitemap before
+        outlines, outlines before wireframes, blocks before design, spec before build — each of
+        those orderings prevents a specific and expensive class of rework.</li>
+        <li>Separating decision log from change log is a genuinely good distinction that many
+        agencies never make.</li>
+        <li>Separating reusable block structure from project-specific styling is the right
+        architectural call, and it is what makes the block library compound in value.</li>
+        <li>Tying approval to named artefacts rather than general agreement is exactly right.</li>
+        <li>The light / standard / full routes correctly anticipate that a single heavyweight
+        process would be ignored on small projects.</li>
+        <li>The TOGAF alignment is not decoration — it is what makes the process legible to
+        procurement at larger clients.</li>
+      </ul>
+      <p style="margin-top:var(--sp-5)">Nearly every finding below is about the
+      <strong>commercial and governance edges</strong> rather than the delivery sequence: what
+      happens before discovery, what happens when something changes, and what happens after launch.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Chillibyte website delivery process &nbsp;·&nbsp;
+      <a href="index.html">Overview</a> &nbsp;·&nbsp;
+      <a href="guide/index.html">Guide</a> &nbsp;·&nbsp;
+      <a href="pitch/index.html">Pitch</a> &nbsp;·&nbsp;
+      <a href="spec/index.html">Spec builder</a>
+    </p>
+  </footer>
+</div>
+
+<script type="module">
+import { gaps, severities, severityOrder, gapStats } from './data/gaps.js';
+import { esc } from './assets/js/ui.js';
+
+document.getElementById('gap-stats').innerHTML = `
+  <div><span class="n">${gapStats.total}</span><span class="l">findings</span></div>
+  <div><span class="n">${gapStats.authored}</span><span class="l">fixed and built into the process</span></div>
+  <div><span class="n">${gapStats.bySeverity.find(s => s.severity === 'critical').count}</span>
+    <span class="l">critical — undermine the stated goals</span></div>
+  <div><span class="n">${gapStats.noted}</span><span class="l">recommended, not yet built</span></div>`;
+
+const list = document.getElementById('gap-list');
+
+function render(filter = 'all') {
+  const groups = severityOrder.map(sev => {
+    let items = gaps.filter(g => g.severity === sev);
+    if (filter === 'noted') items = items.filter(g => g.status === 'noted');
+    else if (filter !== 'all') items = items.filter(g => g.severity === filter);
+    if (!items.length) return '';
+
+    return `<section class="gap-group" data-sev="${sev}">
+      <h2>${esc(severities[sev].label)} <span class="note">${esc(severities[sev].note)}</span></h2>
+      ${items.map(g => `
+        <article class="gap" data-sev="${g.severity}" id="${g.id}">
+          <div class="gap-title">
+            <span class="gap-id">${esc(g.id)}</span>
+            <h3>${esc(g.title)}</h3>
+            <span class="badge">${esc(g.area)}</span>
+            ${g.status === 'authored'
+              ? '<span class="badge badge-new">Fixed &amp; built in</span>'
+              : '<span class="badge" style="background:#FBF0DF;color:var(--cb-amber)">Recommended</span>'}
+          </div>
+          <dl>
+            <div><dt>What we found</dt><dd>${esc(g.finding)}</dd></div>
+            <div><dt>Why it matters</dt><dd>${esc(g.consequence)}</dd></div>
+            <div><dt>${g.status === 'authored' ? 'Fix — now in the process' : 'Recommended fix'}</dt>
+              <dd class="fix">${esc(g.fix)}</dd></div>
+          </dl>
+          <div class="gap-touches">
+            <span class="lbl">Touches</span>
+            ${g.touches.map(t => `<span class="badge">${esc(t)}</span>`).join('')}
+          </div>
+        </article>`).join('')}
+    </section>`;
+  }).join('');
+
+  list.innerHTML = groups || '<p class="muted">No findings match that filter.</p>';
+}
+
+document.getElementById('gap-filter').addEventListener('click', (e) => {
+  const b = e.target.closest('button[data-f]');
+  if (!b) return;
+  document.querySelectorAll('#gap-filter button').forEach(x =>
+    x.setAttribute('aria-pressed', String(x === b)));
+  render(b.dataset.f);
+});
+
+render();
+if (location.hash) {
+  const t = document.getElementById(location.hash.slice(1));
+  if (t) t.scrollIntoView();
+}
+</script>
+</body>
+</html>

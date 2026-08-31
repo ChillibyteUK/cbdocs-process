@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project spec builder — Chillibyte</title>
+<meta name="description" content="Answer a short intake and get a bespoke project plan: the steps this project needs, the ones it does not and why, a work-package breakdown, an estimate baseline and a client-ready exclusions list.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23212333'/%3E%3Crect x='7' y='7' width='8' height='18' rx='2' fill='%23ED1B24'/%3E%3Crect x='18' y='7' width='7' height='11' rx='2' fill='%238DC53E'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/spec.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="spec-top no-print">
+  <a class="spec-brand" href="../index.html">
+    <img class="logo" src="../assets/img/chillibyte.svg" alt="Chillibyte">
+    <span class="spec-brand-label">Spec builder</span>
+  </a>
+  <nav class="spec-top-nav" aria-label="Tools">
+    <a href="../guide/index.html">Guide</a>
+    <a href="../pitch/index.html">Pitch</a>
+    <a href="../gaps.html">Gaps</a>
+  </nav>
+</header>
+
+<main id="main" class="spec-shell" tabindex="-1">
+
+  <!-- ==================== INTAKE ==================== -->
+  <section class="intake no-print" id="intake" aria-labelledby="intake-h">
+    <div class="intake-head">
+      <span class="eyebrow eyebrow-accent">Scoping tool</span>
+      <h1 id="intake-h">Build a project spec</h1>
+      <hr class="rule-brand">
+      <p class="lede">Answer what you know. The spec updates as you go — you do not need to
+      finish before it becomes useful.</p>
+    </div>
+
+    <div class="intake-meta">
+      <label class="field">
+        <span>Client / project name</span>
+        <input type="text" id="f-name" placeholder="e.g. Halcyon Thermal" autocomplete="off">
+      </label>
+      <label class="field">
+        <span>Prepared by</span>
+        <input type="text" id="f-author" placeholder="Your name" autocomplete="off">
+      </label>
+    </div>
+
+    <form id="questions" class="questions"></form>
+
+    <div class="intake-actions">
+      <button class="btn btn-ghost btn-sm" type="button" id="btn-example">Load the worked example</button>
+      <button class="btn btn-ghost btn-sm" type="button" id="btn-reset">Reset</button>
+    </div>
+  </section>
+
+  <!-- ==================== OUTPUT ==================== -->
+  <section class="output" id="output" aria-labelledby="output-h" aria-live="polite">
+    <div class="output-bar no-print">
+      <h2 id="output-h">Project spec</h2>
+      <div class="output-actions">
+        <button class="btn btn-sm" type="button" id="btn-share">Copy share link</button>
+        <button class="btn btn-sm" type="button" id="btn-md">Copy as Markdown</button>
+        <button class="btn btn-sm" type="button" id="btn-csv">Download tracker CSV</button>
+        <button class="btn btn-sm btn-primary" type="button" id="btn-print">Print / PDF</button>
+      </div>
+    </div>
+    <div id="spec-doc" class="spec-doc"></div>
+  </section>
+
+</main>
+
+<footer class="site-footer no-print">
+  <div class="wrap">
+    <p>Chillibyte website delivery process — spec builder. Everything is computed in your browser;
+    nothing is sent anywhere. Your answers are saved locally and encoded in the URL, so a share
+    link reproduces this exact spec.</p>
+  </div>
+</footer>
+
+<script type="module" src="../assets/js/spec.js"></script>
+</body>
+</html>

@@ -1,0 +1,240 @@
+/* ===========================================================================
+   pages.css — landing page and gap analysis
+=========================================================================== */
+
+/* --- Shared header -------------------------------------------------------- */
+
+.page-top {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-5);
+  padding: var(--sp-4) 0;
+}
+.page-top .logo { height: 1.6rem; }
+.page-top nav { margin-left: auto; display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.page-top nav a {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--ink);
+  text-decoration: none;
+  padding: 0.4em 0.8em;
+  border-radius: var(--radius-sm);
+}
+.page-top nav a:hover { background: var(--surface-sunk); }
+
+/* --- Landing hero --------------------------------------------------------- */
+
+.hero {
+  padding: clamp(2.5rem, 8vh, 5.5rem) 0 clamp(2rem, 5vh, 3.5rem);
+}
+.hero h1 {
+  font-size: clamp(2.1rem, 1.2rem + 4vw, 4.2rem);
+  line-height: 1.03;
+  letter-spacing: -0.03em;
+  max-width: 18ch;
+  margin-bottom: var(--sp-5);
+}
+.hero .lede { font-size: clamp(1.02rem, 0.94rem + 0.5vw, 1.32rem); max-width: 56ch; }
+
+/* --- Three doors ---------------------------------------------------------- */
+
+.doors {
+  display: grid;
+  gap: var(--sp-5);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  margin-bottom: var(--sp-8);
+}
+.door {
+  display: flex;
+  flex-direction: column;
+  padding: var(--sp-6);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  color: var(--ink);
+  transition: transform var(--dur) var(--ease),
+              box-shadow var(--dur) var(--ease),
+              border-color var(--dur) var(--ease);
+}
+.door:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-2);
+  border-color: var(--cb-red);
+}
+.door-num {
+  display: inline-grid;
+  place-items: center;
+  width: 2.5rem; height: 2.5rem;
+  margin-bottom: var(--sp-4);
+  font-size: 1.05rem;
+  font-weight: var(--fw-black);
+  color: #fff;
+  background: var(--cb-blue-dk);
+  border-radius: var(--radius-lg);
+}
+.door h2 { font-size: var(--fs-h4); margin-bottom: var(--sp-3); }
+.door p { font-size: var(--fs-sm); margin-bottom: var(--sp-4); flex: 1; }
+.door .go {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  color: var(--cb-red-ink);
+}
+.door .meta {
+  margin-top: var(--sp-3);
+  padding-top: var(--sp-3);
+  border-top: 1px solid var(--line-soft);
+  font-size: var(--fs-xs);
+  color: var(--ink-muted);
+}
+
+.door-1 .door-num { background: var(--cb-red-solid); }
+.door-2 .door-num { background: var(--cb-blue-dk); }
+.door-3 .door-num { background: var(--cb-green-ink); }
+
+/* --- Landing sections ----------------------------------------------------- */
+
+.band {
+  padding: clamp(2.5rem, 7vh, 4.5rem) 0;
+  border-top: 1px solid var(--line);
+}
+.band-dark {
+  background: var(--cb-blue-dk);
+  border-top: 0;
+}
+.band h2 { margin-bottom: var(--sp-4); }
+
+.numbers {
+  display: grid;
+  gap: var(--sp-5);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr));
+}
+.numbers .n {
+  font-size: clamp(1.8rem, 1.3rem + 2vw, 2.8rem);
+  font-weight: var(--fw-black);
+  line-height: 1;
+  color: var(--cb-red-ink);
+  font-variant-numeric: tabular-nums;
+  display: block;
+}
+.on-dark .numbers .n { color: var(--cb-green); }
+.numbers .l {
+  display: block;
+  margin-top: var(--sp-2);
+  font-size: var(--fs-sm);
+  color: var(--ink-muted);
+  line-height: 1.4;
+}
+
+/* --- Gap analysis --------------------------------------------------------- */
+
+.gap-head { padding: clamp(2rem, 6vh, 3.5rem) 0 var(--sp-6); }
+
+.gap-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-6);
+  padding-bottom: var(--sp-5);
+  border-bottom: 1px solid var(--line);
+}
+.gap-filter button {
+  font: inherit;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  padding: 0.45em 1em;
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-pill);
+  color: var(--ink);
+  cursor: pointer;
+}
+.gap-filter button[aria-pressed="true"] {
+  background: var(--cb-blue-dk);
+  border-color: var(--cb-blue-dk);
+  color: #fff;
+}
+
+.gap-group { margin-bottom: var(--sp-8); }
+.gap-group > h2 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--sp-3);
+  padding-bottom: var(--sp-3);
+  border-bottom: 3px solid var(--cb-red);
+  margin-bottom: var(--sp-5);
+}
+.gap-group[data-sev="high"] > h2   { border-bottom-color: var(--cb-amber); }
+.gap-group[data-sev="medium"] > h2 { border-bottom-color: var(--cb-grey-600); }
+.gap-group > h2 .note {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-normal);
+  color: var(--ink-muted);
+}
+
+.gap {
+  padding: var(--sp-5);
+  margin-bottom: var(--sp-4);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--cb-red);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+.gap[data-sev="high"]   { border-left-color: var(--cb-amber); }
+.gap[data-sev="medium"] { border-left-color: var(--cb-grey-600); }
+
+.gap-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-4);
+}
+.gap-title h3 { margin: 0; font-size: var(--fs-h4); }
+.gap-id {
+  font-family: var(--font-mono);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-sm);
+  color: var(--cb-red-ink);
+}
+.gap[data-sev="high"] .gap-id   { color: var(--cb-amber); }
+.gap[data-sev="medium"] .gap-id { color: var(--ink-muted); }
+
+.gap dl { margin: 0; display: grid; gap: var(--sp-3); }
+.gap dt {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin-bottom: var(--sp-1);
+}
+.gap dd { margin: 0; font-size: var(--fs-sm); max-width: var(--measure); }
+.gap dd.fix {
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--route-light-bg);
+  border-radius: var(--radius-sm);
+  max-width: none;
+}
+.gap-touches {
+  margin-top: var(--sp-4);
+  padding-top: var(--sp-3);
+  border-top: 1px solid var(--line-soft);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  align-items: center;
+}
+.gap-touches .lbl {
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: var(--fw-bold);
+  color: var(--ink-muted);
+}
+
+@media print {
+  .gap-filter, .page-top nav { display: none !important; }
+  .gap { break-inside: avoid; }
+}

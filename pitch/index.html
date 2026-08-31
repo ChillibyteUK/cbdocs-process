@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A delivery process for websites — Chillibyte</title>
+<meta name="description" content="The case for adopting a structured website delivery process: less rework, fewer unbilled changes, more people per project, and the headroom to take on larger clients.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23212333'/%3E%3Crect x='7' y='7' width='8' height='18' rx='2' fill='%23ED1B24'/%3E%3Crect x='18' y='7' width='7' height='11' rx='2' fill='%238DC53E'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/pitch.css">
+</head>
+<body class="deck-body on-dark">
+
+<div class="deck-progress" id="progress"></div>
+
+<main class="deck" id="deck">
+
+<!-- 1 ----------------------------------------------------------------------->
+<section class="slide slide-title" data-title="Title"
+  data-notes="Set the frame before the first slide: this is not a proposal to add admin. It is a proposal to stop giving work away. Keep it to twenty minutes and leave the guide and spec builder open in other tabs.">
+  <div class="slide-inner">
+    <img class="logo" src="../assets/img/chillibyte-light.svg" alt="Chillibyte">
+    <h1>We are giving away about <span id="title-pct">a sixth</span> of every website project.</h1>
+    <p class="sub">A delivery process that makes scope visible, work shareable, and change chargeable.</p>
+    <p class="meta">Proposal to the management team &nbsp;·&nbsp; Web delivery</p>
+  </div>
+</section>
+
+<!-- 2 ----------------------------------------------------------------------->
+<section class="slide" data-title="What we can't answer"
+  data-notes="This is the most important slide in the deck and it should be delivered slowly. Read the questions out and let the silence sit. Do not answer them — the point is that nobody in the room can. Every number later in this deck is an estimate, and this slide is why: we are not withholding the real figures, we do not have them. If someone says 'I could work that out' — good, ask how long it would take. That is the answer.">
+  <div class="slide-inner">
+    <span class="kicker">Where we actually are</span>
+    <h2>Six questions we cannot currently answer.</h2>
+    <ol class="unknowns">
+      <li>How many hours did our last website project actually take?</li>
+      <li>What did we estimate it at before we started?</li>
+      <li>How many rounds of revisions did we give away?</li>
+      <li>How much unbilled work did we absorb, and on what?</li>
+      <li>What margin did we make on it?</li>
+      <li>Which kind of project is most profitable for us?</li>
+    </ol>
+    <p class="big" style="margin-top:1.4rem">We are a business that sells time, and we do not
+    measure the time. <strong>Every figure in this deck is therefore an estimate</strong> — not
+    because the numbers are being hidden, but because they do not exist yet.</p>
+    <p class="big" style="margin-top:0.8rem"><span class="accent-2">That is the first finding, and
+    it is the cheapest one to fix.</span></p>
+  </div>
+</section>
+
+<!-- 3 ----------------------------------------------------------------------->
+<section class="slide" data-title="The pattern"
+  data-notes="Do not rush this slide. Ask the room which of these they recognise. Every one of them will land. The point is that these are not accidents or bad luck — they are the same structural gap showing up in five different places.">
+  <div class="slide-inner">
+    <span class="kicker">The pattern we all recognise</span>
+    <h2>None of this is anyone&rsquo;s fault. That is the problem.</h2>
+    <ul class="symptoms">
+      <li>Design starts before anyone agreed the structure</li>
+      <li>The client adds a page in week six and we absorb it</li>
+      <li>Nobody can prove it wasn&rsquo;t in scope</li>
+      <li>One person holds the whole project in their head</li>
+      <li>Content arrives late and launch week becomes a scramble</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 4 ----------------------------------------------------------------------->
+<section class="slide" data-title="The four leaks"
+  data-notes="The rate and project value are real. These four leak figures are NOT — they are estimates, and the slide says so out loud. Do not defend them; invite the challenge. If someone says the rework number is too high, the honest answer is 'possibly, and we cannot currently tell — that is what the trial settles.' The deck warns on screen if the leaks ever exceed 25% of project value, because an implausible figure discredits everything else.">
+  <div class="slide-inner">
+    <span class="kicker">What we think it costs</span>
+    <h2>Our best guess at where the time goes.</h2>
+    <div class="leaks" id="leak-bars"></div>
+    <p class="big" style="margin-top:1.4rem">Roughly <strong id="leak-total"></strong> per project —
+    about <strong id="leak-pct"></strong> of an average job, before anyone has made a mistake.</p>
+    <p class="big" style="margin-top:0.8rem"><strong>We could be wrong about all of it.</strong>
+    <span class="accent-2">Nobody can currently prove otherwise — which is the argument, not a
+    weakness in it.</span>
+    <span class="info-note" data-note="Every figure here lives in one file, <code>data/assumptions.js</code>, clearly commented. Change it there and this slide, the calculator and the title slide all update together. The recovery rates are deliberately conservative: no leak is assumed to be eliminated, and unbilled changes are counted as converted to billable rather than made to disappear.<span id='leak-sanity'></span>"></span></p>
+  </div>
+</section>
+
+<!-- 5 ----------------------------------------------------------------------->
+<section class="slide" data-title="Why it happens"
+  data-notes="This is the pivot from symptom to cause. The key line is the last one: we are not asking people to try harder. Trying harder does not fix a missing baseline.">
+  <div class="slide-inner">
+    <span class="kicker">Why it happens</span>
+    <h2>Three things are missing, and they cause all of it.</h2>
+    <div class="deck-grid">
+      <div class="tile tile-accent">
+        <h3>No baseline</h3>
+        <p>We never write down what the project was estimated to take. So when it takes longer,
+        there is nothing to compare against — and scope creep becomes a feeling rather than a fact.</p>
+      </div>
+      <div class="tile tile-accent">
+        <h3>No artefact to point at</h3>
+        <p>Approval happens in conversations and Basecamp comments. When a client says
+        &ldquo;we always assumed that was included&rdquo;, we have nothing to show them.</p>
+      </div>
+      <div class="tile tile-accent">
+        <h3>No gate to stop at</h3>
+        <p>Work flows forward on assumption. Design starts before structure is agreed, and build
+        starts before design is settled, so every late change unwinds three stages of work.</p>
+      </div>
+    </div>
+    <p class="big" style="margin-top:2rem">This is a structure problem, not a people problem.
+    <strong>Asking the team to be more careful will not fix it.</strong></p>
+  </div>
+</section>
+
+<!-- 6 ----------------------------------------------------------------------->
+<section class="slide" data-fit="center" data-title="The change"
+  data-notes="Say this line slowly. It is the thesis of the entire process and everything else follows from it.">
+  <div class="slide-inner">
+    <span class="kicker">The change, in one line</span>
+    <h2 style="max-width:20ch">Stop starting with &ldquo;design a website&rdquo;.</h2>
+    <p class="big">Start with what the business needs the site to do, what pages serve that,
+    what content those pages need, and which reusable blocks assemble them.</p>
+    <p class="big" style="margin-top:1.25rem"><span class="accent-2">Each stage narrows uncertainty
+    before the next one begins.</span> Design becomes the application of a system to a known
+    structure, rather than the place where the project is figured out.</p>
+  </div>
+</section>
+
+<!-- 7 ----------------------------------------------------------------------->
+<section class="slide" data-title="The order of play"
+  data-notes="Do not read the steps aloud. Point out the shape: understand, structure, direction, build, assure. And note that green markers are approval gates — thirteen of them, which sounds like a lot until you say that each is a two-minute Basecamp ticket.">
+  <div class="slide-inner">
+    <span class="kicker">The order of play</span>
+    <h2>Twenty work packages. Five phases.</h2>
+    <div class="flow" id="flow"></div>
+    <p class="big">The order is deliberate. Sitemap before outlines, outlines before wireframes,
+    blocks before design, spec before build. <strong>Every one of those orderings exists because
+    reversing it causes rework we have actually had.</strong></p>
+  </div>
+</section>
+
+<!-- 8 ----------------------------------------------------------------------->
+<section class="slide" data-title="What approval means"
+  data-notes="The distinction between 'looks good' and a named artefact version is the single most useful behavioural change in the whole process. It costs nothing and it is the thing that ends scope arguments.">
+  <div class="slide-inner">
+    <span class="kicker">Gates</span>
+    <h2>&ldquo;Looks good&rdquo; is not approval.</h2>
+    <div class="compare">
+      <div class="compare-col compare-before">
+        <h3>What we do now</h3>
+        <ul>
+          <li>Approval happens in a call or a Basecamp comment</li>
+          <li>Nobody records which version was approved</li>
+          <li>Work continues on the assumption it was fine</li>
+          <li>When it is disputed, it is one memory against another</li>
+        </ul>
+      </div>
+      <div class="compare-col compare-after">
+        <h3>What a gate is</h3>
+        <ul>
+          <li>Names the artefacts being approved, with version numbers</li>
+          <li>Names the person approving, and when</li>
+          <li>States exactly what work is now allowed to start</li>
+          <li>States what happens if it is <em>not</em> approved</li>
+        </ul>
+      </div>
+    </div>
+    <p class="big" style="margin-top:1.75rem">A gate is one Basecamp ticket.
+    <strong>The whole overhead of this process is about <span id="overhead-hrs"></span> per
+    project</strong> — and that is the figure the calculator subtracts before showing any return.
+    <span class="info-note" id="overhead-info"></span></p>
+    <p class="big" style="margin-top:0.9rem">If the real overhead turns out to be double that,
+    the trial will show it. <span class="accent-2">That is what the trial is for.</span></p>
+  </div>
+</section>
+
+<!-- 9 ----------------------------------------------------------------------->
+<section class="slide" data-title="Two logs"
+  data-notes="Most agencies have one of these and think it is both. Decision log protects reasoning; change log protects scope. The next slide is where the money is.">
+  <div class="slide-inner">
+    <span class="kicker">Governance, cheaply</span>
+    <h2>Two records that do different jobs.</h2>
+    <div class="deck-grid-2 deck-grid">
+      <div class="tile tile-accent-2">
+        <h3>Decision log &mdash; protects reasoning</h3>
+        <p>Why something was chosen. Options considered, what we picked, the rationale, the
+        reversal cost. It stops the same argument being had three times, and it means a new
+        person can understand the project without asking anyone.</p>
+      </div>
+      <div class="tile tile-accent-2">
+        <h3>Change log &mdash; protects scope</h3>
+        <p>What moved after approval. What changed, why, which approved artefact it affects,
+        the effort it adds, and whether it is accepted, rejected or deferred.</p>
+      </div>
+    </div>
+    <p class="big" style="margin-top:1.75rem">Neither takes more than a minute to fill in.
+    Both are the evidence that makes the next slide possible.</p>
+  </div>
+</section>
+
+<!-- 10 ---------------------------------------------------------------------->
+<section class="slide" data-title="Scope creep becomes a conversation"
+  data-notes="This is the most important slide in the deck. If management takes one thing away, it should be this. Emphasise: we are not proposing to charge for everything. We are proposing to KNOW. You can still choose to absorb — as a decision, not by accident.">
+  <div class="slide-inner">
+    <span class="kicker">The commercial mechanism</span>
+    <h2>Scope creep stops being an argument.</h2>
+    <div class="deck-grid" style="margin-bottom:1.5rem">
+      <div class="tile"><h3 class="accent-2">1. Classify</h3>
+        <p>Every request is a <strong>correction</strong> (departs from what was approved &mdash;
+        we fix it free), a <strong>preference</strong> (opinion within what we left open &mdash;
+        absorbed in the revision allowance), or <strong>new scope</strong>.</p></div>
+      <div class="tile"><h3 class="accent-2">2. Cost it</h3>
+        <p>New scope gets an hours figure. Not &ldquo;some impact&rdquo;. Hours.</p></div>
+      <div class="tile"><h3 class="accent-2">3. Offer it</h3>
+        <p>If chargeable it becomes a variation order <em>before</em> the work happens.
+        The client accepts, declines, or defers it. All three outcomes are fine.</p></div>
+    </div>
+    <p class="big"><strong>We can still choose to absorb something.</strong> The process does not
+    require charging for everything &mdash; it requires the decision to be visible. Absorbing twenty
+    minutes as goodwill is a choice. <span class="accent">Absorbing twenty hours because nobody
+    was counting is not.</span></p>
+  </div>
+</section>
+
+<!-- 11 ---------------------------------------------------------------------->
+<section class="slide" data-title="Not bureaucracy"
+  data-notes="Pre-empt the objection before it is raised. The honest answer to 'this is too heavy for small projects' is that it is — which is why it scales down, and why omission is recorded rather than improvised.">
+  <div class="slide-inner">
+    <span class="kicker">The obvious objection</span>
+    <h2>&ldquo;This is far too much for a five-page site.&rdquo;</h2>
+    <p class="big">Correct. So it scales &mdash; three routes, and steps are omitted deliberately
+    rather than forgotten.</p>
+    <div class="deck-grid" id="routes-grid" style="margin:1.25rem 0"></div>
+    <p class="big" style="max-width:62ch"><strong>Light is the only route that drops steps.</strong>
+    Standard and full run the same ones &mdash; what changes is artefact depth, not the number of
+    stages. And an omission is <strong>recorded with its reason</strong>, so it is a decision we can
+    defend rather than something forgotten.
+    <span class="info-note" data-note="<p><strong>Standard vs full, concretely.</strong> Full outlines every page rather than every template; specifies every block rather than just the new ones; formalises change control on every item however small; and audits accessibility rather than spot-checking it.</p><p>It also adds three artefacts standard does not produce: a stakeholder map, a data and content model, and an accessibility audit.</p><p>The full comparison is in the guide under Routes.</p>"></span></p>
+  </div>
+</section>
+
+<!-- 12 ---------------------------------------------------------------------->
+<section class="slide" data-title="Spec builder"
+  data-notes="Live demo moment. Open the spec builder in another tab, load the worked example, and show the exclusions list at the bottom. If demoing is risky, the screenshot-free version of this slide still makes the point.">
+  <div class="slide-inner">
+    <span class="kicker">How that stays practical</span>
+    <h2>The scoping tool decides it for you.</h2>
+    <p class="big">Answer fifteen questions about a new project. It returns the steps that project
+    actually needs, the ones it does not <em>and why</em>, a work-package breakdown, an estimate
+    baseline, and a client-ready exclusions list.</p>
+    <div class="deck-grid" style="margin:1.5rem 0">
+      <div class="tile"><h3>Risk, not size</h3><p>A six-page brochure site replacing a domain that
+      has ranked for a decade still gets full migration governance. Page count does not
+      determine risk; traffic and links do.</p></div>
+      <div class="tile"><h3>Exclusions, generated</h3><p>Everything the project is <em>not</em>
+      doing, written for a proposal. This is the scope defence, produced automatically.</p></div>
+      <div class="tile"><h3>Shareable</h3><p>A link reproduces the exact spec. Send it to whoever
+      is writing the proposal.</p></div>
+    </div>
+    <p><a href="../spec/index.html" class="btn btn-sm" style="background:var(--cb-green);border-color:var(--cb-green);color:var(--cb-blue-dk)">Open the spec builder →</a></p>
+  </div>
+</section>
+
+<!-- 13 ---------------------------------------------------------------------->
+<section class="slide" data-title="More people per project"
+  data-notes="This is the capacity argument and it is the one that unlocks growth. The onboarding number is the one to stress: we currently cannot put a second person on a project cheaply, which is why we cannot take bigger ones.">
+  <div class="slide-inner">
+    <span class="kicker">Capacity</span>
+    <h2>Right now, a second person on a project costs us more than they add.</h2>
+    <div class="compare">
+      <div class="compare-col compare-before">
+        <h3>Today</h3>
+        <ul>
+          <li>Head of Web specifies the work <em>and</em> builds it</li>
+          <li>Project knowledge lives in one person&rsquo;s head</li>
+          <li>Bringing a developer in means a walkthrough, so we often do not bother</li>
+          <li>The project takes as long as one person takes</li>
+          <li>Holiday or illness stalls the whole job</li>
+        </ul>
+      </div>
+      <div class="compare-col compare-after">
+        <h3>With work packages</h3>
+        <ul>
+          <li>Head of Web specifies and assures; a Web Developer delivers</li>
+          <li>Every package states its inputs, deliverables and done-when conditions</li>
+          <li>A block can be handed over with no project history required</li>
+          <li>Two people work in parallel without colliding</li>
+          <li>Nobody signs off their own work</li>
+        </ul>
+      </div>
+    </div>
+    <p class="big" style="margin-top:1.5rem">Head of Web <strong>specifies</strong> the work.
+    A Web Developer <strong>delivers</strong> it. Head of Web <strong>assures</strong> it at QA.
+    Three jobs, not one person&rsquo;s bottleneck.</p>
+    <p class="big" style="margin-top:0.9rem">Getting a developer productive on a live project drops
+    from about <strong id="onboard-now"></strong> to <strong class="accent-2" id="onboard-target"></strong>,
+    because the build specification <em>is</em> the briefing.</p>
+  </div>
+</section>
+
+<!-- 14 ---------------------------------------------------------------------->
+<section class="slide" data-title="What the client sees"
+  data-notes="Worth noting that clients routinely value the artefacts more than we expect. A sitemap document and a page outline feel like consultancy. The same information in a Slack message feels like nothing.">
+  <div class="slide-inner">
+    <span class="kicker">The client side</span>
+    <h2>The same work, worth more.</h2>
+    <div class="deck-grid">
+      <div class="tile tile-accent-2"><h3>Perceived value</h3><p>A discovery summary, a sitemap and
+      a set of page outlines feel like consultancy. The same thinking delivered verbally feels
+      like nothing was delivered at all.</p></div>
+      <div class="tile tile-accent-2"><h3>Confidence</h3><p>Clients relax when they can see what
+      happens next and what they are agreeing to. Uncertainty is what makes them anxious, and
+      anxious clients generate revision rounds.</p></div>
+      <div class="tile tile-accent-2"><h3>Transparency</h3><p>Gates mean they always know where
+      the project is. No more &ldquo;any update?&rdquo; emails, because the answer is already
+      visible.</p></div>
+      <div class="tile tile-accent-2"><h3>Fewer surprises, both ways</h3><p>They are not surprised
+      by an invoice. We are not surprised by a requirement. Both of those relationships are
+      cheaper to run.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 15 ---------------------------------------------------------------------->
+<section class="slide" data-title="The commercial case"
+  data-notes="Hand the room the controls. Ask someone to set the day rate and project count themselves — the numbers stop being 'yours' and become 'theirs'. Note the process overhead is subtracted, so this is a net figure, not a gross saving.">
+  <div class="slide-inner">
+    <span class="kicker">The commercial case &mdash; set your own numbers</span>
+    <h2>What recovering part of that leak is worth.</h2>
+    <p class="big" style="margin-bottom:0.9rem;max-width:62ch">Drag the sliders. The result is what
+    the process returns <strong>after</strong> subtracting its own overhead &mdash; what we would
+    actually keep, not a gross saving.</p>
+    <div class="calc">
+      <div class="calc-inputs" id="calc-inputs"></div>
+      <div class="calc-out">
+        <div class="calc-headline">
+          <div class="calc-headline-pair">
+            <div class="calc-fig">
+              <span class="v" id="calc-value"></span>
+              <span class="l">recovered per year</span>
+            </div>
+            <div class="calc-fig">
+              <span class="v"><span id="calc-hours"></span><span class="u">hrs</span></span>
+              <span class="l">freed per year &mdash; <span id="calc-days"></span> working days</span>
+            </div>
+          </div>
+          <p class="calc-foot">Net of the process overhead. The two figures are the same
+          recovery, once in money and once in time.</p>
+        </div>
+        <div class="calc-secondary" id="calc-secondary"></div>
+        <p class="calc-caption">Net of process overhead.
+        <span class="info-note" data-note="<p><strong>Deliberately conservative.</strong> No leak is assumed to be eliminated. The process overhead is subtracted before any return is shown. Unbilled changes are counted as <em>converted to billable</em> rather than made to disappear &mdash; the client still asks, we just charge for it.</p><p>Adjust anything that looks wrong. The whole model is one editable file, <code>data/assumptions.js</code>.</p><p><strong>These are still estimates.</strong> The trial replaces them with measurements.</p>"></span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 16 ---------------------------------------------------------------------->
+<section class="slide" data-title="Fixed price, fewer hours"
+  data-notes="This is the argument that lands hardest with anyone who thinks in margin. We sell a price, not hours — so every hour we do not spend is ours. Be explicit that the two columns are alternatives, not a sum: the same saved hours are either margin on this job or capacity for another. Claiming both would be double counting and someone will spot it. Also stress the mechanism — we are not asking anyone to work faster, we are removing work that should never have happened twice.">
+  <div class="slide-inner">
+    <span class="kicker">Why efficiency is margin</span>
+    <h2>We sell a price, not hours.</h2>
+    <p class="big">An average project is <strong id="fp-price"></strong> and takes about
+    <strong id="fp-hours"></strong>. That price does not move if it takes us longer &mdash;
+    <span class="accent">the overrun comes straight out of margin</span>. So every hour we
+    <em>do not</em> spend is ours to keep.</p>
+
+    <div class="compare" style="margin-top:1.3rem">
+      <div class="compare-col compare-after">
+        <h3>Bank it as margin</h3>
+        <p style="font-size:clamp(.78rem,.74rem + .2vw,.92rem)">Same number of projects, each
+        costing less to deliver.</p>
+        <p class="fp-figure" id="fp-margin"></p>
+        <p style="font-size:clamp(.76rem,.72rem + .18vw,.88rem);opacity:.85">extra margin on every
+        job, at no extra cost</p>
+      </div>
+      <div class="compare-col compare-after">
+        <h3>Or bank it as capacity</h3>
+        <p style="font-size:clamp(.78rem,.74rem + .2vw,.92rem)">Same team, same hours, more jobs
+        through the door.</p>
+        <p class="fp-figure" id="fp-capacity"></p>
+        <p style="font-size:clamp(.76rem,.72rem + .18vw,.88rem);opacity:.85">more projects a year
+        &mdash; about <span id="fp-extra-rev"></span> of extra revenue</p>
+      </div>
+    </div>
+
+    <p class="big" style="margin-top:1.1rem"><strong>One or the other, not both.</strong>
+    <span class="info-note" data-note="<p>The same recovered hours cannot be spent twice. They are either margin on the jobs we already have, or capacity to take on more &mdash; so these are alternatives, not a sum.</p><p>In practice it will be a mix, and choosing the mix is a business decision rather than a delivery one.</p>"></span>
+    And note the mechanism: <span class="accent-2">this is not asking anyone to work faster.</span>
+    It is removing work that should never have happened twice.</p>
+  </div>
+</section>
+
+<!-- 17 ---------------------------------------------------------------------->
+<section class="slide" data-title="Agility and chaos"
+  data-notes="The money slide gets the nod; this slide gets the buy-in from anyone who actually runs projects. Predictability is the thing the team wants most and it is rarely quantified.">
+  <div class="slide-inner">
+    <span class="kicker">Beyond the money</span>
+    <h2>The week becomes predictable.</h2>
+    <div class="deck-grid">
+      <div class="tile"><h3>Less held in one head</h3><p>Project state lives in artefacts rather
+      than memory. Someone can be off for a week without the project stopping.</p></div>
+      <div class="tile"><h3>Fewer emergency reshuffles</h3><p>Most fire-fighting comes from work
+      starting before its inputs existed. Entry criteria remove that category of emergency.</p></div>
+      <div class="tile"><h3>Faster onboarding</h3><p>New starters learn the process from the guide
+      rather than by shadowing. That is a real recruitment and scaling constraint removed.</p></div>
+      <div class="tile"><h3>Estimating improves</h3><p>Every project records baseline against
+      actual. After three projects we know where we are systematically wrong &mdash;
+      permanently.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 18 ---------------------------------------------------------------------->
+<section class="slide" data-title="Bigger projects"
+  data-notes="This is the growth argument. Above a certain client size, procurement asks how you govern delivery. 'We have a process' is a much weaker answer than a documented gate model aligned to a recognised framework. This is what changes which tenders we can credibly enter.">
+  <div class="slide-inner">
+    <span class="kicker">Growth</span>
+    <h2>Bigger clients ask how you govern delivery.</h2>
+    <p class="big">Above a certain project size, procurement asks the question directly. Today the
+    honest answer is &ldquo;we have an experienced team&rdquo;. That is a weaker answer than a
+    documented gate model with decision logs, change control and a recognised framework behind it.</p>
+    <div class="deck-grid" style="margin-top:1.5rem">
+      <div class="tile tile-accent-2"><h3>Governance evidence</h3><p>Gates, logs and artefacts are
+      exactly what a procurement questionnaire asks for.</p></div>
+      <div class="tile tile-accent-2"><h3>TOGAF alignment</h3><p>The model maps onto recognised
+      architecture domains &mdash; which matters to the kind of client who asks.</p></div>
+      <div class="tile tile-accent-2"><h3>Capacity to deliver</h3><p>Work packages mean a larger
+      project can absorb more people, so winning it is not a risk.</p></div>
+    </div>
+    <p class="big" style="margin-top:1.4rem">The largest project we could comfortably take on today
+    is around <strong id="ceiling-now"></strong>. With work packages and a documented gate model,
+    that becomes <strong class="accent-2" id="ceiling-target"></strong>.
+    <span class="info-note" data-note="<p><strong>What &lsquo;comfortably&rsquo; means here.</strong> Not the largest project we have ever invoiced &mdash; that only tells you what we once got away with. This is the largest we could take on <em>and still sleep</em>: one we could staff, govern, and survive if it went wrong.</p><p>That is the number that decides which tenders we can credibly enter, because it is the one we would be betting the business on.</p><p>Both figures are estimates, like everything else in this deck. Editable in <code>data/assumptions.js</code>.</p>"></span></p>
+  </div>
+</section>
+
+<!-- 19 ---------------------------------------------------------------------->
+<section class="slide" data-title="What we are not proposing"
+  data-notes="Name the objections before the room does. This slide buys credibility — it shows the proposal has been stress-tested rather than just enthused about.">
+  <div class="slide-inner">
+    <span class="kicker">To be clear</span>
+    <h2>What this is not.</h2>
+    <div class="deck-grid-2 deck-grid">
+      <div class="tile tile-accent"><h3>Not more meetings</h3><p>A gate is a Basecamp ticket, not a
+      meeting. The process removes status calls rather than adding them.</p></div>
+      <div class="tile tile-accent"><h3>Not more admin for its own sake</h3><p>About eight hours
+      per project of artefacts, against an estimated twenty-plus recovered. If that ratio turns out
+      to be wrong, we should stop.</p></div>
+      <div class="tile tile-accent"><h3>Not slower</h3><p>It front-loads decisions that we
+      currently make late and expensively. Projects finish sooner because they unwind less.</p></div>
+      <div class="tile tile-accent"><h3>Not the same for every project</h3><p>Three routes, and a
+      tool that decides which steps a given project genuinely needs.</p></div>
+      <div class="tile tile-accent"><h3>Not a way to squeeze clients</h3><p>It makes what we
+      already do visible, so clients can see what they are buying. Most will value that.</p></div>
+      <div class="tile tile-accent"><h3>Not finished</h3><p>The effort figures are uncalibrated
+      guesses until we run it three times. That is the point of the trial.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 20 ---------------------------------------------------------------------->
+<section class="slide" data-title="The ask"
+  data-notes="Close on a small, reversible, measurable ask. Do not ask for a policy change — ask for three projects and a review date. Have a named owner ready before you present.">
+  <div class="slide-inner">
+    <span class="kicker">The ask</span>
+    <h2>Start measuring. Then decide.</h2>
+    <ol class="ask">
+      <li><strong>Measure.</strong> Record the estimate and the actual on the next
+      <strong id="ask-projects"></strong> projects. We have never had this number.</li>
+      <li>Track revision rounds given away, and variations raised and accepted.</li>
+      <li>Run those projects through the process, whatever their size.</li>
+      <li>Review after <strong id="ask-weeks"></strong>. If the overhead exceeds the recovery,
+      we stop &mdash; and we will finally know.</li>
+      <li>Name an owner today. Without one, this becomes a document nobody opens.</li>
+    </ol>
+    <p class="big" style="margin-top:1.75rem">The guide, the templates and the scoping tool are
+    already built. <strong>There is nothing to fund and nothing to wait for.</strong></p>
+  </div>
+</section>
+
+</main>
+
+<div class="deck-chrome no-print">
+  <span class="deck-counter"><span id="cur">1</span> / <span id="total">20</span></span>
+  <div class="deck-btns">
+    <button class="deck-btn" type="button" id="btn-prev" aria-label="Previous slide">←</button>
+    <button class="deck-btn" type="button" id="btn-next" aria-label="Next slide">→</button>
+    <button class="deck-btn" type="button" id="btn-ov" title="Overview (O)">Overview</button>
+    <button class="deck-btn" type="button" id="btn-notes" title="Speaker notes (S)">Notes</button>
+    <button class="deck-btn" type="button" id="btn-full" title="Fullscreen (F)">Full</button>
+    <button class="deck-btn" type="button" id="btn-print" title="Print to PDF (P)">PDF</button>
+    <a class="deck-btn" href="../index.html" title="Back">Exit</a>
+  </div>
+</div>
+
+<aside class="deck-notes" id="notes" aria-live="polite">
+  <h4>Speaker notes</h4>
+  <p id="notes-body"></p>
+</aside>
+
+<div class="deck-overview" id="overview" role="dialog" aria-label="Slide overview">
+  <div class="ov-grid" id="ov-grid"></div>
+</div>
+
+<script type="module" src="../assets/js/deck.js"></script>
+</body>
+</html>
