@@ -36,13 +36,16 @@
 }
 .hero .lede { font-size: clamp(1.02rem, 0.94rem + 0.5vw, 1.32rem); max-width: 56ch; }
 
-/* --- Three doors ---------------------------------------------------------- */
+/* --- Doors ------------------------------------------------------------------ */
 
 .doors {
   display: grid;
   gap: var(--sp-5);
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  grid-template-columns: repeat(2, 1fr);
   margin-bottom: var(--sp-8);
+}
+@media (max-width: 640px) {
+  .doors { grid-template-columns: 1fr; }
 }
 .door {
   display: flex;
@@ -91,6 +94,7 @@
 .door-1 .door-num { background: var(--cb-red-solid); }
 .door-2 .door-num { background: var(--cb-blue-dk); }
 .door-3 .door-num { background: var(--cb-green-ink); }
+.door-4 .door-num { background: var(--cb-red-ink); }
 
 /* --- Landing sections ----------------------------------------------------- */
 

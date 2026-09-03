@@ -5,6 +5,7 @@ Three tools built on one shared model of the process:
 | | | |
 |---|---|---|
 | **`/pitch/`** | Management pitch | 20-slide keyboard-driven deck with a live commercial calculator |
+| **`/overview/`** | Process overview | 17-slide onboarding walkthrough for the delivery team — the shape of the process, no commercial figures |
 | **`/guide/`** | Process guide | The working reference: 20 steps in depth, worked example, templates |
 | **`/spec/`** | Spec builder | Intake questionnaire → bespoke project plan and exclusions list |
 | `/gaps.html` | Gap analysis | 22 findings from reviewing the operating model against its goals |

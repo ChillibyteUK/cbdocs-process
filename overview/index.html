@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How the process works — Chillibyte</title>
+<meta name="description" content="A walkthrough of the Chillibyte website delivery process for the delivery team and new starters: the five phases, twenty steps, gates, roles and routes.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23212333'/%3E%3Crect x='7' y='7' width='8' height='18' rx='2' fill='%23ED1B24'/%3E%3Crect x='18' y='7' width='7' height='11' rx='2' fill='%238DC53E'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/pitch.css">
+<link rel="stylesheet" href="../assets/css/overview.css">
+</head>
+<body class="deck-body on-dark">
+
+<div class="deck-progress" id="progress"></div>
+
+<main class="deck" id="deck">
+
+<!-- 1 ----------------------------------------------------------------------->
+<section class="slide slide-title" data-title="Title"
+  data-notes="Orientation, not a pitch. This deck explains the shape of the process well enough to follow it — the guide is where you go for the detail on any one step.">
+  <div class="slide-inner">
+    <img class="logo" src="../assets/img/chillibyte-light.svg" alt="Chillibyte">
+    <h1>How our website delivery process works.</h1>
+    <p class="sub">A walkthrough for the delivery team: five phases, twenty steps, and the gates that hold them together.</p>
+    <p class="meta">Delivery team onboarding &nbsp;·&nbsp; Web delivery</p>
+  </div>
+</section>
+
+<!-- 2 ----------------------------------------------------------------------->
+<section class="slide" data-title="Why a process"
+  data-notes="Set this up as the reason the rest of the deck exists, not as a sales pitch. Three things, and every step you'll see later exists to produce one of them.">
+  <div class="slide-inner">
+    <span class="kicker">Why we work this way</span>
+    <h2>Three things every project needs, that nothing gives you for free.</h2>
+    <div class="deck-grid">
+      <div class="tile tile-accent">
+        <h3>A shared understanding</h3>
+        <p>What the project is trying to do, agreed once, written down — so design, build and QA
+        are all working from the same picture instead of reconstructing it from memory.</p>
+      </div>
+      <div class="tile tile-accent">
+        <h3>An artefact to point at</h3>
+        <p>Every stage produces something named and versioned. When there's a question about what
+        was agreed, there's something to open, not just someone to ask.</p>
+      </div>
+      <div class="tile tile-accent">
+        <h3>A gate to stop at</h3>
+        <p>Work does not carry on into the next stage on assumption. Each gate is a deliberate
+        point to confirm what's approved before building on top of it.</p>
+      </div>
+    </div>
+    <p class="big" style="margin-top:2rem">Everything that follows is those three things, applied
+    twenty times over.</p>
+  </div>
+</section>
+
+<!-- 3 ----------------------------------------------------------------------->
+<section class="slide" data-title="The shape of it"
+  data-notes="Read the five phase names and taglines. This is the map — the rest of the deck fills in the detail underneath it.">
+  <div class="slide-inner">
+    <span class="kicker">The shape of it</span>
+    <h2>Five phases, each narrowing what's still undecided.</h2>
+    <div class="phase-strip" id="phase-strip"></div>
+    <p class="big" style="margin-top:1.75rem">Each phase's output is the next phase's input.
+    <span class="accent-2">Nothing starts before the phase before it has been approved.</span></p>
+  </div>
+</section>
+
+<!-- 4 ----------------------------------------------------------------------->
+<section class="slide" data-title="The 20 steps"
+  data-notes="Don't read every step aloud — point at the shape: five clusters, green-topped items are gates. The order is deliberate and worth naming: sitemap before outlines, outlines before wireframes, blocks before design, spec before build.">
+  <div class="slide-inner">
+    <span class="kicker">The whole spine, at a glance</span>
+    <h2>Twenty work packages, in order.</h2>
+    <div class="flow" id="flow"></div>
+    <p class="big">Every one of those orderings exists because reversing it has caused rework we've
+    actually had. <strong>We'll walk through each phase next.</strong></p>
+  </div>
+</section>
+
+<!-- 5 ----------------------------------------------------------------------->
+<section class="slide" data-title="Phase 1 — Understand" data-phase="understand"
+  data-notes="Establish what the business needs before anything is drawn. Sales handover and discovery are where scope gets defined — everything later depends on getting this right.">
+  <div class="slide-inner">
+    <span class="kicker">Phase 1 of 5</span>
+    <h2 class="phase-h">Understand</h2>
+    <p class="phase-tagline"></p>
+    <div class="step-list" data-phase-list="understand"></div>
+  </div>
+</section>
+
+<!-- 6 ----------------------------------------------------------------------->
+<section class="slide" data-title="Phase 2 — Structure" data-phase="structure"
+  data-notes="Decide what exists and what it must say, before layout. Sitemap, then outlines, then blocks, then wireframes — in that order, every time.">
+  <div class="slide-inner">
+    <span class="kicker">Phase 2 of 5</span>
+    <h2 class="phase-h">Structure</h2>
+    <p class="phase-tagline"></p>
+    <div class="step-list" data-phase-list="structure"></div>
+  </div>
+</section>
+
+<!-- 7 ----------------------------------------------------------------------->
+<section class="slide" data-title="Phase 3 — Direction" data-phase="direction"
+  data-notes="Apply a visual system to approved structure. Note that visual design has an internal gate (8) before the client ever sees it.">
+  <div class="slide-inner">
+    <span class="kicker">Phase 3 of 5</span>
+    <h2 class="phase-h">Direction</h2>
+    <p class="phase-tagline"></p>
+    <div class="step-list" data-phase-list="direction"></div>
+  </div>
+</section>
+
+<!-- 8 ----------------------------------------------------------------------->
+<section class="slide" data-title="Phase 4 — Build" data-phase="build"
+  data-notes="Turn approved design into templates, blocks and fields. Access and credentials only runs when the project needs it — that's a conditional gate, covered a couple of slides on.">
+  <div class="slide-inner">
+    <span class="kicker">Phase 4 of 5</span>
+    <h2 class="phase-h">Build</h2>
+    <p class="phase-tagline"></p>
+    <div class="step-list" data-phase-list="build"></div>
+  </div>
+</section>
+
+<!-- 9 ----------------------------------------------------------------------->
+<section class="slide" data-title="Phase 5 — Assure & launch" data-phase="assure"
+  data-notes="Verify, review, publish and close cleanly. Internal QA always runs before the client sees staging — never the other way round.">
+  <div class="slide-inner">
+    <span class="kicker">Phase 5 of 5</span>
+    <h2 class="phase-h">Assure &amp; launch</h2>
+    <p class="phase-tagline"></p>
+    <div class="step-list" data-phase-list="assure"></div>
+  </div>
+</section>
+
+<!-- 10 ---------------------------------------------------------------------->
+<section class="slide" data-title="Gates"
+  data-notes="The distinction between 'looks good' and a named artefact version is the single most useful behavioural change in the process. A gate is one Basecamp ticket, not a meeting.">
+  <div class="slide-inner">
+    <span class="kicker">Approval, made concrete</span>
+    <h2>A gate names an artefact, a version, and a person.</h2>
+    <div class="compare">
+      <div class="compare-col compare-before">
+        <h3>Not a gate</h3>
+        <ul>
+          <li>&ldquo;Looks good&rdquo; in a call or a comment</li>
+          <li>Nobody records which version was approved</li>
+          <li>Work continues on the assumption it was fine</li>
+        </ul>
+      </div>
+      <div class="compare-col compare-after">
+        <h3>A gate</h3>
+        <ul>
+          <li>Names the artefacts being approved, with version numbers</li>
+          <li>Names the approver, and when</li>
+          <li>States exactly what work is now allowed to start</li>
+          <li>States what happens if it is <em>not</em> approved — the fail path</li>
+        </ul>
+      </div>
+    </div>
+    <p class="big" style="margin-top:1.5rem"><strong id="gate-count"></strong> sequential gates run
+    on every project. <strong id="cgate-count"></strong> more are conditional — triggered by what a
+    specific project actually involves, not by its size.</p>
+    <div class="tile tile-accent-2" id="gate-example" style="margin-top:1rem"></div>
+  </div>
+</section>
+
+<!-- 11 ---------------------------------------------------------------------->
+<section class="slide" data-title="Roles"
+  data-notes="The one rule worth remembering: Head of Web specifies and assures, a Web Developer delivers. Nobody signs off their own work. That separation is what lets a second pair of hands join a project without it routing through one person's head.">
+  <div class="slide-inner">
+    <span class="kicker">Who does what</span>
+    <h2>Specify, deliver, assure — three jobs, not one bottleneck.</h2>
+    <div class="deck-grid" id="roles-grid"></div>
+  </div>
+</section>
+
+<!-- 12 ---------------------------------------------------------------------->
+<section class="slide" data-title="Routes"
+  data-notes="Light is the only route that drops steps. Standard and full run the same ones — what changes is artefact depth, not the number of stages. That's the thing people get wrong most often, so say it plainly.">
+  <div class="slide-inner">
+    <span class="kicker">Scaling to the project</span>
+    <h2>Three routes. Only one of them drops steps.</h2>
+    <div class="deck-grid" id="routes-grid" style="margin:1.25rem 0"></div>
+    <p class="big" style="max-width:62ch"><strong>Standard and full run the same steps.</strong>
+    Full outlines every page rather than every template, specs every block rather than just the new
+    ones, and formalises change control on every item — not a longer list, a deeper one.
+    <span class="accent-2">The spec builder decides the route for you from a fifteen-question
+    intake.</span></p>
+  </div>
+</section>
+
+<!-- 13 ---------------------------------------------------------------------->
+<section class="slide" data-title="Conditions"
+  data-notes="These are what pull the conditional gates in regardless of route. Point back to the current-state audit and access-and-credentials steps from the phase slides — this is why those sometimes appear and sometimes don't.">
+  <div class="slide-inner">
+    <span class="kicker">Risk, not size</span>
+    <h2>What pulls extra work into a project.</h2>
+    <p class="big" style="margin-bottom:1rem">Twelve conditions, set at discovery from what a
+    project actually involves. Any one of them can trigger a conditional gate — on any route,
+    including light.</p>
+    <div class="conditions-grid" id="conditions-grid"></div>
+  </div>
+</section>
+
+<!-- 14 ---------------------------------------------------------------------->
+<section class="slide" data-title="Keeping control mid-project"
+  data-notes="This is the mechanism that stops scope creep being an argument. Classify, cost, offer — and note we can still choose to absorb something, it just has to be a decision rather than an accident.">
+  <div class="slide-inner">
+    <span class="kicker">When something changes</span>
+    <h2>Every request gets classified before anyone acts on it.</h2>
+    <div class="deck-grid" style="margin-bottom:1.5rem">
+      <div class="tile"><h3 class="accent-2">Correction</h3>
+        <p>Departs from what was approved. Fixed, no charge.</p></div>
+      <div class="tile"><h3 class="accent-2">Preference</h3>
+        <p>An opinion within what was left open. Absorbed within the revision allowance.</p></div>
+      <div class="tile"><h3 class="accent-2">New scope</h3>
+        <p>Wasn't in the approved artefacts. Logged in the change log, costed in hours, offered as a
+        variation order before the work happens.</p></div>
+    </div>
+    <p class="big">The decision log and change log are the two records behind this: one protects
+    <em>why</em> something was chosen, the other protects <em>what</em> moved after approval.
+    <strong>Both are mandatory on every route, including light.</strong></p>
+  </div>
+</section>
+
+<!-- 15 ---------------------------------------------------------------------->
+<section class="slide" data-title="Worked example"
+  data-notes="Make it concrete. Halcyon Thermal is invented but realistic — a standard-route project that gets full migration governance forced on because it's replacing an established, ranking site. That's the point: risk pulls in work, not page count.">
+  <div class="slide-inner">
+    <span class="kicker">One project, start to finish</span>
+    <h2 id="we-name"></h2>
+    <p class="big" id="we-oneline" style="margin-bottom:1.25rem"></p>
+    <div class="deck-grid" id="we-facts"></div>
+    <p class="big" style="margin-top:1.5rem" id="we-why"></p>
+  </div>
+</section>
+
+<!-- 16 ---------------------------------------------------------------------->
+<section class="slide" data-title="Where to go next"
+  data-notes="Send people to the guide for anything below deck-level detail. The spec builder is the tool for scoping an actual new project.">
+  <div class="slide-inner">
+    <span class="kicker">Where this deck stops</span>
+    <h2>This is the shape. The guide has the detail.</h2>
+    <div class="deck-grid">
+      <div class="tile tile-accent-2"><h3>The guide</h3><p>Every one of the twenty steps in full:
+      instructions, entry and exit criteria, pitfalls and the worked example threaded through each
+      one. This is what you actually work from day to day.</p>
+      <p style="margin-top:.75rem"><a href="../guide/index.html" class="btn btn-sm" style="background:var(--cb-green);border-color:var(--cb-green);color:var(--cb-blue-dk)">Open the guide →</a></p></div>
+      <div class="tile tile-accent-2"><h3>The spec builder</h3><p>Answer fifteen questions about a
+      new project and get the steps it actually needs, the route, and a client-ready exclusions
+      list.</p>
+      <p style="margin-top:.75rem"><a href="../spec/index.html" class="btn btn-sm" style="background:var(--cb-green);border-color:var(--cb-green);color:var(--cb-blue-dk)">Open the spec builder →</a></p></div>
+      <div class="tile tile-accent-2"><h3>Templates</h3><p>Ten document templates and a thirteen-tab
+      workbook, generated from the same data as this deck — never edited by hand.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 17 ---------------------------------------------------------------------->
+<section class="slide" data-fit="center" data-title="Closing"
+  data-notes="Close simply. The point isn't to memorise twenty steps — it's to know where you are in the order, what you're waiting on, and what unlocks next.">
+  <div class="slide-inner">
+    <span class="kicker">In one line</span>
+    <h2 style="max-width:22ch">Know what phase you're in, what's approved, and what that unlocks.</h2>
+    <p class="big">Everything else — which template, which checklist, which gate ticket — is one
+    click away in the guide.</p>
+  </div>
+</section>
+
+</main>
+
+<div class="deck-chrome no-print">
+  <span class="deck-counter"><span id="cur">1</span> / <span id="total">17</span></span>
+  <div class="deck-btns">
+    <button class="deck-btn" type="button" id="btn-prev" aria-label="Previous slide">←</button>
+    <button class="deck-btn" type="button" id="btn-next" aria-label="Next slide">→</button>
+    <button class="deck-btn" type="button" id="btn-ov" title="Overview (O)">Overview</button>
+    <button class="deck-btn" type="button" id="btn-notes" title="Speaker notes (S)">Notes</button>
+    <button class="deck-btn" type="button" id="btn-full" title="Fullscreen (F)">Full</button>
+    <button class="deck-btn" type="button" id="btn-print" title="Print to PDF (P)">PDF</button>
+    <a class="deck-btn" href="../index.html" title="Back">Exit</a>
+  </div>
+</div>
+
+<aside class="deck-notes" id="notes" aria-live="polite">
+  <h4>Speaker notes</h4>
+  <p id="notes-body"></p>
+</aside>
+
+<div class="deck-overview" id="overview" role="dialog" aria-label="Slide overview">
+  <div class="ov-grid" id="ov-grid"></div>
+</div>
+
+<script type="module" src="../assets/js/overview.js"></script>
+</body>
+</html>

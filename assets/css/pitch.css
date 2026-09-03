@@ -45,7 +45,7 @@ body.deck-body {
   letter-spacing: -0.025em;
   color: #fff;
   margin-bottom: clamp(1rem, 2vh, 1.75rem);
-  max-width: 22ch;
+  max-width: 32ch;
 }
 .slide h3 {
   font-size: clamp(1.05rem, 0.9rem + 0.7vw, 1.45rem);
@@ -57,7 +57,7 @@ body.deck-body {
   font-size: clamp(1.05rem, 0.92rem + 0.8vw, 1.5rem);
   line-height: 1.5;
   color: #EDEDF2;
-  max-width: 46ch;
+  max-width: 64ch;
 }
 .slide strong { color: #fff; }
 .slide .accent { color: var(--cb-red-on-dk); }

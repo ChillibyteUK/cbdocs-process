@@ -474,6 +474,7 @@ export const artefacts = {
   'variation-order':     { name: 'Variation order',            type: 'docx', file: 'variation-order.docx',           gate: null, routes: ['light','standard','full'], isNew: true },
   'variation-register':  { name: 'Variation register',         type: 'xlsx', file: 'chillibyte-project-trackers.xlsx', tab: 'Variation register', gate: null, routes: ['light','standard','full'], isNew: true },
   'gate-ticket':         { name: 'Basecamp gate ticket',       type: 'docx', file: 'gate-ticket.docx',               gate: null, routes: ['light','standard','full'] },
+  'work-package':        { name: 'Work package',               type: 'docx', file: 'work-package.docx',              gate: null, routes: ['light','standard','full'], isNew: true },
   'approval-note':       { name: 'Client approval note',       type: 'docx', file: 'client-approval-note.docx',      gate: null, routes: ['light','standard','full'] },
   'gate-tracker':        { name: 'Gate tracker',               type: 'xlsx', file: 'chillibyte-project-trackers.xlsx', tab: 'Gate tracker', gate: null, routes: ['light','standard','full'] },
   'redirect-map':        { name: 'Redirect map',               type: 'xlsx', file: 'chillibyte-project-trackers.xlsx', tab: 'Sitemap', gate: null, routes: [], conditions: ['existing-site'] },

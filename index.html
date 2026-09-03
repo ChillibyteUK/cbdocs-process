@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Website delivery process — Chillibyte</title>
-<meta name="description" content="The Chillibyte website delivery process: a management pitch, an interactive working guide, and a project spec builder.">
+<meta name="description" content="The Chillibyte website delivery process: a management pitch, a team onboarding overview, an interactive working guide, and a project spec builder.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23212333'/%3E%3Crect x='7' y='7' width='8' height='18' rx='2' fill='%23ED1B24'/%3E%3Crect x='18' y='7' width='7' height='11' rx='2' fill='%238DC53E'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="assets/css/tokens.css">
 <link rel="stylesheet" href="assets/css/base.css">
@@ -18,7 +18,9 @@
   <header class="page-top">
     <img class="logo" src="assets/img/chillibyte.svg" alt="Chillibyte">
     <nav aria-label="Sections">
-      <a href="gaps.html">Gap analysis</a>
+      <a href="overview/index.html">Overview</a>
+      <a href="guide/index.html">Guide</a>
+      <a href="spec/index.html">Spec builder</a>
       <a href="#templates">Templates</a>
     </nav>
   </header>
@@ -28,9 +30,9 @@
     <section class="hero">
       <span class="eyebrow eyebrow-accent">Website delivery process</span>
       <h1>From discovery to launch, without giving the margin away.</h1>
-      <p class="lede">Three tools built on one shared model of the process: a case to put to
-      management, a working reference for the team, and a scoping tool for new projects.
-      Change the process in one place and all three update.</p>
+      <p class="lede">Four tools built on one shared model of the process: a case to put to
+      management, an onboarding walkthrough for the team, a working reference, and a scoping tool
+      for new projects. Change the process in one place and all four update.</p>
     </section>
 
     <div class="doors">
@@ -44,8 +46,18 @@
         <span class="meta">Keyboard-driven · speaker notes · exports to PDF</span>
       </a>
 
-      <a class="door door-2" href="guide/index.html">
+      <a class="door door-2" href="overview/index.html">
         <span class="door-num">2</span>
+        <h2>The overview</h2>
+        <p>A seventeen-slide walkthrough for the delivery team and new starters: the five phases,
+        the twenty steps, how gates and routes work, and where to go for the detail. No commercial
+        figures — just the shape of the process.</p>
+        <span class="go">Walk through it →</span>
+        <span class="meta">Keyboard-driven · speaker notes · exports to PDF</span>
+      </a>
+
+      <a class="door door-3" href="guide/index.html">
+        <span class="door-num">3</span>
         <h2>The guide</h2>
         <p>The working reference. Every step high-level and in depth, with instructions, entry and
         exit criteria, pitfalls, approval gates, and a worked example threaded through all twenty
@@ -54,8 +66,8 @@
         <span class="meta">Searchable · route-aware · links to every template</span>
       </a>
 
-      <a class="door door-3" href="spec/index.html">
-        <span class="door-num">3</span>
+      <a class="door door-4" href="spec/index.html">
+        <span class="door-num">4</span>
         <h2>The spec builder</h2>
         <p>Answer fifteen questions about a new project. Get the steps it needs, the ones it does
         not <em>and why</em>, a work-package breakdown, an estimate baseline and a client-ready
@@ -77,40 +89,9 @@
       than an oversight.</p>
     </section>
 
-    <section class="band">
-      <h2>What changed in this version</h2>
-      <p>The operating model was reviewed against its own goals. Twenty-two gaps were found and
-      twenty-one are now built into the process. The reasoning behind each one is recorded in the
-      <a href="gaps.html">gap analysis</a>.</p>
-      <div class="grid grid-2" style="margin-top:var(--sp-5)">
-        <div class="card card-accent">
-          <h3>The commercial edges</h3>
-          <ul>
-            <li>An <strong>estimate baseline</strong>, so change can be measured rather than asserted</li>
-            <li>A <strong>variation order</strong> route, so an accepted change can be charged for</li>
-            <li>A <strong>sales handover</strong> gate, so what was sold enters the record</li>
-            <li>A <strong>warranty boundary</strong>, so post-launch work has an end</li>
-            <li><strong>Revision limits</strong>, so rounds are counted rather than absorbed</li>
-          </ul>
-        </div>
-        <div class="card card-accent-2">
-          <h3>The capacity edges</h3>
-          <ul>
-            <li>Every step is a <strong>work package</strong> with entry and exit criteria, so it can
-            be handed to anyone</li>
-            <li>Owner and approver are <strong>separated</strong>, so gates are not self-approved</li>
-            <li>Every gate has a <strong>fail path</strong>, so a rejection is not improvised</li>
-            <li><strong>Conditional triggers</strong>, so risk drives inclusion rather than page count</li>
-            <li>An <strong>approval SLA</strong>, so silence does not stall a project indefinitely</li>
-          </ul>
-        </div>
-      </div>
-      <p style="margin-top:var(--sp-5)"><a href="gaps.html">Read the full gap analysis →</a></p>
-    </section>
-
     <section class="band" id="templates">
       <h2>Templates</h2>
-      <p>Nine document templates and one workbook containing every tracker. Generated from the
+      <p>Ten document templates and one workbook containing every tracker. Generated from the
       source scripts in <code>build/</code> — regenerate them rather than editing the binaries, so
       the process and the paperwork cannot drift apart.</p>
       <div class="grid grid-2" style="margin-top:var(--sp-5)">
@@ -126,8 +107,22 @@
             inventory, content matrix, block inventory, risks, QA and launch.</p>
           <p class="muted" style="font-size:var(--fs-sm)">Dropdowns, frozen panes and filters are
           set up. Row 4 of each tab is a worked example — type over it.</p>
+          <div class="note note-warn" style="margin-top:var(--sp-4)">
+            <p style="font-size:var(--fs-sm)"><strong>Duplicate this once per project</strong> as a
+            live workbook on SharePoint / Excel Online — don't re-download it per artefact or per
+            gate. See the guide's <a href="guide/index.html#/reference/basecamp">Basecamp
+            page</a> for where it lives and how a gate points at a specific version of it.</p>
+          </div>
         </div>
       </div>
+    </section>
+
+    <section class="band">
+      <h2>What changed in this version</h2>
+      <p>The operating model was reviewed against its own goals. Twenty-two gaps were found and
+      twenty-one are now built into the process — from an estimate baseline and sales handover gate
+      to work packages with entry and exit criteria. <a href="gaps.html">Read the full gap
+      analysis →</a></p>
     </section>
 
     <section class="band">
@@ -181,6 +176,7 @@ const DOCS = [
   ['designer-brief.docx',        'Designer brief & style direction'],
   ['build-specification.docx',   'Build specification'],
   ['gate-ticket.docx',           'Basecamp gate ticket'],
+  ['work-package.docx',          'Work package'],
   ['client-approval-note.docx',  'Client approval note'],
   ['variation-order.docx',       'Variation order']
 ];

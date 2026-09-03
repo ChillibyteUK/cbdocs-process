@@ -127,6 +127,25 @@ document.getElementById('total').textContent = slides.length;
   }).join('');
 }
 
+/* Slide 13b — development stretch length, by route. Not a placeholder: these
+   are the same effortBand hours steps.js already uses for the estimate
+   baseline, just read here instead of invented for the slide. */
+{
+  const dev = steps.find(s => s.id === 'development');
+  const grid = document.getElementById('dev-length-grid');
+  if (dev && grid) {
+    grid.innerHTML = routeOrder.map(r => {
+      const hrs = dev.effortBand[r];
+      const days = hrs / assumptions.hoursPerDay;
+      return `<div class="tile">
+        <h3 style="text-transform:capitalize">${esc(r)}</h3>
+        <p><strong>${hrs} hrs</strong> &mdash; about ${days.toFixed(1)} working days</p>
+        <p style="margin-top:.4rem;opacity:.85">of unbroken build, on this route alone</p>
+      </div>`;
+    }).join('');
+  }
+}
+
 /* Slides 12, 16, 18 — figures */
 {
   const a = assumptions;
@@ -143,7 +162,8 @@ document.getElementById('total').textContent = slides.length;
 
 const CONTROLS = [
   { key: 'hourlyRate',       label: 'Blended hourly rate',         min: 40,   max: 150,   step: 5,   fmt: v => money(v) + '/hr' },
-  { key: 'projectsPerYear',  label: 'Website projects per year',   min: 4,    max: 60,    step: 1,   fmt: v => v },
+  { key: 'projectsPerYear',  label: 'Website projects per year',   min: 4,    max: 60,    step: 1,   fmt: v => v,
+    note: `<p><strong>This is the lever &ldquo;running projects concurrently&rdquo; unlocks.</strong> Today it is capped by how many projects one person can specify <em>and</em> build at once — while a build is running, nothing else on their desk moves.</p><p>Raising this slider is not assuming more sales. It is what becomes possible once build runs against an approved spec in the background, so specify/assure time is free to progress other projects instead of waiting on this one.</p>` },
   { key: 'avgProjectValue',  label: 'Average project value',       min: 2000, max: 30000, step: 500, fmt: v => money(v) },
   { key: 'reworkHours',      label: 'Rework hours lost per project', min: 0,  max: 30,    step: 1,   fmt: v => `${v} hrs` },
   { key: 'unbilledHours',    label: 'Unbilled change hours per project', min: 0, max: 25, step: 1,   fmt: v => `${v} hrs` },
@@ -162,7 +182,7 @@ const live = {
 const inputsEl = document.getElementById('calc-inputs');
 inputsEl.innerHTML = CONTROLS.map(c => `
   <div class="calc-field">
-    <label for="c-${c.key}">${esc(c.label)} <b id="v-${c.key}"></b></label>
+    <label for="c-${c.key}">${esc(c.label)}${c.note ? `<span class="info-note" data-note="${esc(c.note)}"></span>` : ''} <b id="v-${c.key}"></b></label>
     <input type="range" id="c-${c.key}" min="${c.min}" max="${c.max}" step="${c.step}" value="${live[c.key]}">
   </div>`).join('');
 
@@ -252,7 +272,8 @@ document.querySelectorAll('.info-note').forEach(span => {
   span.setAttribute('aria-label', 'More detail on these figures');
 
   const toggle = (e) => {
-    e.stopPropagation();
+    e.preventDefault(); // inside a <label> (the calculator sliders), a bare click
+    e.stopPropagation(); // would otherwise activate the labelled range input instead
     if (openTrigger === span) closePop();
     else openPop(span);
   };
@@ -321,7 +342,8 @@ document.getElementById('btn-prev').addEventListener('click', prev);
 /* Click to advance — but never when the click was on something interactive. */
 deck.addEventListener('click', (e) => {
   if (e.target.closest('a, button, input, label, .calc')) return;
-  next();
+  const rect = deck.getBoundingClientRect();
+  (e.clientX - rect.left < rect.width / 2) ? prev() : next();
 });
 
 document.addEventListener('keydown', (e) => {

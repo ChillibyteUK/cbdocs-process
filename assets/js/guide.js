@@ -507,7 +507,18 @@ const referenceViews = {
       <span class="eyebrow eyebrow-accent">Reference</span>
       <h1>Artefacts &amp; templates</h1><hr class="rule-brand">
       <p class="lede">Every template, what it is for, and which gate it supports.
-      Document templates are Word files; all the trackers live in one workbook.</p>
+      Document templates are Word files, produced once per project. The trackers are different —
+      see the note below before treating them the same way.</p>
+    </div>
+    <div class="note note-warn">
+      <p><strong>The .xlsx rows are a starting template, not the artefact.</strong> Every row
+      below marked <code>.xlsx</code> lives on one shared workbook,
+      <code>chillibyte-project-trackers.xlsx</code> — Sitemap, Block inventory, Risks, the
+      decision/change/variation logs, QA, Launch, the estimate baseline, all of it. Download it
+      <strong>once</strong>, at Gate 1, to duplicate as that project's live workbook on the
+      Chillibyte Team Site / Excel Online — don't re-download it per artefact, and don't treat a
+      later download as a new version. See <a href="#/reference/basecamp">Basecamp</a> for where
+      it lives and how a gate points at a specific version of it.</p>
     </div>
     <div class="table-scroll"><table>
       <thead><tr><th>Artefact</th><th>Format</th><th>Gate</th><th>Routes</th><th>Download</th></tr></thead>
@@ -517,10 +528,164 @@ const referenceViews = {
         <td>${a.gate !== null && a.gate !== undefined ? 'Gate ' + a.gate : 'Ongoing'}</td>
         <td>${a.routes.length ? routeBadges(a.routes) : '<span class="badge">Conditional</span>'}</td>
         <td>${a.file
-          ? `<a href="../templates/${a.type === 'xlsx' ? 'xlsx' : 'docx'}/${a.file}" download>Download</a>`
+          ? `<a href="../templates/${a.type === 'xlsx' ? 'xlsx' : 'docx'}/${a.file}" download>${a.type === 'xlsx' ? 'Starting template' : 'Download'}</a>`
           : '<span class="muted">—</span>'}</td>
       </tr>`).join('')}</tbody>
     </table></div>`,
+
+  basecamp: () => `
+    <div class="view-head">
+      <span class="eyebrow eyebrow-accent">Reference</span>
+      <h1>Basecamp</h1><hr class="rule-brand">
+      <p class="lede">One Basecamp project per engagement. The tools inside it are not used
+      freely — each one has a single job, so anyone can open an unfamiliar project and know
+      where to look. Account Management owns ticket control; everyone else works inside the
+      structure below rather than inventing their own.</p>
+    </div>
+
+    <div class="note">
+      <p><strong>Name the project with its stage.</strong> While a project is being scoped and
+      priced, bracket the name with its status, for example <code>[QUOTE]</code>. Nothing in
+      this process automates that tag away — it is a manual reminder, on the project itself,
+      that not everything inside it is committed work yet.</p>
+    </div>
+
+    <section class="sec">
+      <h2><span class="sec-hint">Docs &amp; Files</span>Where files go</h2>
+      <p>One-shot documents live in dated, numbered subfolders — one per stage, named to match
+      the phase or gate that produced them: <code>0-Sales &amp; Scoping</code>, then the next
+      folder for discovery, and so on as the project moves through the gates in the
+      <a href="#/reference/gates">Gates index</a>. The number in the folder name is what makes
+      provenance obvious without opening anything — a file in folder <code>3</code> was produced
+      at or before Gate 3.</p>
+      <ul class="list-check">
+        <li>Anything the client sends unprompted (a brief, a scoping note) goes straight into the
+        current stage folder, with the file's Notes field saying who it came from — "From the
+        client." is enough. That one line is the difference between an artefact and an email
+        attachment nobody can place later.</li>
+        <li>Anything Chillibyte produces as a single, point-in-time document — the sales handover
+        note, the internal brief, the designer brief, approval notes — lives here too, filed under
+        the stage that produced it. See <a href="#/reference/artefacts">Artefacts &amp; templates</a>
+        for the full list of what should end up here and by which gate.</li>
+        <li>The project tracker workbook does <strong>not</strong> live here as a file — see
+        below. Docs &amp; Files holds a link to it, not a copy.</li>
+        <li>Don't let a file's existence in Docs &amp; Files stand in for approval. Approval is
+        the gate to-do being ticked with the artefact named at a version — see below.</li>
+      </ul>
+    </section>
+
+    <section class="sec">
+      <h2><span class="sec-hint">The project tracker</span>Live workbook, not a versioned file</h2>
+      <p>Sitemap, page inventory, content matrix, block inventory, risks, the estimate baseline,
+      the decision/change/variation logs, the gate tracker, QA, launch — every tab in
+      <code>chillibyte-project-trackers.xlsx</code> is a register that gets updated continuously
+      through the project, not written once and approved. Treating it like the one-shot documents
+      above — download, edit, re-upload a new <code>_v1.1</code> copy — produces exactly the stale-
+      duplicate problem Docs &amp; Files is supposed to prevent: two copies, one of them wrong, and
+      no way to tell which without opening both.</p>
+      <p>Instead: duplicate the template once, at Gate 1, as a live workbook on Chillibyte's
+      SharePoint / Excel Online (<a href="https://excel.cloud.microsoft/en-gb/">excel.cloud.microsoft</a>)
+      — everyone who needs it edits that one file for the rest of the project. Pin the link near
+      the top of Docs &amp; Files (it is not stage-specific, so it doesn't belong in a numbered
+      folder) rather than uploading a copy.</p>
+      <div class="note note-warn">
+        <p><strong>A live file still needs a way to point back.</strong> Four of the workbook's
+        tabs — Sitemap, Page inventory, Content matrix, Block inventory — get approved by the
+        client at a gate, the same as any other artefact. A workbook that keeps moving after
+        approval is a problem for exactly those four, unless approval names something that doesn't
+        move.</p>
+        <p style="margin-top:.6rem">That something is SharePoint's built-in
+        <strong>version history</strong>, not a filename. At the moment of approval: open
+        <em>Version History</em> on the workbook, label the current version in terms anyone can
+        find later ("Gate 3 approved — 3 Sept 2026"), and put that label — not a
+        <code>v1.0</code> suffix — in the gate ticket's artefact line. The workbook carries on
+        changing after that; the named version stays frozen in the history, exactly as a separate
+        exported file would have been, without the duplicate file.</p>
+      </div>
+      <p>The one-shot documents above keep the old convention — a filename with a version number
+      is still correct for something written once. It's only the continuously-updated workbook
+      that moves to "one live file, named versions via history" instead.</p>
+    </section>
+
+    <section class="sec">
+      <h2><span class="sec-hint">To-dos</span>Two lists, not one</h2>
+      <p>The To-dos tool holds two separate lists that are easy to conflate but protect different
+      things:</p>
+      <div class="grid grid-2" style="margin-bottom:var(--sp-5)">
+        <div class="card card-accent">
+          <h3>The phase lists</h3>
+          <p>One to-do list per phase — <em>Phase 1 — Understand</em>, <em>Phase 2 —
+          Structure</em>, and on through launch — each containing one to-do per work package,
+          named to match this guide exactly: <code>Step ${steps[0]?.n ?? 1} — ${esc(steps[0]?.title ?? '')}</code>,
+          <code>Step ${steps[1]?.n ?? 2} — ${esc(steps[1]?.title ?? '')}</code>, and so on.</p>
+          <p class="muted" style="font-size:var(--fs-sm)">Ticking a step means the <strong>work
+          is done</strong>. It says nothing about whether anyone has approved it.</p>
+        </div>
+        <div class="card card-accent-2">
+          <h3>The Approval Gates list</h3>
+          <p>A single list, separate from the phase lists, with one to-do per gate — <code>Gate 0
+          — ${esc(gates[0]?.title ?? '')}</code> through <code>Gate ${gates[gates.length - 1]?.n ?? ''}
+          — ${esc(gates[gates.length - 1]?.title ?? '')}</code> — mirroring the
+          <a href="#/reference/gates">Gates index</a> one-for-one.</p>
+          <p class="muted" style="font-size:var(--fs-sm)">Ticking a gate means the named artefacts,
+          at a named version, were actually <strong>approved</strong> — paste the
+          <span class="gate-ticket">Basecamp gate ticket</span> body into the to-do first.</p>
+        </div>
+      </div>
+      <p>Keeping them apart matters for the same reason the
+      <a href="#/reference/logs">decision, change and variation logs</a> stay apart: "I did the
+      work" and "it's approved" are different claims, and a project that only has one list loses
+      the ability to tell a client-side delay from a delivery delay.</p>
+      <div class="note note-warn">
+        <p><strong>A gate to-do is not a checkbox — it is the ticket.</strong> Before ticking it,
+        its Notes should carry (or link to) the filled-in
+        <span class="gate-ticket">Basecamp gate ticket</span> template: artefacts and versions,
+        the decision, what the approval unlocks, and the fail path if it isn't approved. A gate
+        ticked with no ticket body is a gate nobody can point back to later.</p>
+      </div>
+      <h3 style="margin-top:var(--sp-5)">Use comments for the small rationale</h3>
+      <p>Not every departure from the plan needs a Decision log entry. When a step is completed
+      without its usual deliverable — skipped because an earlier artefact already covers it, say
+      — record why in a comment on that to-do, right where anyone auditing the project will find
+      it. Reserve the <a href="#/reference/logs">Decision log</a> itself for choices with real
+      reversal cost; a one-line comment is enough for "why this step didn't need its own output."</p>
+    </section>
+
+    <section class="sec">
+      <h2><span class="sec-hint">Card Table</span>Build-phase task tracking</h2>
+      <p>Not used during Understand or Structure — the phase to-do lists are enough while the
+      work is a short, ordered list of steps. Bring the Card Table in once Build starts producing
+      many small, parallel tasks that don't have a fixed order (individual blocks, individual
+      pages, individual QA fixes): columns for To do / Doing / Done track that kind of work far
+      better than one long flat list does.</p>
+    </section>
+
+    <section class="sec">
+      <h2><span class="sec-hint">Message Board &amp; Calendar</span>The rest</h2>
+      <ul class="list-check">
+        <li><strong>Message Board</strong> — client-facing announcements and stage updates, not
+        day-to-day task chatter. If it wouldn't be worth an email, it doesn't need a post.</li>
+        <li><strong>Calendar</strong> — gate deadlines, the approval SLA clock and the launch
+        date. Anything with a date a client should see belongs here, not buried in a to-do's due
+        date field.</li>
+      </ul>
+    </section>
+
+    <section class="sec">
+      <h2>Basecamp tool → process artefact, at a glance</h2>
+      <div class="table-scroll"><table>
+        <thead><tr><th>Basecamp tool</th><th>Holds</th><th>Ticked / posted when</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Docs &amp; Files</strong></td><td>One-shot documents, in a numbered stage folder; a link to the live tracker workbook, not a copy of it</td><td>N/A — files don't get "ticked", the gate to-do does</td></tr>
+          <tr><td><strong>Project tracker (Excel Online)</strong></td><td>Sitemap, block inventory, risks, logs, QA, launch, estimate baseline — every continuously-updated register</td><td>Named versions come from SharePoint Version History, not a new file</td></tr>
+          <tr><td><strong>To-dos — phase lists</strong></td><td>One to-do per work package (this guide's steps)</td><td>The work is done</td></tr>
+          <tr><td><strong>To-dos — Approval Gates</strong></td><td>One to-do per gate, ticket body in the notes</td><td>The named artefacts are approved at a named version</td></tr>
+          <tr><td><strong>Card Table</strong></td><td>Unordered build-phase tasks (blocks, pages, fixes)</td><td>Moved to Done, not ticked</td></tr>
+          <tr><td><strong>Message Board</strong></td><td>Client-facing announcements</td><td>Posted at a stage change, not per task</td></tr>
+          <tr><td><strong>Calendar</strong></td><td>Gate deadlines, SLA clock, launch date</td><td>Set once the dates are agreed</td></tr>
+        </tbody>
+      </table></div>
+    </section>`,
 
   logs: () => `
     <div class="view-head">

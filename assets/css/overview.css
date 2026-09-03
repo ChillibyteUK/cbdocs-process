@@ -1,0 +1,130 @@
+/* ---------------------------------------------------------------------------
+   overview.css — additions for the "how the process works" onboarding deck.
+   Builds on pitch.css (slide stage, typography, tile/compare/flow/deck-grid),
+   which already carries everything generic about this deck's visual language.
+=========================================================================== */
+
+/* --- Phase strip (slide 3) -------------------------------------------------- */
+
+.phase-strip {
+  display: grid;
+  gap: clamp(0.6rem, 1.4vw, 1.1rem);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
+}
+.phase-card {
+  padding: clamp(0.9rem, 2vw, 1.5rem);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 3px solid var(--cb-green);
+  border-radius: var(--radius-lg);
+}
+.phase-card .pn {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.1em;
+  color: var(--cb-muted-on-dk);
+  margin-bottom: var(--sp-2);
+}
+.phase-card h3 { margin-bottom: var(--sp-2); font-size: clamp(0.95rem, 0.88rem + 0.35vw, 1.15rem); }
+.phase-card p { font-size: clamp(0.78rem, 0.74rem + 0.2vw, 0.9rem); margin: 0; line-height: 1.45; }
+
+/* --- Step list (phase walkthrough slides, 5–9) ------------------------------ */
+
+.step-list {
+  display: grid;
+  gap: clamp(0.5rem, 1.2vh, 0.85rem);
+  margin-top: clamp(0.75rem, 2vh, 1.4rem);
+}
+.step-row {
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr) auto;
+  align-items: start;
+  gap: clamp(0.6rem, 1.4vw, 1rem);
+  padding: clamp(0.6rem, 1.4vh, 0.9rem) clamp(0.7rem, 1.6vw, 1.1rem);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: var(--radius-md);
+}
+.step-row .sn {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  font-weight: var(--fw-black);
+  font-size: 0.95rem;
+  color: var(--cb-blue-dk);
+  background: var(--cb-green);
+  border-radius: 50%;
+}
+.step-row.is-conditional .sn { background: rgba(255, 255, 255, 0.16); color: #fff; }
+.step-row .st h4 {
+  margin: 0 0 2px;
+  font-size: clamp(0.86rem, 0.8rem + 0.3vw, 1rem);
+  color: #fff;
+  font-weight: var(--fw-bold);
+}
+.step-row .st p {
+  margin: 0;
+  font-size: clamp(0.74rem, 0.71rem + 0.16vw, 0.85rem);
+  color: #C9CAD6;
+  max-width: 56ch;
+}
+.step-row .sb {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-end;
+  text-align: right;
+  white-space: nowrap;
+}
+.step-row .badge-gate {
+  font-size: 0.68rem;
+  font-weight: var(--fw-bold);
+  color: var(--cb-green);
+}
+.step-row .badge-owner {
+  font-size: 0.68rem;
+  color: var(--cb-muted-on-dk);
+}
+.step-row .badge-condition {
+  font-size: 0.66rem;
+  color: var(--cb-amber-on-dk, #E8B95A);
+}
+
+.phase-tagline {
+  font-size: clamp(0.9rem, 0.82rem + 0.3vw, 1.1rem);
+  color: var(--cb-muted-on-dk);
+  max-width: 60ch;
+  margin-top: -0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+/* --- Conditions grid (slide 13) ---------------------------------------------- */
+
+.conditions-grid {
+  display: grid;
+  gap: clamp(0.5rem, 1.2vw, 0.9rem);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+}
+.condition-tile {
+  padding: clamp(0.7rem, 1.6vw, 1.1rem);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: var(--radius-md);
+}
+.condition-tile h4 {
+  margin: 0 0 3px;
+  font-size: clamp(0.82rem, 0.78rem + 0.25vw, 0.94rem);
+  color: var(--cb-green);
+}
+.condition-tile p {
+  margin: 0;
+  font-size: clamp(0.72rem, 0.69rem + 0.15vw, 0.82rem);
+  color: #C9CAD6;
+  line-height: 1.4;
+}
+
+@media (max-height: 860px) {
+  .step-row { padding: clamp(0.45rem, 1.1vh, 0.65rem) clamp(0.6rem, 1.4vw, 0.9rem); }
+}

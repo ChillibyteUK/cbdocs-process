@@ -62,7 +62,7 @@ It takes twenty minutes. It is the cheapest step in the entire process and it pr
       "State the included design concepts and revision rounds as a number.",
       "Head of Web reads it and either accepts, or writes down where what was sold and what is deliverable diverge.",
       "If they diverge, resolve commercially now. Do not absorb it silently and do not let it become discovery's problem.",
-      "Raise the Gate 0 ticket in Basecamp and attach the note.",
+      "In Basecamp: file the handover note in Docs & Files → 0-Sales & Scoping, tick Step 1 on the Phase 1 — Understand to-do list, and paste the Gate 0 ticket body into the Approval Gates list before ticking it.",
     ],
     pitfalls: [
       {
@@ -142,7 +142,7 @@ This step also now sets the project's commercial and operational guardrails: the
       "Agree the approval response window (five working days is a reasonable default) and what happens if it passes.",
       "Produce the estimate baseline from the step effort bands for the chosen route, add contingency, and record it.",
       "Select the route. Record the reason in the decision log as DEC-001.",
-      "Raise the Gate 1 ticket listing the artefacts produced.",
+      "In Basecamp: file the discovery summary, requirements list, risk log and estimate baseline in Docs & Files → 1-Understand, tick Step 2 on the Phase 1 — Understand to-do list, and paste the Gate 1 ticket body into the Approval Gates list before ticking it.",
     ],
     pitfalls: [
       {
@@ -218,6 +218,7 @@ This is also where exclusions get written properly — not as a commercial defen
       "State the technical principles: block reuse expectations, plugin policy, performance posture.",
       "List exclusions explicitly, carrying forward those from the sales handover.",
       "Circulate to the designer and account manager before Gate 2 rather than after.",
+      "In Basecamp: file the internal brief in Docs & Files → 1-Understand, tick Step 3 on the Phase 1 — Understand to-do list, and paste the Gate 2 ticket body into the Approval Gates list before ticking it.",
     ],
     pitfalls: [
       {
@@ -276,6 +277,7 @@ The audit captures the content inventory, the URL list, current organic performa
       "Identify the top 20 URLs by traffic and by inbound links. These are the ones that must be redirected correctly.",
       "Walk the site for load-bearing items: forms, gated PDFs, campaign URLs printed on physical material.",
       "Mark every page keep / rewrite / retire and agree it with the client.",
+      "In Basecamp: file the redirect map and audit findings in Docs & Files → 1-Understand, tick Step 4 on the Phase 1 — Understand to-do list, and — because this step only runs when replacing an existing site — paste the conditional audit gate ticket body into the Approval Gates list before ticking it.",
     ],
     pitfalls: [
       {
@@ -343,6 +345,7 @@ The page inventory is the sitemap's operational twin: same pages, but with templ
       "Mark what is deliberately excluded from the navigation and why.",
       "If replacing a site, map old URLs to new ones now while the structure is still malleable.",
       "Present to the client as a decision, not a menu of options. Take it to Gate 3.",
+      "In Basecamp: file the sitemap and page inventory in Docs & Files → 2-Structure, tick Step 5 on the Phase 2 — Structure to-do list, and paste the Gate 3 ticket body into the Approval Gates list before ticking it.",
     ],
     pitfalls: [
       {
@@ -411,6 +414,7 @@ This is also where content deadlines get set. The original model tracked content
       "Set a date against every content item. Put the dates in the content matrix, not in an email.",
       "Agree what happens if content is late: the project pauses at a named point and the timeline moves. Say it once, at Gate 4, in writing.",
       "Take outlines and the content matrix to Gate 4 together.",
+      "In Basecamp: file the page outlines and content matrix in Docs & Files → 2-Structure, tick Step 6 on the Phase 2 — Structure to-do list, and paste the Gate 4 ticket body into the Approval Gates list before ticking it.",
     ],
     pitfalls: [
       {
@@ -480,6 +484,7 @@ Crucially, this is also where the separation between block structure and project
       "Estimate build impact per block as low / medium / high and total it — this feeds the estimate re-baseline.",
       "Flag which blocks need real design attention and which just need styling within an existing pattern.",
       "Take the inventory to Gate 5 before any block-level design begins.",
+      "In Basecamp: file the block inventory and block spec in Docs & Files → 2-Structure, tick Step 7 on the Phase 2 — Structure to-do list, and paste the Gate 5 ticket body into the Approval Gates list before ticking it.",
     ],
     pitfalls: [
       {
@@ -548,6 +553,7 @@ Wireframes cover key pages and the blocks themselves, including responsive behav
       "Wireframe the blocks separately from the pages, including their variants.",
       "List open decisions on the wireframe itself rather than resolving them by drawing one option.",
       "Count review rounds against the revision allowance from Gate 0.",
+      "In Basecamp: file the wireframes in Docs & Files → 2-Structure, tick Step 8 on the Phase 2 — Structure to-do list, and paste the Gate 6 ticket body into the Approval Gates list before ticking it.",
     ],
     pitfalls: [
       {
@@ -622,6 +628,7 @@ Where a project involves creating or refreshing a brand, this step expands consi
       "Collect references in both directions. Ask the client directly what they do not want to look like.",
       "If the brand needs creating or refreshing, split that out as its own work with its own approval — it is not a subsection of style direction.",
       "Take to Gate 7 with the designer brief.",
+      "In Basecamp: file the style direction in Docs & Files → 3-Direction, tick Step 9 on the Phase 3 — Direction to-do list, and open the Gate 7 ticket in the Approval Gates list — designer briefing adds the second artefact before it's pasted in full and ticked.",
     ],
     pitfalls: [
       {
@@ -691,6 +698,7 @@ The control this step enforces: the designer should improve visual hierarchy, rh
       "Give per-block design tasks: which blocks need real thought, which need styling within an existing pattern, which need variants.",
       "Agree review criteria up front so the internal review is a check against criteria, not a taste conversation.",
       "Talk it through rather than emailing it. Disagreement is much cheaper before work starts.",
+      "In Basecamp: file the designer brief in Docs & Files → 3-Direction, tick Step 10 on the Phase 3 — Direction to-do list, and add it to the Gate 7 ticket opened at style direction before pasting the finished ticket body and ticking it.",
     ],
     pitfalls: [
       {
@@ -757,6 +765,7 @@ Internal review comes before the client sees anything. Its job is to catch struc
       "Run internal review against the criteria agreed in the brief.",
       "Log any departure from approved structure with its build impact before Gate 8.",
       "Only then prepare the client presentation.",
+      "In Basecamp: file the internal design review notes in Docs & Files → 3-Direction, tick Step 11 on the Phase 3 — Direction to-do list, and paste the Gate 8 ticket body into the Approval Gates list before ticking it.",
     ],
     pitfalls: [
       {
@@ -825,6 +834,7 @@ Present design in the context of the approved structure. A design shown cold inv
       "Classify every item as correction, preference or new scope. Do this visibly with the client, not privately afterwards.",
       "Price new scope through the change log and the variation flow. It is a normal conversation.",
       "Capture approval in writing, naming artefacts and versions, via the client approval note.",
+      "In Basecamp: file the approval note and any change log entries in Docs & Files → 3-Direction, tick Step 12 on the Phase 3 — Direction to-do list, and paste the Gate 9 ticket body into the Approval Gates list before ticking it.",
     ],
     pitfalls: [
       {
@@ -907,6 +917,7 @@ The specification also now records the environment and Git workflow. That matter
       "Record environments, repository and branching so a second developer can join without a briefing.",
       "Re-baseline the estimate and record the variance against Gate 1. Keep the variance — it is how estimating improves.",
       "Take to Gate 10 before writing code.",
+      "In Basecamp: file the build specification and the re-baselined estimate in Docs & Files → 4-Build, tick Step 13 on the Phase 4 — Build to-do list, and paste the Gate 10 ticket body into the Approval Gates list before ticking it.",
     ],
     pitfalls: [
       {
@@ -977,6 +988,7 @@ Requesting access early costs one email. Requesting it at the point of need cost
       'Verify each credential actually works. "They sent a password" is not access.',
       "Confirm DNS and hosting access well before launch week.",
       "Log anything unobtainable as a risk with a fallback plan and a date.",
+      "In Basecamp: record the credential list and any outstanding access risks as a comment on Step 14 (Phase 4 — Build to-do list), and — where this step is triggered — paste the conditional access gate ticket body into the Approval Gates list before ticking it.",
     ],
     pitfalls: [
       {
@@ -1043,7 +1055,7 @@ This is the step that changes hands. Head of Web has specified the work; the Web
     routes: ["light", "standard", "full"],
     conditions: [],
     effortBand: { light: 16, standard: 55, full: 140 },
-    templates: ["build-spec"],
+    templates: ["build-spec", "work-package"],
     example: "development",
     parallelWith: ["copywriting"],
     instructions: [
@@ -1055,6 +1067,7 @@ This is the step that changes hands. Head of Web has specified the work; the Web
       "Self-check as you build. QA should find edge cases, not missing sections.",
       "Record actual hours against the build-list estimate as you close each package. This is what makes the next estimate better.",
       "Hand each package back to Head of Web when its done-when conditions are met. Do not mark it complete and keep tinkering.",
+      "In Basecamp: tick Step 15 on the Phase 4 — Build to-do list as work closes out — and bring the Card Table in here for individual block, page and fix tasks rather than tracking them on one flat to-do.",
     ],
     pitfalls: [
       {
@@ -1132,6 +1145,7 @@ The step is deliberately a checklist rather than legal advice. Where something i
       "Confirm where form submissions go, who can read them, and how long they are kept. Write it down.",
       "Check analytics configuration matches the consent banner's claims.",
       "Where a DPA or legal question arises, raise it with the client — do not answer it yourself.",
+      "In Basecamp: file the compliance findings in the QA checklist in Docs & Files → 5-Assure & Launch, tick Step 16 on the Phase 5 — Assure & Launch to-do list, and — where this step is triggered — paste the conditional compliance gate ticket body into the Approval Gates list before ticking it.",
     ],
     pitfalls: [
       {
@@ -1204,6 +1218,7 @@ The order matters: internal QA finishes before the client sees staging. Every de
       "Verify redirects against the redirect map where there is one.",
       "Confirm every form delivers to its intended destination, not just that it shows a success message.",
       "List known issues with severity before opening staging, so the client sees a considered position rather than a defect hunt.",
+      "In Basecamp: file the QA checklist in Docs & Files → 5-Assure & Launch, tick Step 17 on the Phase 5 — Assure & Launch to-do list, and paste the Gate 11 ticket body into the Approval Gates list before ticking it.",
     ],
     pitfalls: [
       {
@@ -1273,6 +1288,7 @@ Review is bounded by the approval SLA. An open-ended review period is how a two-
       "Price new scope through the change log and variation order. Offer it before or after launch — both are legitimate.",
       "Declare content freeze and confirm what it means: no further content edits before launch.",
       "Capture written approval at Gate 12.",
+      "In Basecamp: file the approval note, change log and any variation orders in Docs & Files → 5-Assure & Launch, tick Step 18 on the Phase 5 — Assure & Launch to-do list, and paste the Gate 12 ticket body into the Approval Gates list before ticking it.",
     ],
     pitfalls: [
       {
@@ -1344,6 +1360,7 @@ Launch is scheduled, not improvised. A launch nobody planned is a launch somebod
       "Write the rollback plan down and make sure the person launching has read it.",
       "Schedule the launch inside working hours with people available.",
       "Confirm the warranty window in writing at Gate 13: what is covered, for how long, and what is quoted.",
+      "In Basecamp: file the launch checklist in Docs & Files → 5-Assure & Launch, tick Step 19 on the Phase 5 — Assure & Launch to-do list, and paste the Gate 13 ticket body into the Approval Gates list before ticking it.",
     ],
     pitfalls: [
       {
@@ -1415,6 +1432,7 @@ Closure is also the natural moment to talk about ongoing care. The client is ple
       "Record the estimate variance. Baseline, re-baseline, actual. This number is worth more than the project.",
       "Hold a short retrospective and route the outcomes into the templates and block library — with an owner and a date.",
       "Have the care plan conversation now, while the work is fresh.",
+      "In Basecamp: file the handover notes in Docs & Files → 5-Assure & Launch, tick Step 20 to close the Phase 5 — Assure & Launch to-do list, then paste the Gate 14 ticket body into the Approval Gates list and tick it — this is the last gate, so ticking it closes the project.",
     ],
     pitfalls: [
       {
