@@ -4,8 +4,8 @@ Three tools built on one shared model of the process:
 
 | | | |
 |---|---|---|
-| **`/pitch/`** | Management pitch | 20-slide keyboard-driven deck with a live commercial calculator |
-| **`/overview/`** | Process overview | 17-slide onboarding walkthrough for the delivery team — the shape of the process, no commercial figures |
+| **`/pitch/`** | Management pitch | 23-slide keyboard-driven deck with a live commercial calculator |
+| **`/overview/`** | Process overview | 18-slide onboarding walkthrough for the delivery team — the shape of the process, no commercial figures |
 | **`/guide/`** | Process guide | The working reference: 20 steps in depth, worked example, templates |
 | **`/spec/`** | Spec builder | Intake questionnaire → bespoke project plan and exclusions list |
 | `/gaps.html` | Gap analysis | 22 findings from reviewing the operating model against its goals |
@@ -115,7 +115,7 @@ and re-run — don't edit the binaries, or the paperwork and the process drift a
 ```bash
 python3 -m venv build/venv
 build/venv/bin/pip install python-docx openpyxl
-build/venv/bin/python build/make_docx.py     # 9 document templates
+build/venv/bin/python build/make_docx.py     # 10 document templates
 build/venv/bin/python build/make_xlsx.py     # 1 workbook, 13 tabs
 ```
 

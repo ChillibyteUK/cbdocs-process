@@ -123,9 +123,42 @@
   </div>
 </section>
 
+<!-- 6b --------------------------------------------------------------------->
+<section class="slide" data-title="Step vs Gate"
+  data-notes="Define this before the order-of-play slide, because it uses both words and green gate markers immediately — worth thirty seconds so nobody spends the rest of the deck quietly unsure what a gate actually is. A step is work: someone does it, something comes out. A gate is a check: before the next step can rely on what the last one produced, someone approves it. Most steps end at a gate; a few don't — development is the clearest example, nobody approves 'has building happened', they approve what it produced, at QA.">
+  <div class="slide-inner">
+    <span class="kicker">Before the detail — two words, two jobs</span>
+    <h2>A step is work. A gate is a check.</h2>
+    <div class="compare">
+      <div class="compare-col compare-before">
+        <h3>Step <span style="font-weight:400;opacity:.7">(= work package)</span></h3>
+        <ul>
+          <li>One unit of work — someone does it</li>
+          <li>Has a defined input and a defined output</li>
+          <li>Twenty of them, run in order</li>
+          <li>e.g. &ldquo;Discovery and requirements capture&rdquo;</li>
+        </ul>
+      </div>
+      <div class="compare-col compare-after">
+        <h3>Gate</h3>
+        <ul>
+          <li>A checkpoint <em>after</em> certain steps, not a step itself</li>
+          <li>Names what's approved, who approved it, what it unlocks</li>
+          <li>Eleven to fifteen of them run, depending on route</li>
+          <li>e.g. &ldquo;Gate 1: Discovery complete&rdquo;</li>
+        </ul>
+      </div>
+    </div>
+    <p class="big" style="margin-top:1.5rem">Most steps end at a gate. A few don't &mdash;
+    <strong>development</strong> is the clearest case: nobody approves &ldquo;has building
+    happened&rdquo;, they approve what it produced, at QA.
+    <span class="accent-2">On the next slide, green markers are the gates.</span></p>
+  </div>
+</section>
+
 <!-- 7 ----------------------------------------------------------------------->
 <section class="slide" data-title="The order of play"
-  data-notes="Do not read the steps aloud. Point out the shape: understand, structure, direction, build, assure. And note that green markers are approval gates — thirteen of them, which sounds like a lot until you say that each is a two-minute Basecamp ticket.">
+  data-notes="Do not read the steps aloud. Point out the shape: understand, structure, direction, build, assure. And note that green markers are approval gates — fifteen of them on standard and full (eleven on light), which sounds like a lot until you say that each is a two-minute Basecamp ticket.">
   <div class="slide-inner">
     <span class="kicker">The order of play</span>
     <h2>Twenty work packages. Five phases.</h2>
@@ -305,6 +338,9 @@
     every project, so while one build is running, nothing else on their desk moves &mdash; not by
     choice, by arithmetic.</p>
     <div class="deck-grid" id="dev-length-grid"></div>
+    <p class="big" style="margin-top:1rem"><span class="accent-2">These are starting estimates, not
+    measurements</span> &mdash; the same effort bands the estimate baseline uses. Same caveat as
+    slide 2: we correct them once real projects have run through the process.</p>
   </div>
 </section>
 
@@ -528,7 +564,7 @@
 </main>
 
 <div class="deck-chrome no-print">
-  <span class="deck-counter"><span id="cur">1</span> / <span id="total">22</span></span>
+  <span class="deck-counter"><span id="cur">1</span> / <span id="total">23</span></span>
   <div class="deck-btns">
     <button class="deck-btn" type="button" id="btn-prev" aria-label="Previous slide">←</button>
     <button class="deck-btn" type="button" id="btn-next" aria-label="Next slide">→</button>

@@ -46,12 +46,12 @@ document.querySelectorAll('[data-phase-list]').forEach(container => {
   if (tagline && phase) tagline.textContent = phase.tagline;
 
   container.innerHTML = phaseSteps.map(s => {
-    const conditional = s.gate === null || s.gate === undefined ? Boolean(s.conditionalGate) : false;
-    const gateLabel = s.gate !== null && s.gate !== undefined
-      ? `Gate ${s.gate}`
-      : (s.conditionalGate ? 'Conditional' : '');
+    const hasGate = s.gate !== null && s.gate !== undefined;
+    const conditional = !hasGate && Boolean(s.conditionalGate);
+    const noGate = !hasGate && !conditional;
+    const gateLabel = hasGate ? `Gate ${s.gate}` : (s.conditionalGate ? 'Conditional' : '');
     return `
-    <div class="step-row ${conditional ? 'is-conditional' : ''}">
+    <div class="step-row ${conditional ? 'is-conditional' : ''} ${noGate ? 'is-nogate' : ''}">
       <span class="sn">${s.n}</span>
       <div class="st">
         <h4>${esc(s.title)}</h4>
@@ -69,6 +69,7 @@ document.querySelectorAll('[data-phase-list]').forEach(container => {
 /* Slide 10 — gates */
 {
   document.getElementById('gate-count').textContent = gates.length;
+  document.getElementById('gate-light-count').textContent = gates.filter(g => g.routes.includes('light')).length;
   document.getElementById('cgate-count').textContent = conditionalGates.length;
 
   const g = gates[3]; // Gate 3 — sitemap approved: concrete and easy to picture
@@ -104,6 +105,9 @@ document.querySelectorAll('[data-phase-list]').forEach(container => {
       <p style="margin-top:.4rem;opacity:.85">${esc(routes[r].use)}</p>
     </div>`;
   }).join('');
+
+  document.getElementById('cond-step-count').textContent = steps.filter(s => (s.conditions || []).length).length;
+  document.getElementById('cond-gate-count').textContent = conditionalGates.length;
 }
 
 /* Slide 13 — conditions */

@@ -69,6 +69,40 @@
 </section>
 
 <!-- 4 ----------------------------------------------------------------------->
+<section class="slide" data-title="Step vs Gate"
+  data-notes="Say this before anything else — every slide from here on uses both words, and mixing them up is the single most common source of confusion for anyone new to this. A step is work: someone does it, something comes out. A gate is a check: before the next step can rely on what the last one produced, someone approves it. Most steps end at a gate. A few don't — development is the clearest example: nobody approves 'has building happened', they approve what it produced, at QA (Gate 11). 'Step' and 'work package' mean exactly the same thing in this deck.">
+  <div class="slide-inner">
+    <span class="kicker">Before the detail — two words, two jobs</span>
+    <h2>A step is work. A gate is a check.</h2>
+    <div class="compare">
+      <div class="compare-col compare-before">
+        <h3>Step <span style="font-weight:400;opacity:.7">(= work package)</span></h3>
+        <ul>
+          <li>One unit of work — someone does it</li>
+          <li>Has a defined input and a defined output</li>
+          <li>Twenty in the catalogue — thirteen to twenty run, depending on route</li>
+          <li>e.g. &ldquo;Discovery and requirements capture&rdquo;</li>
+        </ul>
+      </div>
+      <div class="compare-col compare-after">
+        <h3>Gate</h3>
+        <ul>
+          <li>A checkpoint <em>after</em> certain steps, not a step itself</li>
+          <li>Names what's approved, who approved it, what it unlocks</li>
+          <li>Eleven to fifteen of them run, depending on route</li>
+          <li>e.g. &ldquo;Gate 1: Discovery complete&rdquo;</li>
+        </ul>
+      </div>
+    </div>
+    <p class="big" style="margin-top:1.5rem">Most steps end at a gate. A few don't &mdash;
+    <strong>development</strong> is the clearest case: nobody approves &ldquo;has building
+    happened&rdquo;, they approve what it produced, at QA.
+    <span class="accent-2">On the next slide, green means the step ends at a gate. Red means it
+    doesn't.</span></p>
+  </div>
+</section>
+
+<!-- 4b --------------------------------------------------------------------->
 <section class="slide" data-title="The 20 steps"
   data-notes="Don't read every step aloud — point at the shape: five clusters, green-topped items are gates. The order is deliberate and worth naming: sitemap before outlines, outlines before wireframes, blocks before design, spec before build.">
   <div class="slide-inner">
@@ -160,8 +194,9 @@
         </ul>
       </div>
     </div>
-    <p class="big" style="margin-top:1.5rem"><strong id="gate-count"></strong> sequential gates run
-    on every project. <strong id="cgate-count"></strong> more are conditional — triggered by what a
+    <p class="big" style="margin-top:1.5rem"><strong id="gate-light-count"></strong> sequential gates
+    run on every project, whatever the route. On Standard and Full, <strong id="gate-count"></strong>
+    run in total. <strong id="cgate-count"></strong> more are conditional — triggered by what a
     specific project actually involves, not by its size.</p>
     <div class="tile tile-accent-2" id="gate-example" style="margin-top:1rem"></div>
   </div>
@@ -189,6 +224,10 @@
     ones, and formalises change control on every item — not a longer list, a deeper one.
     <span class="accent-2">The spec builder decides the route for you from a fifteen-question
     intake.</span></p>
+    <p class="big" style="max-width:62ch;margin-top:0.9rem">The counts above are each route's
+    baseline &mdash; <strong id="cond-step-count"></strong> further steps and
+    <strong id="cond-gate-count"></strong> further gates are conditional, and run on <em>any</em>
+    route when a project triggers them. That's next.</p>
   </div>
 </section>
 
@@ -199,7 +238,7 @@
     <span class="kicker">Risk, not size</span>
     <h2>What pulls extra work into a project.</h2>
     <p class="big" style="margin-bottom:1rem">Twelve conditions, set at discovery from what a
-    project actually involves. Any one of them can trigger a conditional gate — on any route,
+    project actually involves. Seven of them can also trigger a conditional gate — on any route,
     including light.</p>
     <div class="conditions-grid" id="conditions-grid"></div>
   </div>
@@ -261,19 +300,22 @@
 
 <!-- 17 ---------------------------------------------------------------------->
 <section class="slide" data-fit="center" data-title="Closing"
-  data-notes="Close simply. The point isn't to memorise twenty steps — it's to know where you are in the order, what you're waiting on, and what unlocks next.">
+  data-notes="Close simply. The point isn't to memorise twenty steps — it's to know where you are in the order, what you're waiting on, and what unlocks next. Worth saying plainly that this isn't fixed: the effort figures are a starting calibration, not gospel, and the retrospective at Gate 14 is how they get corrected. Nobody should feel caught out asking 'is this final?' — no.">
   <div class="slide-inner">
     <span class="kicker">In one line</span>
     <h2 style="max-width:22ch">Know what phase you're in, what's approved, and what that unlocks.</h2>
     <p class="big">Everything else — which template, which checklist, which gate ticket — is one
     click away in the guide.</p>
+    <p class="big" style="margin-top:0.9rem"><span class="accent-2">This isn't fixed.</span> The
+    effort figures are a starting calibration, not gospel — every project's retrospective at Gate 14
+    feeds corrections back into the templates and the block library.</p>
   </div>
 </section>
 
 </main>
 
 <div class="deck-chrome no-print">
-  <span class="deck-counter"><span id="cur">1</span> / <span id="total">17</span></span>
+  <span class="deck-counter"><span id="cur">1</span> / <span id="total">18</span></span>
   <div class="deck-btns">
     <button class="deck-btn" type="button" id="btn-prev" aria-label="Previous slide">←</button>
     <button class="deck-btn" type="button" id="btn-next" aria-label="Next slide">→</button>
