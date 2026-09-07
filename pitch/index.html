@@ -67,7 +67,7 @@
 
 <!-- 4 ----------------------------------------------------------------------->
 <section class="slide" data-title="The four leaks"
-  data-notes="The rate and project value are real. These four leak figures are NOT — they are estimates, and the slide says so out loud. Do not defend them; invite the challenge. If someone says the rework number is too high, the honest answer is 'possibly, and we cannot currently tell — that is what the trial settles.' The deck warns on screen if the leaks ever exceed 25% of project value, because an implausible figure discredits everything else. Every figure here lives in one file, data/assumptions.js, clearly commented — change it there and this slide, the calculator and the title slide all update together.">
+  data-notes="The rate and project value are real. These four leak figures are NOT — they are estimates, and the slide says so out loud. Do not defend them; invite the challenge. If someone says the rework number is too high, the honest answer is 'possibly, and we cannot currently tell — that is what the trial settles.' There is no visible on-screen warning right now — the leak figures are deliberately kept under 25% of project value so the pitch stays credible. If you edit data/assumptions.js and push that past 25%, the (i) popover below will show a warning that the numbers no longer hang together; that's an internal safeguard for whoever edits the file later, not something to describe to the room as a feature of the deck. Every figure here lives in one file, data/assumptions.js, clearly commented — change it there and this slide, the calculator and the title slide all update together.">
   <div class="slide-inner">
     <span class="kicker">What we think it costs</span>
     <h2>Our best guess at where the time goes.</h2>
@@ -77,7 +77,7 @@
     <p class="big" style="margin-top:0.8rem"><strong>We could be wrong about all of it.</strong>
     <span class="accent-2">Nobody can currently prove otherwise — which is the argument, not a
     weakness in it.</span>
-    <span class="info-note" data-note="The recovery rates are deliberately conservative: no leak is assumed to be eliminated, and unbilled changes are counted as converted to billable rather than made to disappear.<span id='leak-sanity'></span>"></span></p>
+    <span class="info-note" id="leak-info-note" data-note="The recovery rates are deliberately conservative: no leak is assumed to be eliminated, and unbilled changes are counted as converted to billable rather than made to disappear."></span></p>
   </div>
 </section>
 
@@ -123,7 +123,7 @@
   </div>
 </section>
 
-<!-- 6b --------------------------------------------------------------------->
+<!-- 7 ------------------------------------------------------------------->
 <section class="slide" data-title="Step vs Gate"
   data-notes="Define this before the order-of-play slide, because it uses both words and the gate/conditional markers immediately — worth thirty seconds so nobody spends the rest of the deck quietly unsure what a gate actually is. A step is work: someone does it, something comes out. A gate is a check: before the next step can rely on what the last one produced, someone approves it. Most steps end at a gate; a few don't — development is the clearest example, nobody approves 'has building happened', they approve what it produced, at QA. A few more only apply to some projects at all, e.g. a redirect audit only if a site already exists.">
   <div class="slide-inner">
@@ -158,7 +158,7 @@
   </div>
 </section>
 
-<!-- 7 ----------------------------------------------------------------------->
+<!-- 8 -------------------------------------------------------------------->
 <section class="slide" data-title="The order of play"
   data-notes="Do not read the steps aloud. Point out the shape: understand, structure, direction, build, assure. Green markers are approval gates — fifteen of them on standard and full (eleven on light), which sounds like a lot until you say that each is a two-minute Basecamp ticket. Hatched amber markers are conditional — they only apply when the project's answers trigger them, e.g. an existing site forces a redirect audit.">
   <div class="slide-inner">
@@ -176,9 +176,9 @@
   </div>
 </section>
 
-<!-- 8 ----------------------------------------------------------------------->
+<!-- 9 -------------------------------------------------------------------->
 <section class="slide" data-title="What approval means"
-  data-notes="The distinction between 'looks good' and a named artefact version is the single most useful behavioural change in the whole process. It costs nothing and it is the thing that ends scope arguments.">
+  data-notes="The distinction between 'looks good' and a named artefact version is the single most useful behavioural change in the whole process. It costs nothing and it is the thing that ends scope arguments. The overhead figure and its breakdown are estimated, like everything else — editable in data/assumptions.js.">
   <div class="slide-inner">
     <span class="kicker">Gates</span>
     <h2>&ldquo;Looks good&rdquo; is not approval.</h2>
@@ -211,7 +211,7 @@
   </div>
 </section>
 
-<!-- 9 ----------------------------------------------------------------------->
+<!-- 10 ------------------------------------------------------------------->
 <section class="slide" data-title="Two logs"
   data-notes="Most agencies have one of these and think it is both. Decision log protects reasoning; change log protects scope. The next slide is where the money is.">
   <div class="slide-inner">
@@ -235,7 +235,7 @@
   </div>
 </section>
 
-<!-- 10 ---------------------------------------------------------------------->
+<!-- 11 ------------------------------------------------------------------->
 <section class="slide" data-title="Scope creep becomes a conversation"
   data-notes="This is the most important slide in the deck. If management takes one thing away, it should be this. Emphasise: we are not proposing to charge for everything. We are proposing to KNOW. You can still choose to absorb — as a decision, not by accident.">
   <div class="slide-inner">
@@ -259,7 +259,7 @@
   </div>
 </section>
 
-<!-- 11 ---------------------------------------------------------------------->
+<!-- 12 ------------------------------------------------------------------->
 <section class="slide" data-title="Not bureaucracy"
   data-notes="Pre-empt the objection before it is raised. The honest answer to 'this is too heavy for small projects' is that it is — which is why it scales down, and why omission is recorded rather than improvised.">
   <div class="slide-inner">
@@ -272,17 +272,17 @@
     Standard and full run the same ones &mdash; what changes is artefact depth, not the number of
     stages. And an omission is <strong>recorded with its reason</strong>, so it is a decision we can
     defend rather than something forgotten.
-    <span class="info-note" data-note="<p><strong>Standard vs full, concretely.</strong> Full outlines every page rather than every template; specifies every block rather than just the new ones; formalises change control on every item however small; and audits accessibility rather than spot-checking it.</p><p>It also adds three artefacts standard does not produce: a stakeholder map, a data and content model, and an accessibility audit.</p><p>The full comparison is in the guide under Routes.</p>"></span></p>
+    <span class="info-note" data-note="<p><strong>Standard vs full, concretely.</strong> Full outlines every page rather than every page type; specifies every block rather than just the new ones; formalises change control on every item however small; and audits accessibility rather than spot-checking it.</p><p>It also adds three artefacts standard does not produce: a stakeholder map, a data and content model, and an accessibility audit.</p><p>The full comparison is in the guide under Routes.</p>"></span></p>
   </div>
 </section>
 
-<!-- 12 ---------------------------------------------------------------------->
+<!-- 13 ------------------------------------------------------------------->
 <section class="slide" data-title="Spec builder"
   data-notes="Live demo moment. Open the spec builder in another tab, load the worked example, and show the exclusions list at the bottom. If demoing is risky, the screenshot-free version of this slide still makes the point.">
   <div class="slide-inner">
     <span class="kicker">How that stays practical</span>
     <h2>The scoping tool decides it for you.</h2>
-    <p class="big">Answer fifteen questions about a new project. It returns the steps that project
+    <p class="big">Answer a short set of questions about a new project. It returns the steps that project
     actually needs, the ones it does not <em>and why</em>, a work-package breakdown, an estimate
     baseline, and a client-ready exclusions list.</p>
     <div class="deck-grid" style="margin:1.5rem 0">
@@ -298,7 +298,7 @@
   </div>
 </section>
 
-<!-- 13 ---------------------------------------------------------------------->
+<!-- 14 ------------------------------------------------------------------->
 <section class="slide" data-title="More people per project"
   data-notes="This is the capacity argument and it is the one that unlocks growth. The onboarding number is the one to stress: we currently cannot put a second person on a project cheaply, which is why we cannot take bigger ones.">
   <div class="slide-inner">
@@ -335,7 +335,7 @@
   </div>
 </section>
 
-<!-- 13b --------------------------------------------------------------------->
+<!-- 15 ------------------------------------------------------------------->
 <section class="slide" data-title="The bottleneck"
   data-notes="Development is a single unbroken stretch, and right now the same person who specifies every project also builds them, so a build stretch takes them off everything else for its whole length — not by choice, by arithmetic. These aren't invented numbers: they're the same effortBand hours steps.js already uses for the estimate baseline.">
   <div class="slide-inner">
@@ -351,7 +351,7 @@
   </div>
 </section>
 
-<!-- 13c --------------------------------------------------------------------->
+<!-- 16 ------------------------------------------------------------------->
 <section class="slide" data-title="Running projects concurrently"
   data-notes="Hand build to a developer working from an approved spec, and that stretch stops being exclusive — several projects' non-build stages can move at once, and the specify/assure time freed up is time the business gets back for security, strategy, new-client discovery and BAU, not just faster single projects. Point forward to the calculator slide: this is the 'projects per year' slider.">
   <div class="slide-inner">
@@ -386,7 +386,7 @@
   </div>
 </section>
 
-<!-- 14 ---------------------------------------------------------------------->
+<!-- 17 ------------------------------------------------------------------->
 <section class="slide" data-title="What the client sees"
   data-notes="Worth noting that clients routinely value the artefacts more than we expect. A sitemap document and a page outline feel like consultancy. The same information in a Slack message feels like nothing.">
   <div class="slide-inner">
@@ -409,7 +409,7 @@
   </div>
 </section>
 
-<!-- 15 ---------------------------------------------------------------------->
+<!-- 18 ------------------------------------------------------------------->
 <section class="slide" data-title="The commercial case"
   data-notes="Hand the room the controls. Ask someone to set the day rate and project count themselves — the numbers stop being 'yours' and become 'theirs'. Note the process overhead is subtracted, so this is a net figure, not a gross saving. Adjust anything that looks wrong — the whole model is one editable file, data/assumptions.js.">
   <div class="slide-inner">
@@ -443,7 +443,7 @@
   </div>
 </section>
 
-<!-- 16 ---------------------------------------------------------------------->
+<!-- 19 ------------------------------------------------------------------->
 <section class="slide" data-title="Fixed price, fewer hours"
   data-notes="This is the argument that lands hardest with anyone who thinks in margin. We sell a price, not hours — so every hour we do not spend is ours. Be explicit that the two columns are alternatives, not a sum: the same saved hours are either margin on this job or capacity for another. Claiming both would be double counting and someone will spot it. Also stress the mechanism — we are not asking anyone to work faster, we are removing work that should never have happened twice.">
   <div class="slide-inner">
@@ -480,7 +480,7 @@
   </div>
 </section>
 
-<!-- 17 ---------------------------------------------------------------------->
+<!-- 20 ------------------------------------------------------------------->
 <section class="slide" data-title="Agility and chaos"
   data-notes="The money slide gets the nod; this slide gets the buy-in from anyone who actually runs projects. Predictability is the thing the team wants most and it is rarely quantified.">
   <div class="slide-inner">
@@ -500,7 +500,7 @@
   </div>
 </section>
 
-<!-- 18 ---------------------------------------------------------------------->
+<!-- 21 ------------------------------------------------------------------->
 <section class="slide" data-title="Bigger projects"
   data-notes="This is the growth argument. Above a certain client size, procurement asks how you govern delivery. 'We have a process' is a much weaker answer than a documented gate model aligned to a recognised framework. This is what changes which tenders we can credibly enter. Both ceiling figures are editable in data/assumptions.js.">
   <div class="slide-inner">
@@ -524,7 +524,7 @@
   </div>
 </section>
 
-<!-- 19 ---------------------------------------------------------------------->
+<!-- 22 ------------------------------------------------------------------->
 <section class="slide" data-title="What we are not proposing"
   data-notes="Name the objections before the room does. This slide buys credibility — it shows the proposal has been stress-tested rather than just enthused about.">
   <div class="slide-inner">
@@ -533,9 +533,10 @@
     <div class="deck-grid-2 deck-grid">
       <div class="tile tile-accent"><h3>Not more meetings</h3><p>A gate is a Basecamp ticket, not a
       meeting. The process removes status calls rather than adding them.</p></div>
-      <div class="tile tile-accent"><h3>Not more admin for its own sake</h3><p>About eight hours
-      per project of artefacts, against an estimated twenty-plus recovered. If that ratio turns out
-      to be wrong, we should stop.</p></div>
+      <div class="tile tile-accent"><h3>Not more admin for its own sake</h3><p>About
+      <strong id="not19-overhead"></strong> per project of artefacts, against an estimated
+      <strong id="not19-recovered"></strong> recovered gross. If that ratio turns out to be wrong,
+      we should stop.</p></div>
       <div class="tile tile-accent"><h3>Not slower</h3><p>It front-loads decisions that we
       currently make late and expensively. Projects finish sooner because they unwind less.</p></div>
       <div class="tile tile-accent"><h3>Not the same for every project</h3><p>Three routes, and a
@@ -548,7 +549,7 @@
   </div>
 </section>
 
-<!-- 20 ---------------------------------------------------------------------->
+<!-- 23 ------------------------------------------------------------------->
 <section class="slide" data-title="The ask"
   data-notes="Close on a small, reversible, measurable ask. Do not ask for a policy change — ask for three projects and a review date. Have a named owner ready before you present.">
   <div class="slide-inner">

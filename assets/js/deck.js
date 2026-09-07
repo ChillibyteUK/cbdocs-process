@@ -33,21 +33,29 @@ import { initDeck } from './deck-core.js';
      independently, so it is easy to end up claiming to lose a third of every
      project — a figure nobody in the room will believe, which takes the rest
      of the pitch down with it. Warn on the slide rather than quietly
-     presenting an indefensible number. */
+     presenting an indefensible number.
+
+     This has to be written into the [data-note] ATTRIBUTE, not injected via
+     a DOM query for a child element — deck-core.js's popover only renders
+     data-note into the live DOM when the (i) is clicked, rebuilding it fresh
+     from that attribute every time. A getElementById() at page-load time for
+     something that only exists after a click, and gets wiped before the next
+     click, would just silently find nothing. */
   const impliedHours = assumptions.avgProjectValue / m.hourRate;
-  const sanity = document.getElementById('leak-sanity');
-  if (sanity) {
-    if (pct > 0.25) {
-      sanity.innerHTML = `<br><br><strong>⚠ These numbers do not hang together.</strong>
+  const leakInfoNote = document.getElementById('leak-info-note');
+  if (leakInfoNote) {
+    const base = 'The recovery rates are deliberately conservative: no leak is assumed to be ' +
+      'eliminated, and unbilled changes are counted as converted to billable rather than made to disappear.';
+    const warning = pct > 0.25
+      ? `<br><br><strong>⚠ These numbers do not hang together.</strong>
         An average project of ${money(assumptions.avgProjectValue)} at
         ${money(m.hourRate)}/hr is about ${Math.round(impliedHours)} hours of work, so losing
         ${m.lostHoursPerProject} hours to the four leaks is
         <strong>${Math.round(pct * 100)}% of the whole job</strong>. That will not be believed.
         Either the leak hours are too high for your typical project size, or the average project
-        value is understated. Adjust them in <code>data/assumptions.js</code> before presenting.`;
-    } else {
-      sanity.innerHTML = '';
-    }
+        value is understated. Adjust them in <code>data/assumptions.js</code> before presenting.`
+      : '';
+    leakInfoNote.dataset.note = base + warning;
   }
 
   // Keep the title slide's claim tied to the same number, so the deck can
@@ -81,7 +89,7 @@ import { initDeck } from './deck-core.js';
       `${(sum / (a.avgProjectValue / (a.hourlyRate ?? 75)) * 100).toFixed(1)}% of the job.</p>` +
       (Math.abs(sum - a.processOverheadHours) > 0.01
         ? `<p><strong>⚠ This does not match processOverheadHours (${a.processOverheadHours}) — reconcile them in data/assumptions.js.</strong></p>`
-        : '<p>Estimated, like everything else. Editable in <code>data/assumptions.js</code>.</p>');
+        : '<p>Estimated, like everything else.</p>');
   }
 }
 
@@ -133,7 +141,7 @@ import { initDeck } from './deck-core.js';
   }
 }
 
-/* Slides 12, 16, 18 — figures */
+/* Slides 12, 16, 18, 19 — figures */
 {
   const a = assumptions;
   const hrsLabel = (n) => `${n} ${n === 1 ? 'hour' : 'hours'}`;
@@ -143,6 +151,15 @@ import { initDeck } from './deck-core.js';
   document.getElementById('ceiling-target').textContent = money(a.biggerProjects.targetCeiling);
   document.getElementById('ask-projects').textContent = a.ask.trialProjects;
   document.getElementById('ask-weeks').textContent = `${a.ask.reviewAfterWeeks} weeks`;
+
+  // "Not more admin" tile — was hardcoded to numbers that no longer matched
+  // the model after the overhead figure was recalibrated. Computed here so
+  // it can't drift out of sync with data/assumptions.js again.
+  const m = model();
+  const overheadEl = document.getElementById('not19-overhead');
+  const recoveredEl = document.getElementById('not19-recovered');
+  if (overheadEl) overheadEl.textContent = hrsLabel(Math.round(a.processOverheadHours * 10) / 10);
+  if (recoveredEl) recoveredEl.textContent = hrsLabel(Math.round(m.recoveredHoursPerProject));
 }
 
 /* ========================== Slide 14 — calculator ======================== */

@@ -226,6 +226,12 @@ export function initDeck({ deck, title, onSlideEnter } = {}) {
 
     const toggle = (e) => {
       e.stopPropagation();
+      // Some triggers (e.g. the calc slider's) sit inside a <label for="…">.
+      // Left unblocked, the browser's native label behaviour also fires a
+      // synthetic click on the associated input, which bubbles to the
+      // document-level "click outside closes the popover" listener and
+      // closes what this click just opened — every time, on every click.
+      e.preventDefault();
       openTrigger === span ? closePop() : openPop(span);
     };
     span.addEventListener('click', toggle);

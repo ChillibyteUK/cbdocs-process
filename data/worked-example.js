@@ -25,7 +25,7 @@ export const project = {
   conditions: ['existing-site', 'forms', 'high-seo-risk', 'client-writes'],
   facts: [
     ['Project type', 'Redesign replacing an existing live site'],
-    ['Pages', '16 (7 unique, 9 across 3 repeatable templates)'],
+    ['Pages', '16 (7 unique, 9 across 3 repeatable page types)'],
     ['Service lines', 'Process heaters · Heat exchangers · Service and maintenance'],
     ['Existing site', '84 indexed URLs, ~2,400 organic sessions/month'],
     ['Integrations', 'HubSpot forms'],
@@ -92,7 +92,7 @@ export const examples = {
         ['Discovery lead', 'Head of Web'],
         ['Client stakeholder representative', 'Technical Director'],
         ['Project route', 'Standard, with existing-site conditionals'],
-        ['Route rationale', '16 pages across 3 repeatable templates, modular block-based build, one integration. Complexity is normal; risk is in the migration.']
+        ['Route rationale', '16 pages across 3 repeatable page types, modular block-based build, one integration. Complexity is normal; risk is in the migration.']
       ]},
       { type: 'prose', text: 'Business context and goals' },
       { type: 'list', style: 'plain', items: [

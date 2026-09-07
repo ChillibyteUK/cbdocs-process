@@ -487,6 +487,8 @@ body.deck-body {
 .info-note {
   display: inline-grid;
   place-items: center;
+  position: relative;
+  z-index: 2;
   width: 1.35em;
   height: 1.35em;
   margin-left: 0.3em;

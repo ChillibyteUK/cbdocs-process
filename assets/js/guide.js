@@ -741,7 +741,7 @@ const referenceViews = {
     <div class="note note-warn">
       <p><strong>Standard and full run the same steps.</strong> That is not an oversight — it is
       the honest answer. The difference between them is <em>depth and formality</em>, not a longer
-      list of stages. Full outlines every page rather than every template, specifies every block
+      list of stages. Full outlines every page rather than every page type, specifies every block
       rather than the new ones, formalises change control on every item however small, and audits
       accessibility rather than checking it.</p>
       <p style="margin-top:.6rem">Light is the only route that genuinely drops steps — four of
