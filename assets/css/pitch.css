@@ -243,19 +243,86 @@ body.deck-body {
 
 /* --- Flow / pipeline ------------------------------------------------------ */
 
+/* No colour convention for "gate" vs "conditional" is self-explanatory on
+   first sight, no matter which hues are picked — a key is what actually
+   makes the flow chips legible, not the colour choice. */
+.flow-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-3);
+  font-size: 0.72rem;
+  color: var(--cb-muted-on-dk);
+}
+.flow-legend-item { display: flex; align-items: center; gap: 6px; }
+.flow-legend-swatch {
+  display: inline-block;
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.06);
+  border-top: 3px solid rgba(255, 255, 255, 0.22);
+}
+/* Matches the badge, not a box repaint — a step box is never solid green. */
+.flow-legend-swatch.has-gate {
+  border-top-color: rgba(255, 255, 255, 0.22);
+  background: var(--cb-green);
+}
+.flow-legend-swatch.is-conditional {
+  border-top-color: var(--cb-amber-on-dk);
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.10) 0 4px,
+    rgba(255, 255, 255, 0.02) 4px 8px
+  );
+}
+
 .flow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-5);
+}
+
+/* One row per phase — the "five clusters" the speaker notes refer to. No
+   colour coding: red/green are already spoken for by the has-gate marker on
+   individual items, and the source phase colours (red/red/green/blue/blue)
+   don't map 1:1 onto five distinct things anyway. The row grouping and label
+   text alone carry the meaning. */
+.flow-phase-label {
+  display: block;
+  margin-bottom: 4px;
+  padding-left: 0.6rem;
+  border-left: 3px solid var(--cb-muted-on-dk);
+  font-size: 0.68rem;
+  font-weight: var(--fw-black);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cb-muted-on-dk);
+}
+.flow-phase-row {
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
-  margin-bottom: var(--sp-5);
+  padding-left: 0.6rem;
+  border-left: 3px solid rgba(255, 255, 255, 0.12);
 }
+/* A step's box is always neutral — a step is a step, whether or not a gate
+   follows it. "Ends in a gate" is information about what happens AFTER the
+   step, not a property of the step itself, so it must not repaint the whole
+   box: that visually merges "step" and "gate" into one thing, which is
+   exactly the distinction the previous slide draws. It surfaces instead as a
+   small separate badge (.fg), a distinct object attached to the step.
+   "Conditional" is different in kind — whether the step exists on this
+   project at all IS a property of the step — so that alone is still shown on
+   the box (hatched), not just the badge. */
 .flow-item {
   flex: 1 1 auto;
   min-width: 5.5rem;
   padding: clamp(0.45rem, 1.1vh, 0.75rem) clamp(0.4rem, 0.8vw, 0.7rem);
   background: rgba(255, 255, 255, 0.06);
   border-radius: var(--radius-sm);
-  border-top: 2px solid var(--cb-red);
+  border-top: 2px solid rgba(255, 255, 255, 0.22);
   font-size: clamp(0.62rem, 0.58rem + 0.2vw, 0.78rem);
   line-height: 1.25;
   color: #EDEDF2;
@@ -267,14 +334,30 @@ body.deck-body {
   color: var(--cb-muted-on-dk);
   margin-bottom: 2px;
 }
-.flow-item.has-gate { border-top-color: var(--cb-green); }
-.flow-item .fg {
-  display: block;
-  margin-top: 3px;
-  font-size: 0.6em;
-  font-weight: var(--fw-bold);
-  color: var(--cb-green);
+
+.flow-item.is-conditional {
+  border-top-color: var(--cb-amber-on-dk);
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.10) 0 6px,
+    rgba(255, 255, 255, 0.02) 6px 12px
+  );
 }
+
+/* The gate/conditional badge — a small tag attached to the step, not a
+   colour applied to it. */
+.flow-item .fg {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 0.58em;
+  font-weight: var(--fw-bold);
+  background: rgba(255, 255, 255, 0.14);
+  color: var(--cb-muted-on-dk);
+}
+.flow-item.has-gate .fg { background: var(--cb-green); color: var(--cb-blue-dk); }
+.flow-item.is-conditional .fg { background: var(--cb-amber-on-dk); color: var(--cb-blue-dk); }
 
 /* --- Comparison ----------------------------------------------------------- */
 
@@ -557,6 +640,7 @@ body.deck-body {
 }
 .deck-btn:hover { color: #fff; background: rgba(255,255,255,0.14); }
 
+
 /* --- Notes ---------------------------------------------------------------- */
 
 .deck-notes {
@@ -572,6 +656,39 @@ body.deck-body {
   transition: transform var(--dur) var(--ease);
 }
 .deck-notes.is-open { transform: none; }
+
+/* Dismiss control. Sticky rather than absolute so it stays reachable when the
+   notes are long enough to scroll — an X that disappears off the top of a
+   scrolled panel is worse than no X at all. */
+.notes-close {
+  position: sticky;
+  top: 0;
+  float: right;
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  margin: -0.25rem -0.25rem 0 var(--sp-4);
+  font-size: 1.35rem;
+  line-height: 1;
+  color: var(--cb-muted-on-dk);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  z-index: 1;
+  transition: background var(--dur-fast) var(--ease),
+              color var(--dur-fast) var(--ease);
+}
+.notes-close:hover {
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+}
+.notes-close:focus-visible {
+  outline: 2px solid var(--cb-green);
+  outline-offset: 2px;
+}
+
 .deck-notes h4 {
   font-size: var(--fs-xs);
   letter-spacing: 0.15em;

@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Presenter view — Chillibyte</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23212333'/%3E%3Crect x='7' y='7' width='8' height='18' rx='2' fill='%238DC53E'/%3E%3Crect x='18' y='7' width='7' height='11' rx='2' fill='%23ED1B24'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/presenter.css">
+</head>
+<body class="pv-body on-dark">
+
+<header class="pv-top">
+  <div class="pv-id">
+    <span class="pv-badge">Presenter</span>
+    <span class="pv-deck" id="pv-deck">—</span>
+  </div>
+
+  <div class="pv-pos">
+    <span id="pv-num">–</span><span class="pv-of">/</span><span id="pv-total">–</span>
+  </div>
+
+  <div class="pv-clocks">
+    <div class="pv-timer" id="pv-timer" title="Elapsed since you started presenting">00:00</div>
+    <div class="pv-clock" id="pv-clock">--:--</div>
+  </div>
+</header>
+
+<main class="pv-main">
+  <section class="pv-notes-pane">
+    <h1 class="pv-slide-title" id="pv-title">Waiting for the deck…</h1>
+    <div class="pv-notes" id="pv-notes">
+      <p class="pv-muted">Open a deck in the other window and this will follow it.</p>
+    </div>
+  </section>
+
+  <aside class="pv-side">
+    <div class="pv-card">
+      <h2>Coming up</h2>
+      <p class="pv-next" id="pv-next">—</p>
+    </div>
+
+    <div class="pv-card">
+      <h2>Timer</h2>
+      <div class="pv-timer-controls">
+        <button class="pv-btn" type="button" id="pv-timer-toggle">Start</button>
+        <button class="pv-btn" type="button" id="pv-timer-reset">Reset</button>
+      </div>
+    </div>
+
+    <div class="pv-card pv-status" id="pv-status" hidden>
+      <h2>Not connected</h2>
+      <p id="pv-status-msg"></p>
+    </div>
+  </aside>
+</main>
+
+<footer class="pv-controls">
+  <button class="pv-nav" type="button" id="pv-prev" aria-label="Previous slide">←&nbsp; Previous</button>
+  <p class="pv-hint">Arrow keys and space work here too — they drive the deck on the other screen.</p>
+  <button class="pv-nav pv-nav-primary" type="button" id="pv-next-btn" aria-label="Next slide">Next &nbsp;→</button>
+</footer>
+
+<script type="module">
+import { createPresenterClient } from './assets/js/presenter-link.js';
+
+const params   = new URLSearchParams(location.search);
+const deck     = params.get('deck') || 'pitch';
+const deckName = params.get('title') || 'Deck';
+
+const $ = (id) => document.getElementById(id);
+$('pv-deck').textContent = deckName;
+
+/* --- Wall clock ----------------------------------------------------------- */
+const tickClock = () => {
+  $('pv-clock').textContent = new Date()
+    .toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+};
+tickClock();
+setInterval(tickClock, 10000);
+
+/* --- Elapsed timer -------------------------------------------------------- */
+let elapsed = 0, running = false, lastTick = 0;
+
+function renderTimer() {
+  const m = Math.floor(elapsed / 60000);
+  const s = Math.floor((elapsed % 60000) / 1000);
+  $('pv-timer').textContent =
+    `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+}
+setInterval(() => {
+  if (!running) return;
+  const now = Date.now();
+  elapsed += now - lastTick;
+  lastTick = now;
+  renderTimer();
+}, 250);
+
+$('pv-timer-toggle').addEventListener('click', (e) => {
+  running = !running;
+  lastTick = Date.now();
+  e.currentTarget.textContent = running ? 'Pause' : 'Start';
+  $('pv-timer').classList.toggle('is-running', running);
+});
+$('pv-timer-reset').addEventListener('click', () => {
+  elapsed = 0; renderTimer();
+});
+renderTimer();
+
+/* --- Connection ----------------------------------------------------------- */
+
+let connected = false;
+let missedHellos = 0;
+
+function setDisconnected(msg) {
+  connected = false;
+  $('pv-status').hidden = false;
+  $('pv-status-msg').textContent = msg;
+  document.body.classList.add('is-disconnected');
+}
+function setConnected() {
+  connected = true;
+  missedHellos = 0;
+  $('pv-status').hidden = true;
+  document.body.classList.remove('is-disconnected');
+}
+
+const client = createPresenterClient(deck, {
+  onState(s) {
+    setConnected();
+    $('pv-title').textContent = s.title;
+    $('pv-num').textContent   = s.i + 1;
+    $('pv-total').textContent = s.total;
+    $('pv-next').textContent  = s.nextTitle || 'End of deck';
+
+    const notes = (s.notes || '').trim();
+    $('pv-notes').innerHTML = notes
+      ? notes.split(/\n{2,}/).map(p =>
+          `<p>${p.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</p>`).join('')
+      : '<p class="pv-muted">No notes for this slide.</p>';
+
+    // Auto-start the timer on the first real slide change — one less thing to
+    // remember when you are about to start talking.
+    if (!running && elapsed === 0 && s.i > 0) {
+      running = true; lastTick = Date.now();
+      $('pv-timer-toggle').textContent = 'Pause';
+      $('pv-timer').classList.add('is-running');
+    }
+  },
+  onDisconnect() {
+    setDisconnected('The deck window was closed or navigated away.');
+  }
+});
+
+// If nothing answers, the deck probably is not open — or we are on file://,
+// where the two windows have opaque origins and cannot see each other.
+const retry = setInterval(() => {
+  if (connected) { clearInterval(retry); return; }
+  if (++missedHellos > 3) {
+    clearInterval(retry);
+    setDisconnected(location.protocol === 'file:'
+      ? 'Opened from file:// — the two windows cannot talk to each other. Serve the site over http:// and reopen.'
+      : 'No deck responded. Make sure the deck window is still open, then reload this window.');
+  }
+  client.hello();
+}, 700);
+
+/* --- Controls ------------------------------------------------------------- */
+
+$('pv-prev').addEventListener('click', () => client.send('prev'));
+$('pv-next-btn').addEventListener('click', () => client.send('next'));
+
+document.addEventListener('keydown', (e) => {
+  if (/^(INPUT|TEXTAREA|SELECT|BUTTON)$/.test(e.target.tagName) && e.key === ' ') return;
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  switch (e.key) {
+    case 'ArrowRight': case 'PageDown': case ' ':
+      e.preventDefault(); client.send('next'); break;
+    case 'ArrowLeft': case 'PageUp':
+      e.preventDefault(); client.send('prev'); break;
+    case 'Home': e.preventDefault(); client.send('goto', 0); break;
+  }
+});
+</script>
+</body>
+</html>

@@ -75,7 +75,8 @@
   color: var(--ink-muted);
   margin-bottom: var(--sp-2);
 }
-.field input[type="text"] {
+.field input[type="text"],
+.field input[type="number"] {
   width: 100%;
   padding: 0.55em 0.8em;
   font: inherit;
@@ -85,7 +86,22 @@
   border: 1.5px solid var(--line);
   border-radius: var(--radius-sm);
 }
-.field input[type="text"]:focus { border-color: var(--accent-ink); outline: none; }
+.field input[type="text"]:focus,
+.field input[type="number"]:focus { border-color: var(--accent-ink); outline: none; }
+
+/* Number inputs (designer's / content team's quote): keep the native
+   up/down stepper rather than hiding it — these are meant to be nudged in
+   whole hours — but style it so it doesn't look like an unstyled leftover
+   next to the text fields above it. */
+.field input[type="number"]::-webkit-inner-spin-button,
+.field input[type="number"]::-webkit-outer-spin-button {
+  opacity: 0.6;
+  margin-left: 0.4em;
+}
+.field input[type="number"]:hover::-webkit-inner-spin-button,
+.field input[type="number"]:hover::-webkit-outer-spin-button {
+  opacity: 1;
+}
 
 /* --- Questions ------------------------------------------------------------ */
 

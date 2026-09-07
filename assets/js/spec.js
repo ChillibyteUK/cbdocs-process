@@ -14,8 +14,13 @@ import {
   artefacts, conditions as CONDITIONS, roleName
 } from '../../data/process.js';
 import { steps, stepById } from '../../data/steps.js';
+import {
+  featureEffort, integrationEffort, seoBaselineHours, romVariance,
+  additionalLanguageHours, clientMaturityOverheadHours, accessibilityQAHours,
+  ROUTE_SCORE_ANCHORS
+} from '../../data/effort-assumptions.js';
 import { project as example } from '../../data/worked-example.js';
-import { esc, routeBadges, newBadge, copyText, hrs } from './ui.js';
+import { esc, routeBadges, newBadge, copyText, hrs, hrsRange } from './ui.js';
 
 /* ========================== Questionnaire ================================ */
 
@@ -63,13 +68,13 @@ const QUESTIONS = [
     ]
   },
   {
-    id: 'templates', type: 'single',
-    legend: 'How many distinct page templates?',
-    hint: 'This drives design and build effort far more reliably than page count does.',
+    id: 'blocks', type: 'single',
+    legend: 'How many distinct blocks and custom post types will this need?',
+    hint: 'This drives design and build effort far more reliably than page count does. There is no separate "page template" to count — the build is block-based and CPT-driven, so this is what design and development actually scale with.',
     options: [
-      { v: 'few', label: '1–2', note: 'Essentially one layout with variations' },
-      { v: 'some', label: '3–5', note: 'Typical B2B service site' },
-      { v: 'many', label: '6 or more', note: 'Each one is a design and a build' }
+      { v: 'few', label: '0 CPTs, 8–12 blocks', note: 'Just pages and posts' },
+      { v: 'some', label: '1–2 CPTs, 13–20 blocks', note: 'e.g. people, case studies' },
+      { v: 'many', label: '3+ CPTs, 21+ blocks', note: 'Complex site — each one is a design and a build' }
     ]
   },
   {
@@ -99,19 +104,22 @@ const QUESTIONS = [
       { v: 'forms', label: 'Forms collecting personal data', note: 'Almost always yes — triggers the compliance step' },
       { v: 'gated', label: 'Gated downloads or content' },
       { v: 'ecommerce', label: 'Ecommerce' },
-      { v: 'booking', label: 'Booking or scheduling' },
-      { v: 'portal', label: 'Customer portal or login area' },
-      { v: 'membership', label: 'Membership or subscriptions' }
+      { v: 'booking', label: 'Booking or scheduling', note: 'Usually a configured plugin — small effort impact' },
+      { v: 'portal', label: 'Customer portal or login area', note: 'Bespoke authentication and account area — large effort impact' },
+      { v: 'membership', label: 'Membership or subscriptions', note: 'Usually external (Mailchimp, HubSpot) — small effort impact' },
+      { v: 'documentLibrary', label: 'Document library', note: 'Secure storage, search and access control' }
     ]
   },
   {
-    id: 'integrations', type: 'single',
-    legend: 'How many third-party systems does it connect to?',
-    hint: 'Every integration is a credential you need before build, not during it.',
+    id: 'integrations', type: 'multi',
+    legend: 'Which third-party systems does it connect to?',
+    hint: 'Every integration is a credential you need before build, not during it. Ticked here because these are not equally expensive — an analytics tag and a bespoke API are wildly different amounts of work despite both being "an integration".',
     options: [
-      { v: 'none', label: 'None' },
-      { v: 'one', label: 'One or two', note: 'CRM, mail platform, analytics' },
-      { v: 'several', label: 'Three or more', note: 'Technical architecture needs approving separately' }
+      { v: 'analytics', label: 'Analytics (GA4/GTM)', note: 'Already in the theme — configure and verify only' },
+      { v: 'webhookCrm', label: 'Simple CRM webhook (Zapier etc.)' },
+      { v: 'hubspot', label: 'HubSpot connector' },
+      { v: 'salesforce', label: 'Salesforce form/API' },
+      { v: 'customApi', label: 'Other/bespoke API', note: 'No two are alike — treat the hours as a placeholder' }
     ]
   },
   {
@@ -120,6 +128,17 @@ const QUESTIONS = [
     options: [
       { v: 'no', label: 'No' },
       { v: 'yes', label: 'Yes', note: 'Multiplies content, QA, URL structure and translation governance' }
+    ]
+  },
+  {
+    id: 'languageCount', type: 'single',
+    showIf: a => a.multilingual === 'yes',
+    legend: 'How many additional languages, beyond the first?',
+    hint: 'Build-side cost only — URL structure, language switcher, duplicated templates, per-language QA. Translating the copy itself stays excluded, same as all other content writing.',
+    options: [
+      { v: '1', label: '1' },
+      { v: '2', label: '2' },
+      { v: '3', label: '3 or more' }
     ]
   },
   {
@@ -174,9 +193,9 @@ const QUESTIONS = [
 
 const DEFAULTS = {
   projectType: 'redesign', organicValue: 'some', urlCount: 'mid',
-  pageCount: 's', templates: 'some', brand: 'established',
-  contentSource: 'client', features: ['forms'], integrations: 'one',
-  multilingual: 'no', stakeholders: 'few', accessibility: 'aa',
+  pageCount: 's', blocks: 'some', brand: 'established',
+  contentSource: 'client', features: ['forms'], integrations: ['analytics'],
+  multilingual: 'no', languageCount: '1', stakeholders: 'few', accessibility: 'aa',
   deadline: 'target', clientMaturity: 'new', routeOverride: 'auto'
 };
 
@@ -190,9 +209,10 @@ function deriveConditions(a) {
   if (a.projectType === 'rebuild' || ['large', 'huge'].includes(a.urlCount)) c.add('content-migration');
   if (a.organicValue === 'significant') c.add('high-seo-risk');
   if (a.multilingual === 'yes') c.add('multilingual');
-  if (a.integrations !== 'none') c.add('integrations');
+  if ((a.integrations || []).length) c.add('integrations');
   if (f.includes('forms') || f.includes('gated')) c.add('forms');
   if (['ecommerce', 'booking', 'portal', 'membership'].some(x => f.includes(x))) c.add('transactional');
+  if (f.includes('documentLibrary')) c.add('document-library');
   if (a.brand === 'new' || a.brand === 'refresh') c.add('new-identity');
   if (a.stakeholders === 'many') c.add('many-stakeholders');
   if (a.contentSource === 'client') c.add('client-writes');
@@ -209,14 +229,23 @@ function recommendRoute(a, cond) {
 
   add({ xs: 0, s: 1, m: 3, l: 5 }[a.pageCount] || 0,
       { xs: '', s: '8–25 pages', m: '25–60 pages', l: 'over 60 pages' }[a.pageCount]);
-  add({ few: 0, some: 1, many: 3 }[a.templates] || 0,
-      { few: '', some: '3–5 templates', many: '6+ templates' }[a.templates]);
+  add({ few: 0, some: 1, many: 3 }[a.blocks] || 0,
+      { few: '', some: '1–2 CPTs, 13–20 blocks', many: '3+ CPTs, 21+ blocks' }[a.blocks]);
 
   if (cond.includes('multilingual'))     add(4, 'multilingual');
-  if (cond.includes('transactional'))    add(4, 'transactional features');
+  // Weighted by actual build effort, not a flat bump for ticking any box —
+  // a booking plugin and a customer portal are not the same size of thing.
+  for (const f of (a.features || [])) {
+    const fe = featureEffort[f];
+    if (fe && fe.hours > 0) add(Math.round(fe.hours / 8), `${QUESTIONS.find(q => q.id === 'features').options.find(o => o.v === f)?.label.toLowerCase()}`);
+  }
   if (cond.includes('content-migration'))add(3, 'content migration');
-  if (a.integrations === 'several')      add(3, 'three or more integrations');
-  else if (a.integrations === 'one')     add(1, 'an integration');
+  // Same principle as features: weighted by actual integration effort, not
+  // a flat bump for ticking any box.
+  for (const x of (a.integrations || [])) {
+    const ie = integrationEffort[x];
+    if (ie && ie.hours > 0) add(Math.round(ie.hours / 8), `${QUESTIONS.find(q => q.id === 'integrations').options.find(o => o.v === x)?.label.toLowerCase()}`);
+  }
   if (cond.includes('high-seo-risk'))    add(2, 'meaningful organic traffic at risk');
   if (cond.includes('many-stakeholders'))add(2, 'four or more approvers');
   if (a.brand === 'new')                 add(2, 'a new brand identity');
@@ -224,6 +253,25 @@ function recommendRoute(a, cond) {
 
   const route = score >= 9 ? 'full' : score >= 3 ? 'standard' : 'light';
   return { route, score, reasons: reasons.filter(Boolean) };
+}
+
+// ROUTE_SCORE_ANCHORS is imported from data/effort-assumptions.js, along
+// with every other conjecture figure the Spec Builder uses.
+function interpolateHours(effortBand, score) {
+  const points = [
+    [ROUTE_SCORE_ANCHORS.light, effortBand.light || 0],
+    [ROUTE_SCORE_ANCHORS.standard, effortBand.standard || 0],
+    [ROUTE_SCORE_ANCHORS.full, effortBand.full || 0],
+  ];
+  if (score <= points[0][0]) return points[0][1];
+  for (let i = 0; i < points.length - 1; i++) {
+    const [s0, h0] = points[i], [s1, h1] = points[i + 1];
+    if (score <= s1) return h0 + (h1 - h0) * ((score - s0) / (s1 - s0));
+  }
+  // Beyond the full anchor: extrapolate the standard→full slope rather than
+  // capping, so a genuinely huge project isn't silently underestimated.
+  const [s0, h0] = points[1], [s1, h1] = points[2];
+  return h1 + ((h1 - h0) / (s1 - s0)) * (score - s1);
 }
 
 function buildPlan(a) {
@@ -266,8 +314,84 @@ function buildPlan(a) {
 
   // Effort
   const contingency = routes[route].contingency;
-  const core = included.reduce((t, i) => t + (i.step.effortBand[route] || 0), 0);
-  const total = core * (1 + contingency);
+
+  // A step's real hours: interpolated continuously from the complexity
+  // score, not looked up from whichever route was (possibly forced) chosen
+  // — see ROUTE_SCORE_ANCHORS above. Steps marked quotedSeparately (design)
+  // are excluded — that effort doesn't follow the same drivers as the rest
+  // of the build and is genuinely quoted per project, not formula-estimated.
+  const stepHours = (s) => s.quotedSeparately ? 0 : interpolateHours(s.effortBand, rec.score);
+
+  const stepsCore = included.reduce((t, i) => t + stepHours(i.step), 0);
+
+  // Every additive cost line beyond the step catalogue lives in ONE of these
+  // two arrays. This is the single source of truth for the estimate — the
+  // HTML render, Markdown export and CSV export all iterate the same data
+  // instead of each hand-writing their own copy of every line, which is how
+  // the exports fell out of sync with the on-screen total last time.
+  //
+  // "estimate" lines are guesses that get contingency and are shown as a
+  // ROM range. "firm" lines are numbers the user typed in themselves (a
+  // designer's or content team's actual quote) — no contingency, no range,
+  // because they aren't estimates.
+  const languageCount = a.multilingual === 'yes' ? Number(a.languageCount) || 1 : 0;
+
+  const estimateLines = [
+    {
+      id: 'seo', label: 'SEO involvement (sitemap review, metadata — flat, every project)',
+      hours: seoBaselineHours, always: true
+    },
+    {
+      id: 'multilingual', label: `Multilingual build cost (${languageCount} additional language${languageCount === 1 ? '' : 's'})`,
+      hours: languageCount * additionalLanguageHours
+    },
+    {
+      id: 'clientOverhead', label: `Client relationship overhead (${a.clientMaturity})`,
+      hours: clientMaturityOverheadHours[a.clientMaturity] ?? 0
+    },
+    {
+      id: 'accessibility', label: `Accessibility QA (${a.accessibility})`,
+      hours: accessibilityQAHours[a.accessibility] ?? 0,
+      note: a.accessibility !== 'basic'
+        ? 'Also affects design — factor extra time into the designer\'s quote below, not just this QA line.'
+        : null
+    },
+  ].filter(l => l.always || l.hours > 0);
+
+  const firmLines = [
+    {
+      id: 'designer', label: 'Design (Visual design step, entered separately, firm quote)',
+      hours: Number(a.designerQuoteHours) || 0,
+      prompt: 'Design (Visual design step) is excluded from the estimate above — enter the designer\'s quote at the top of the form to add it.'
+    },
+    {
+      id: 'content', label: 'Content (Chillibyte-written, entered separately, firm quote)',
+      hours: a.contentSource === 'agency' ? (Number(a.contentQuoteHours) || 0) : 0,
+      prompt: a.contentSource === 'agency'
+        ? 'Content is excluded from the estimate above — enter the content team\'s quote at the top of the form to add it.'
+        : null
+    },
+  ].filter(l => l.hours > 0 || l.prompt);
+
+  const featureRows = (a.features || [])
+    .map(f => ({ id: f, ...featureEffort[f] }))
+    .filter(f => f.hours);
+  const featureHours = featureRows.reduce((t, f) => t + f.hours, 0);
+
+  const integrationRows = (a.integrations || [])
+    .map(x => ({ id: x, ...integrationEffort[x] }))
+    .filter(x => x.hours);
+  const integrationHours = integrationRows.reduce((t, x) => t + x.hours, 0);
+
+  const estimateLinesHours = estimateLines.reduce((t, l) => t + l.hours, 0);
+  const firmHours = firmLines.reduce((t, l) => t + l.hours, 0);
+
+  // Firm lines are deliberately excluded from core/contingency — they're
+  // numbers the user entered, not estimates that need a buffer.
+  const core = stepsCore + featureHours + integrationHours + estimateLinesHours;
+  const contingencyAmount = core * contingency;
+  const baseline = core + contingencyAmount; // the ROM estimate, design/content excluded
+  const total = baseline + firmHours; // grand total
 
   // Gates
   const activeGates = gates.filter(g =>
@@ -300,7 +424,9 @@ function buildPlan(a) {
 
   return {
     answers: a, cond, rec, route, overridden,
-    included, omitted, core, contingency, total,
+    included, omitted, core, contingency, contingencyAmount, baseline, total,
+    stepsCore, stepHours, featureRows, featureHours, integrationRows, integrationHours,
+    estimateLines, firmLines, firmHours,
     activeGates, activeConditionalGates, artefactList,
     rolesInPlay: [...roleSet].filter(r => roles[r])
   };
@@ -401,13 +527,13 @@ function buildExclusions(plan) {
   if (!c.includes('transactional')) {
     out.push('Ecommerce, booking, customer portal and membership functionality.');
   }
-  if (a.integrations === 'none')
+  if (!(a.integrations || []).length)
     out.push('Integration with any third-party system.');
 
-  out.push('Ongoing SEO, content marketing, paid media and analytics reporting.');
+  out.push('Ongoing or larger SEO engagement, content marketing, paid media and analytics reporting — this quote includes only the flat build-side SEO involvement above (sitemap review, metadata).');
   out.push('Hosting, maintenance and support beyond the defect warranty window.');
   out.push('Support for browsers or devices outside the agreed support matrix.');
-  out.push('Any page, template, component or feature not listed in the approved sitemap and block inventory.');
+  out.push('Any page, block, CPT or feature not listed in the approved sitemap and block inventory.');
 
   return out;
 }
@@ -435,17 +561,26 @@ function terms(plan) {
 const STORE = 'cb-spec-state';
 let answers = load();
 
+// integrations used to be a single-select ('none'/'one'/'several'); it's now
+// a multi-select of specific integration types. Old saved/shared state can
+// still have the string form — treat anything that isn't already an array
+// as "unknown, start fresh" rather than let it silently misbehave.
+function migrate(a) {
+  if (a && !Array.isArray(a.integrations)) a.integrations = a.integrations && a.integrations !== 'none' ? ['customApi'] : [];
+  return a;
+}
+
 function load() {
   const fromUrl = new URLSearchParams(location.search).get('s');
   if (fromUrl) {
     try {
       const decoded = JSON.parse(decodeURIComponent(escape(atob(fromUrl.replace(/-/g, '+').replace(/_/g, '/')))));
-      return { ...DEFAULTS, ...decoded };
+      return migrate({ ...DEFAULTS, ...decoded });
     } catch { /* fall through to local storage */ }
   }
   try {
     const saved = JSON.parse(localStorage.getItem(STORE) || 'null');
-    if (saved) return { ...DEFAULTS, ...saved };
+    if (saved) return migrate({ ...DEFAULTS, ...saved });
   } catch { /* ignore */ }
   return { ...DEFAULTS, _name: '', _author: '' };
 }
@@ -462,6 +597,8 @@ function persist() {
 const form = document.getElementById('questions');
 const nameInput = document.getElementById('f-name');
 const authorInput = document.getElementById('f-author');
+const designerHoursInput = document.getElementById('f-designer-hours');
+const contentHoursInput = document.getElementById('f-content-hours');
 
 function renderQuestions() {
   form.innerHTML = QUESTIONS.map(q => {
@@ -511,6 +648,8 @@ form.addEventListener('change', (e) => {
 
 nameInput.addEventListener('input', () => { answers._name = nameInput.value; persist(); renderSpec(); });
 authorInput.addEventListener('input', () => { answers._author = authorInput.value; persist(); renderSpec(); });
+designerHoursInput.addEventListener('input', () => { answers.designerQuoteHours = designerHoursInput.value; persist(); renderSpec(); });
+contentHoursInput.addEventListener('input', () => { answers.contentQuoteHours = contentHoursInput.value; persist(); renderSpec(); });
 
 /* ========================== Render: spec ================================= */
 
@@ -561,7 +700,10 @@ function renderSpec() {
       <div><span class="v">${plan.included.length}</span><span class="l">steps included</span></div>
       <div><span class="v">${plan.omitted.length}</span><span class="l">omitted, with reasons</span></div>
       <div><span class="v">${plan.activeGates.length + plan.activeConditionalGates.length}</span><span class="l">approval gates</span></div>
-      <div><span class="v">${Math.round(plan.total)}</span><span class="l">hrs baseline inc. ${Math.round(plan.contingency * 100)}%</span></div>
+      <div>${plan.firmHours
+        ? `<span class="v">${hrs(plan.total)}</span><span class="l">hrs total — ${hrsRange(plan.baseline, romVariance)} ROM + ${hrs(plan.firmHours)} quotes</span>`
+        : `<span class="v">${hrsRange(plan.baseline, romVariance)}</span><span class="l">ROM baseline inc. ${Math.round(plan.contingency * 100)}%</span>`
+      }</div>
     </div>
 
     <section>
@@ -589,7 +731,7 @@ function renderSpec() {
               <span class="pmeta">${esc(roleName(s.owner))}${
                 s.gate !== null && s.gate !== undefined ? ` · Gate ${s.gate}` : ''}</span>
             </span>
-            <span class="ph">${i.in && s.effortBand[plan.route] ? hrs(s.effortBand[plan.route]) : '—'}</span>
+            <span class="ph">${s.quotedSeparately ? 'By designer quote' : (i.in && plan.stepHours(s) ? hrsRange(plan.stepHours(s), romVariance) : '—')}</span>
             ${!i.in ? `<span class="why">Omitted: ${esc(i.why)}</span>` : ''}
             ${i.reason === 'conditional' ? `<span class="why why-trig">Included because: ${
               esc(i.triggeredBy.join(', '))}${i.forced ? ' — forced on despite the ' + plan.route + ' route' : ''}</span>` : ''}
@@ -635,7 +777,7 @@ function renderSpec() {
           <td>${(s.inputs || []).map(esc).join('<br>') || '—'}</td>
           <td>${(s.deliverables || []).map(d => esc(artefacts[d]?.name || d)).join('<br>') || '—'}</td>
           <td>${(s.blocks || []).map(b => esc(stepById[b]?.title || b)).join('<br>') || '—'}</td>
-          <td>${s.effortBand[plan.route] || '—'}</td>
+          <td>${s.quotedSeparately ? 'By designer quote' : (plan.stepHours(s) ? hrsRange(plan.stepHours(s), romVariance) : '—')}</td>
         </tr>`).join('')}</tbody>
       </table></div>
     </section>
@@ -650,19 +792,67 @@ function renderSpec() {
           ${phases.map(ph => {
             const items = plan.included.filter(i => i.step.phase === ph.id);
             if (!items.length) return '';
-            const h = items.reduce((t, i) => t + (i.step.effortBand[plan.route] || 0), 0);
-            return `<tr><td>${ph.n}. ${esc(ph.name)}</td><td>${items.length}</td><td>${h}</td></tr>`;
+            const h = items.reduce((t, i) => t + plan.stepHours(i.step), 0);
+            return `<tr><td>${ph.n}. ${esc(ph.name)}</td><td>${items.length}</td><td>${hrsRange(h, romVariance)}</td></tr>`;
           }).join('')}
-          <tr><td><strong>Core total</strong></td><td>${plan.included.length}</td><td><strong>${plan.core}</strong></td></tr>
-          <tr><td>Contingency (${Math.round(plan.contingency * 100)}%, ${esc(plan.route)} route)</td><td>—</td><td>${Math.round(plan.total - plan.core)}</td></tr>
-          <tr><td><strong>Baseline</strong></td><td>—</td><td><strong>${Math.round(plan.total)} hrs</strong></td></tr>
+          <tr><td><strong>Steps subtotal</strong></td><td>${plan.included.length}</td><td><strong>${hrsRange(plan.stepsCore, romVariance)}</strong></td></tr>
+        </tbody>
+      </table></div>
+
+      ${plan.featureRows.length ? `
+      <h3 style="margin-top:1.2rem">Feature complexity</h3>
+      <p class="sec-note">Additive, not baked into any step above — these are not equally expensive
+      despite answering the same question. Configuration-only items are called out explicitly, so this
+      is not read as a flat "transactional" tax.</p>
+      <div class="table-scroll"><table>
+        <thead><tr><th>Feature</th><th>Nature</th><th>Hours</th></tr></thead>
+        <tbody>${plan.featureRows.map(f => `<tr>
+          <td>${esc(QUESTIONS.find(q => q.id === 'features').options.find(o => o.v === f.id)?.label || f.id)}</td>
+          <td>${esc(f.note)}</td>
+          <td>${hrsRange(f.hours, romVariance)}</td>
+        </tr>`).join('')}
+        <tr><td colspan="2"><strong>Feature subtotal</strong></td><td><strong>${hrsRange(plan.featureHours, romVariance)}</strong></td></tr>
+        </tbody>
+      </table></div>` : ''}
+
+      ${plan.integrationRows.length ? `
+      <h3 style="margin-top:1.2rem">Integration complexity</h3>
+      <p class="sec-note">Additive, not baked into any step above — an analytics tag and a bespoke API
+      are wildly different amounts of work despite both being "an integration".</p>
+      <div class="table-scroll"><table>
+        <thead><tr><th>Integration</th><th>Nature</th><th>Hours</th></tr></thead>
+        <tbody>${plan.integrationRows.map(x => `<tr>
+          <td>${esc(QUESTIONS.find(q => q.id === 'integrations').options.find(o => o.v === x.id)?.label || x.id)}</td>
+          <td>${esc(x.note)}</td>
+          <td>${hrsRange(x.hours, romVariance)}</td>
+        </tr>`).join('')}
+        <tr><td colspan="2"><strong>Integration subtotal</strong></td><td><strong>${hrsRange(plan.integrationHours, romVariance)}</strong></td></tr>
+        </tbody>
+      </table></div>` : ''}
+
+      <div class="table-scroll" style="margin-top:1rem"><table>
+        <tbody>
+          ${plan.estimateLines.map(l => `<tr><td>${esc(l.label)}</td><td>${hrsRange(l.hours, romVariance)}</td></tr>${
+            l.note ? `<tr><td colspan="2" class="muted">${esc(l.note)}</td></tr>` : ''}`).join('')}
+          <tr><td><strong>Core total</strong> (steps + features + all lines above)</td><td><strong>${hrsRange(plan.core, romVariance)}</strong></td></tr>
+          <tr><td>Contingency (${Math.round(plan.contingency * 100)}%, ${esc(plan.route)} route)</td><td>${hrs(plan.contingencyAmount)}</td></tr>
+          <tr><td><strong>Baseline (ROM estimate)</strong></td><td><strong>${hrsRange(plan.baseline, romVariance)}</strong></td></tr>
+          ${plan.firmLines.map(l => l.hours
+            ? `<tr><td>+ ${esc(l.label)}</td><td>${hrs(l.hours)}</td></tr>`
+            : `<tr><td colspan="2" class="muted">${esc(l.prompt)}</td></tr>`).join('')}
+          ${plan.firmHours ? `<tr><td><strong>Grand total</strong></td><td><strong>${hrs(plan.total)}</strong></td></tr>` : ''}
         </tbody>
       </table></div>
       <div class="note note-warn">
-        <p><strong>Calibrate these figures.</strong> The per-step hours are a starting position, not
-        measured Chillibyte data. Record actuals against this baseline on the next three projects and
-        adjust the effort bands in <code>data/steps.js</code>. The variance is worth more than the
-        estimate.</p>
+        <p><strong>Calibrate these figures.</strong> Every hour figure on this page is conjecture, not
+        measured Chillibyte data — that's the point of presenting it this way. We don't currently know
+        how long any of this takes, and this estimate is expected to change as real projects correct it.
+        Every editable number lives in one place: <code>data/effort-assumptions.js</code>, clearly laid
+        out and commented so it's easy to find and adjust. The per-step hours interpolate continuously
+        between three calibration points (light/standard/full) rather than a lookup for whichever route
+        applies. Record actuals against this baseline on the next three projects and correct the figures
+        in that file. Larger or ongoing SEO work beyond the flat line above is scoped and quoted
+        separately post-launch — see exclusions.</p>
       </div>
     </section>
 
@@ -682,10 +872,13 @@ function renderSpec() {
 
     <section>
       <h2><span class="num">7</span>Roles required</h2>
+      <p class="sec-note">Every role listed here is needed for this project specifically — "optional" in the
+      general catalogue (Copywriter, SEO / Analytics aren't staffed on every project) doesn't mean optional
+      once one of their steps is actually in the plan below.</p>
       <div class="table-scroll"><table>
         <thead><tr><th>Role</th><th>Responsibility</th></tr></thead>
         <tbody>${plan.rolesInPlay.map(r => `<tr>
-          <td><strong>${esc(roles[r].name)}</strong>${roles[r].optional ? ' <span class="badge">Optional</span>' : ''}</td>
+          <td><strong>${esc(roles[r].name)}</strong></td>
           <td>${esc(roles[r].owns)}</td>
         </tr>`).join('')}</tbody>
       </table></div>
@@ -748,7 +941,7 @@ function toMarkdown() {
 
   L.push(`# ${name} — project specification`, '');
   L.push(`**Route:** ${plan.route}${plan.overridden ? ` (overridden from ${plan.rec.route})` : ''}`);
-  L.push(`**Baseline estimate:** ${Math.round(plan.total)} hrs (${plan.core} core + ${Math.round(plan.contingency * 100)}% contingency)`);
+  L.push(`**Baseline estimate (ROM, ±${Math.round(romVariance * 100)}%):** ${hrsRange(plan.baseline, romVariance)}${plan.firmHours ? ` + ${hrs(plan.firmHours)} firm quotes = **${hrs(plan.total)} grand total**` : ''}`);
   L.push(`**Conditions:** ${plan.cond.map(c => CONDITIONS[c].label).join(', ') || 'none'}`, '');
 
   L.push('## Plan', '');
@@ -759,12 +952,35 @@ function toMarkdown() {
     L.push(`### ${ph.n}. ${ph.name}`, '');
     for (const i of items) {
       L.push(`- [ ] **${i.step.n}. ${i.step.title}** — ${roleName(i.step.owner)}${
-        i.step.gate != null ? `, Gate ${i.step.gate}` : ''}, ${i.step.effortBand[plan.route] || 0} hrs${
+        i.step.gate != null ? `, Gate ${i.step.gate}` : ''}, ${plan.stepHours(i.step)} hrs${
         i.reason === 'conditional' ? ` _(triggered by: ${i.triggeredBy.join(', ')})_` : ''}`);
     }
     for (const o of out) L.push(`- ~~${o.step.n}. ${o.step.title}~~ — omitted: ${o.why}`);
     L.push('');
   }
+
+  if (plan.featureRows.length) {
+    L.push('## Feature complexity', '');
+    for (const f of plan.featureRows) {
+      const label = QUESTIONS.find(q => q.id === 'features').options.find(o => o.v === f.id)?.label || f.id;
+      L.push(`- **${label}** — ${f.hours} hrs (${f.note})`);
+    }
+    L.push('');
+  }
+
+  if (plan.integrationRows.length) {
+    L.push('## Integration complexity', '');
+    for (const x of plan.integrationRows) {
+      const label = QUESTIONS.find(q => q.id === 'integrations').options.find(o => o.v === x.id)?.label || x.id;
+      L.push(`- **${label}** — ${x.hours} hrs (${x.note})`);
+    }
+    L.push('');
+  }
+
+  L.push('## Estimate lines', '');
+  for (const l of plan.estimateLines) L.push(`- **${l.label}** — ${l.hours} hrs`);
+  for (const l of plan.firmLines) L.push(l.hours ? `- **${l.label}** — ${l.hours} hrs` : `- _${l.prompt}_`);
+  L.push('');
 
   L.push('## Gates', '');
   for (const g of plan.activeGates) L.push(`- **Gate ${g.n}: ${g.title}** — ${roleName(g.approver)} — \`${g.ticket}\``);
@@ -799,13 +1015,28 @@ function toCSV() {
     rows.push([s.n, s.title, phases.find(p => p.id === s.phase).name, 'Included',
       i.reason === 'conditional' ? 'Triggered by: ' + i.triggeredBy.join('; ') : `${plan.route} route`,
       roleName(s.owner), roleName(s.approver), s.gate ?? '',
-      s.effortBand[plan.route] || 0, '',
+      plan.stepHours(s), '',
       (s.deliverables || []).map(d => artefacts[d]?.name || d).join('; '),
       (s.blocks || []).map(b => stepById[b]?.title || b).join('; ')]);
   }
   for (const o of plan.omitted) {
     rows.push([o.step.n, o.step.title, phases.find(p => p.id === o.step.phase).name,
       'Omitted', o.why, '', '', o.step.gate ?? '', 0, '', '', '']);
+  }
+  for (const f of plan.featureRows) {
+    const label = QUESTIONS.find(x => x.id === 'features').options.find(o => o.v === f.id)?.label || f.id;
+    rows.push(['', `Feature: ${label}`, 'Feature complexity', 'Included', f.note, '', '', '', f.hours, '', '', '']);
+  }
+  for (const x of plan.integrationRows) {
+    const label = QUESTIONS.find(q => q.id === 'integrations').options.find(o => o.v === x.id)?.label || x.id;
+    rows.push(['', `Integration: ${label}`, 'Integration complexity', 'Included', x.note, '', '', '', x.hours, '', '', '']);
+  }
+  for (const l of plan.estimateLines) {
+    rows.push(['', l.label, 'Estimate line', 'Included', l.note || '', '', '', '', l.hours, '', '', '']);
+  }
+  for (const l of plan.firmLines) {
+    rows.push(['', l.label, 'Firm quote', l.hours ? 'Included' : 'Not entered',
+      l.hours ? '' : l.prompt, '', '', '', l.hours, '', '', '']);
   }
   return rows.map(r => r.map(q).join(',')).join('\r\n');
 }
@@ -868,9 +1099,9 @@ document.getElementById('btn-example').addEventListener('click', () => {
     _name: example.name,
     _author: '',
     projectType: 'redesign', organicValue: 'significant', urlCount: 'mid',
-    pageCount: 's', templates: 'some', brand: 'established',
-    contentSource: 'client', features: ['forms', 'gated'], integrations: 'one',
-    multilingual: 'no', stakeholders: 'few', accessibility: 'aa',
+    pageCount: 's', blocks: 'some', brand: 'established',
+    contentSource: 'client', features: ['forms', 'gated'], integrations: ['hubspot'],
+    multilingual: 'no', languageCount: '1', stakeholders: 'few', accessibility: 'aa',
     deadline: 'fixed', clientMaturity: 'new', routeOverride: 'auto'
   };
   boot();
@@ -882,6 +1113,8 @@ document.getElementById('btn-example').addEventListener('click', () => {
 function boot() {
   nameInput.value = answers._name || '';
   authorInput.value = answers._author || '';
+  designerHoursInput.value = answers.designerQuoteHours || '';
+  contentHoursInput.value = answers.contentQuoteHours || '';
   renderQuestions();
   persist();
   renderSpec();

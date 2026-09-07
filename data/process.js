@@ -219,6 +219,7 @@ export const conditions = {
   'integrations':     { label: 'Third-party systems involved', why: 'Access, credentials and API behaviour are the classic silent build blocker.' },
   'forms':            { label: 'Collects personal data via forms', why: 'Triggers privacy, consent, retention and data-destination obligations.' },
   'transactional':    { label: 'Ecommerce, booking, portal or membership', why: 'Moves the project from publishing to application territory.' },
+  'document-library': { label: 'Document library', why: 'Secure storage, indexing/search and access control for a document set.' },
   'new-identity':     { label: 'Brand needs creating or refreshing', why: 'Design cannot start from an existing toolkit; identity work precedes style direction.' },
   'many-stakeholders':{ label: 'More than three approving stakeholders', why: 'Approval latency and contradictory feedback become the dominant schedule risk.' },
   'client-writes':    { label: 'Client is writing the content', why: 'Late client content is the single most common cause of website overrun.' },

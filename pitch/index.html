@@ -67,7 +67,7 @@
 
 <!-- 4 ----------------------------------------------------------------------->
 <section class="slide" data-title="The four leaks"
-  data-notes="The rate and project value are real. These four leak figures are NOT — they are estimates, and the slide says so out loud. Do not defend them; invite the challenge. If someone says the rework number is too high, the honest answer is 'possibly, and we cannot currently tell — that is what the trial settles.' The deck warns on screen if the leaks ever exceed 25% of project value, because an implausible figure discredits everything else.">
+  data-notes="The rate and project value are real. These four leak figures are NOT — they are estimates, and the slide says so out loud. Do not defend them; invite the challenge. If someone says the rework number is too high, the honest answer is 'possibly, and we cannot currently tell — that is what the trial settles.' The deck warns on screen if the leaks ever exceed 25% of project value, because an implausible figure discredits everything else. Every figure here lives in one file, data/assumptions.js, clearly commented — change it there and this slide, the calculator and the title slide all update together.">
   <div class="slide-inner">
     <span class="kicker">What we think it costs</span>
     <h2>Our best guess at where the time goes.</h2>
@@ -77,7 +77,7 @@
     <p class="big" style="margin-top:0.8rem"><strong>We could be wrong about all of it.</strong>
     <span class="accent-2">Nobody can currently prove otherwise — which is the argument, not a
     weakness in it.</span>
-    <span class="info-note" data-note="Every figure here lives in one file, <code>data/assumptions.js</code>, clearly commented. Change it there and this slide, the calculator and the title slide all update together. The recovery rates are deliberately conservative: no leak is assumed to be eliminated, and unbilled changes are counted as converted to billable rather than made to disappear.<span id='leak-sanity'></span>"></span></p>
+    <span class="info-note" data-note="The recovery rates are deliberately conservative: no leak is assumed to be eliminated, and unbilled changes are counted as converted to billable rather than made to disappear.<span id='leak-sanity'></span>"></span></p>
   </div>
 </section>
 
@@ -125,7 +125,7 @@
 
 <!-- 6b --------------------------------------------------------------------->
 <section class="slide" data-title="Step vs Gate"
-  data-notes="Define this before the order-of-play slide, because it uses both words and green gate markers immediately — worth thirty seconds so nobody spends the rest of the deck quietly unsure what a gate actually is. A step is work: someone does it, something comes out. A gate is a check: before the next step can rely on what the last one produced, someone approves it. Most steps end at a gate; a few don't — development is the clearest example, nobody approves 'has building happened', they approve what it produced, at QA.">
+  data-notes="Define this before the order-of-play slide, because it uses both words and the gate/conditional markers immediately — worth thirty seconds so nobody spends the rest of the deck quietly unsure what a gate actually is. A step is work: someone does it, something comes out. A gate is a check: before the next step can rely on what the last one produced, someone approves it. Most steps end at a gate; a few don't — development is the clearest example, nobody approves 'has building happened', they approve what it produced, at QA. A few more only apply to some projects at all, e.g. a redirect audit only if a site already exists.">
   <div class="slide-inner">
     <span class="kicker">Before the detail — two words, two jobs</span>
     <h2>A step is work. A gate is a check.</h2>
@@ -151,17 +151,24 @@
     </div>
     <p class="big" style="margin-top:1.5rem">Most steps end at a gate. A few don't &mdash;
     <strong>development</strong> is the clearest case: nobody approves &ldquo;has building
-    happened&rdquo;, they approve what it produced, at QA.
-    <span class="accent-2">On the next slide, green markers are the gates.</span></p>
+    happened&rdquo;, they approve what it produced, at QA. Others only apply to some
+    projects at all &mdash; a redirect audit only matters if a site already exists.
+    <span class="accent-2">On the next slide, green markers are the gates, hatched amber
+    markers are conditional.</span></p>
   </div>
 </section>
 
 <!-- 7 ----------------------------------------------------------------------->
 <section class="slide" data-title="The order of play"
-  data-notes="Do not read the steps aloud. Point out the shape: understand, structure, direction, build, assure. And note that green markers are approval gates — fifteen of them on standard and full (eleven on light), which sounds like a lot until you say that each is a two-minute Basecamp ticket.">
+  data-notes="Do not read the steps aloud. Point out the shape: understand, structure, direction, build, assure. Green markers are approval gates — fifteen of them on standard and full (eleven on light), which sounds like a lot until you say that each is a two-minute Basecamp ticket. Hatched amber markers are conditional — they only apply when the project's answers trigger them, e.g. an existing site forces a redirect audit.">
   <div class="slide-inner">
     <span class="kicker">The order of play</span>
     <h2>Twenty work packages. Five phases.</h2>
+    <div class="flow-legend">
+      <span class="flow-legend-item"><span class="flow-legend-swatch has-gate"></span>Ends in a gate</span>
+      <span class="flow-legend-item"><span class="flow-legend-swatch is-conditional"></span>Conditional — only some projects</span>
+      <span class="flow-legend-item"><span class="flow-legend-swatch"></span>Mandatory, no formal gate</span>
+    </div>
     <div class="flow" id="flow"></div>
     <p class="big">The order is deliberate. Sitemap before outlines, outlines before wireframes,
     blocks before design, spec before build. <strong>Every one of those orderings exists because
@@ -404,7 +411,7 @@
 
 <!-- 15 ---------------------------------------------------------------------->
 <section class="slide" data-title="The commercial case"
-  data-notes="Hand the room the controls. Ask someone to set the day rate and project count themselves — the numbers stop being 'yours' and become 'theirs'. Note the process overhead is subtracted, so this is a net figure, not a gross saving.">
+  data-notes="Hand the room the controls. Ask someone to set the day rate and project count themselves — the numbers stop being 'yours' and become 'theirs'. Note the process overhead is subtracted, so this is a net figure, not a gross saving. Adjust anything that looks wrong — the whole model is one editable file, data/assumptions.js.">
   <div class="slide-inner">
     <span class="kicker">The commercial case &mdash; set your own numbers</span>
     <h2>What recovering part of that leak is worth.</h2>
@@ -430,7 +437,7 @@
         </div>
         <div class="calc-secondary" id="calc-secondary"></div>
         <p class="calc-caption">Net of process overhead.
-        <span class="info-note" data-note="<p><strong>Deliberately conservative.</strong> No leak is assumed to be eliminated. The process overhead is subtracted before any return is shown. Unbilled changes are counted as <em>converted to billable</em> rather than made to disappear &mdash; the client still asks, we just charge for it.</p><p>Adjust anything that looks wrong. The whole model is one editable file, <code>data/assumptions.js</code>.</p><p><strong>These are still estimates.</strong> The trial replaces them with measurements.</p>"></span></p>
+        <span class="info-note" data-note="<p><strong>Deliberately conservative.</strong> No leak is assumed to be eliminated. The process overhead is subtracted before any return is shown. Unbilled changes are counted as <em>converted to billable</em> rather than made to disappear &mdash; the client still asks, we just charge for it.</p><p><strong>These are still estimates.</strong> The trial replaces them with measurements.</p>"></span></p>
       </div>
     </div>
   </div>
@@ -495,7 +502,7 @@
 
 <!-- 18 ---------------------------------------------------------------------->
 <section class="slide" data-title="Bigger projects"
-  data-notes="This is the growth argument. Above a certain client size, procurement asks how you govern delivery. 'We have a process' is a much weaker answer than a documented gate model aligned to a recognised framework. This is what changes which tenders we can credibly enter.">
+  data-notes="This is the growth argument. Above a certain client size, procurement asks how you govern delivery. 'We have a process' is a much weaker answer than a documented gate model aligned to a recognised framework. This is what changes which tenders we can credibly enter. Both ceiling figures are editable in data/assumptions.js.">
   <div class="slide-inner">
     <span class="kicker">Growth</span>
     <h2>Bigger clients ask how you govern delivery.</h2>
@@ -513,7 +520,7 @@
     <p class="big" style="margin-top:1.4rem">The largest project we could comfortably take on today
     is around <strong id="ceiling-now"></strong>. With work packages and a documented gate model,
     that becomes <strong class="accent-2" id="ceiling-target"></strong>.
-    <span class="info-note" data-note="<p><strong>What &lsquo;comfortably&rsquo; means here.</strong> Not the largest project we have ever invoiced &mdash; that only tells you what we once got away with. This is the largest we could take on <em>and still sleep</em>: one we could staff, govern, and survive if it went wrong.</p><p>That is the number that decides which tenders we can credibly enter, because it is the one we would be betting the business on.</p><p>Both figures are estimates, like everything else in this deck. Editable in <code>data/assumptions.js</code>.</p>"></span></p>
+    <span class="info-note" data-note="<p><strong>What &lsquo;comfortably&rsquo; means here.</strong> Not the largest project we have ever invoiced &mdash; that only tells you what we once got away with. This is the largest we could take on <em>and still sleep</em>: one we could staff, govern, and survive if it went wrong.</p><p>That is the number that decides which tenders we can credibly enter, because it is the one we would be betting the business on.</p><p>Both figures are estimates, like everything else in this deck.</p>"></span></p>
   </div>
 </section>
 
@@ -570,6 +577,8 @@
     <button class="deck-btn" type="button" id="btn-next" aria-label="Next slide">→</button>
     <button class="deck-btn" type="button" id="btn-ov" title="Overview (O)">Overview</button>
     <button class="deck-btn" type="button" id="btn-notes" title="Speaker notes (S)">Notes</button>
+    <button class="deck-btn" type="button" id="btn-presenter"
+            title="Open presenter view in a second window (V) — put it on your laptop, deck on the projector">Presenter</button>
     <button class="deck-btn" type="button" id="btn-full" title="Fullscreen (F)">Full</button>
     <button class="deck-btn" type="button" id="btn-print" title="Print to PDF (P)">PDF</button>
     <a class="deck-btn" href="../index.html" title="Back">Exit</a>
@@ -577,6 +586,9 @@
 </div>
 
 <aside class="deck-notes" id="notes" aria-live="polite">
+  <button class="notes-close" id="notes-close" type="button" aria-label="Close speaker notes">
+    <span aria-hidden="true">×</span>
+  </button>
   <h4>Speaker notes</h4>
   <p id="notes-body"></p>
 </aside>

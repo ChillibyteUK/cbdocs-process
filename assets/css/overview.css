@@ -57,7 +57,10 @@
   background: var(--cb-green);
   border-radius: 50%;
 }
-.step-row.is-conditional .sn { background: rgba(255, 255, 255, 0.16); color: #fff; }
+/* Same language as the flow diagram (slide 4): solid green = ends in a gate,
+   solid amber = only applies to some projects, outlined/neutral = mandatory
+   but no formal sign-off. Kept in sync so adjacent slides don't disagree. */
+.step-row.is-conditional .sn { background: var(--cb-amber-on-dk); color: var(--cb-blue-dk); }
 .step-row.is-nogate .sn {
   background: transparent;
   border: 2px solid rgba(255, 255, 255, 0.3);

@@ -1,6 +1,6 @@
 # Chillibyte website delivery process
 
-Three tools built on one shared model of the process:
+Four tools built on one shared model of the process:
 
 | | | |
 |---|---|---|
@@ -21,8 +21,8 @@ python3 -m http.server 8000    # or just point a vhost at it
 
 ## The one rule
 
-**Everything derives from `data/`.** The three tools are views over the same model,
-so they cannot drift apart. Change the process in `data/` and all three update.
+**Everything derives from `data/`.** The four tools are views over the same model,
+so they cannot drift apart. Change the process in `data/` and all four update.
 
 ```
 data/
@@ -48,13 +48,13 @@ every other figure has to look sensible against.
 **What is still estimated** — everything else:
 
 1. **The four leak hours** (rework 6, unbilled changes 5, waiting 3, launch
-   scramble 2 = 16 hrs, about 15% of a project). Slide 3 says outright that
+   scramble 2 = 16 hrs, about 15% of a project). Slide 4 says outright that
    these are guesses; the deck warns on screen if they ever exceed 25% of
    project value, because a figure that sounds implausible takes the rest of
    the pitch down with it.
 
 2. **The process overhead** (4.5 hrs, itemised in `overheadBreakdown` and shown
-   behind the (i) on slide 8). It is subtracted before any return is claimed.
+   behind the (i) on slide 9). It is subtracted before any return is claimed.
 
 3. **`effortBand` in `data/steps.js`** — a starting calibration, not data.
    Record actuals against the baseline on three projects, then correct it. The
@@ -72,7 +72,7 @@ slide is **start measuring**, not "approve this process".
 
 ### The two commercial arguments
 
-Slide 15 (calculator) and slide 16 (fixed price) present the *same* recovered
+Slide 18 (calculator) and slide 19 (fixed price) present the *same* recovered
 hours two different ways, deliberately never summed:
 
 - **As margin** — projects sell for a price, not for hours, so an hour not
@@ -115,9 +115,15 @@ and re-run — don't edit the binaries, or the paperwork and the process drift a
 ```bash
 python3 -m venv build/venv
 build/venv/bin/pip install python-docx openpyxl
-build/venv/bin/python build/make_docx.py     # 10 document templates
+build/venv/bin/python build/make_docx.py     # 9 of the 10 document templates
 build/venv/bin/python build/make_xlsx.py     # 1 workbook, 13 tabs
 ```
+
+> **Known drift — two exceptions to the rule above.**
+> `work-package.docx` has **no generator function**, and `gate-ticket.docx` was
+> edited directly after the script last changed, so re-running `make_docx.py`
+> silently reverts those edits. Until both are folded back into the script,
+> treat those two files as hand-maintained and do not regenerate blindly.
 
 ---
 
@@ -132,7 +138,7 @@ So the brand colours carry logo, fills, rules and large display type, while
 derived inks (`--cb-red-ink`, `--cb-green-ink`, `--cb-red-solid`) carry anything
 that is actually words. Every derived value has its measured ratio in a comment.
 
-Verified: 1,654 rendered text nodes across all pages, zero AA failures.
+Verified: 2,020 rendered text nodes across all pages, zero AA failures.
 
 **Typeface** — `articulat-cf` is first in the font stack but **no kit is loaded**.
 The live theme only exposes a `preconnect` to `use.typekit.net`, so the kit ID
@@ -142,8 +148,50 @@ ID from Adobe Fonts › Web Projects and uncomment the `@import` at the bottom o
 broken — it is chosen to sit close to articulat-cf in width and x-height.
 
 **Keyboard** — the guide has `/` search, `j`/`k` step navigation, `1`/`2`/`3` route
-switching and `?` for help. The deck has arrows/space, `f` fullscreen, `s` speaker
-notes, `o` overview grid and `p` print-to-PDF.
+switching and `?` for help. Both decks have arrows/space, `f` fullscreen, `s`
+speaker notes (also dismissable with the × or Esc), `o` overview grid, `p`
+print-to-PDF and `v` presenter view.
+
+---
+
+## The decks
+
+Both decks share one engine. `assets/js/deck-core.js` owns *behaviour* —
+navigation, keyboard, touch, speaker notes, the overview grid, (i) popovers and
+the presenter link. `deck.js` and `overview.js` supply *content only* and call
+`initDeck()`.
+
+That split exists because the two previously carried near-identical copies of
+the engine, and had already drifted: the pitch had popovers and an entry-
+animation hook the overview silently lacked. A deck-level feature is now one
+edit, not two.
+
+```js
+initDeck({
+  deck: 'pitch',                 // channel id — decks never cross-talk
+  title: 'The case for the process',
+  onSlideEnter: replayBars       // optional per-slide hook
+});
+```
+
+Every element `initDeck` looks for is optional, so a deck that omits, say,
+`#btn-presenter` simply has no presenter button rather than throwing on load.
+
+### Presenter view (second screen)
+
+Click **Presenter** (or press `v`) and a second window opens: current slide
+notes set large, what's coming up next, position, a wall clock and an elapsed
+timer that auto-starts on the first slide change. Put it on your laptop, the
+deck on the projector.
+
+Navigation is bidirectional — arrows in either window drive both. The deck is
+the source of truth; the presenter window holds no slide content of its own and
+renders only what it is sent, so the two cannot disagree about where you are.
+
+Transport is `BroadcastChannel`, with a `localStorage` fallback. **Both are
+same-origin**, so this needs the site served over `http(s)`. Opened from
+`file://` the two windows have opaque origins and cannot see each other — the
+presenter window detects that case and says so rather than sitting blank.
 
 **State** — the spec builder encodes answers into the URL and autosaves to
 `localStorage`. A share link reproduces a spec exactly, with no server involved.

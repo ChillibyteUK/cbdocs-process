@@ -31,6 +31,43 @@ export const newBadge = () => '';
 export const gateBadge = (n) =>
   `<span class="badge badge-gate">Gate ${esc(n)}</span>`;
 
+/* --- Flow diagram (pitch slide 6, overview slide 4) ------------------------
+   Both decks render the same "all steps, in order" flow, grouped into the
+   five phase rows the speaker notes call "clusters". Shared here so the two
+   decks cannot render it differently again.
+
+   Exactly two markers, so each means one thing:
+     .has-gate     — step ends in a formal approval ("Gate N")
+     .is-conditional — step only applies to some projects ("Conditional"),
+                       i.e. gate === null but conditionalGate is set
+   A step with neither (only step 15, Development) is mandatory and just
+   doesn't end in a sign-off — it gets no marking, so nothing implies it's
+   optional. */
+export function renderFlow(steps, phases) {
+  return phases.map(p => {
+    const phaseSteps = steps.filter(s => s.phase === p.id);
+    if (!phaseSteps.length) return '';
+    return `
+    <div class="flow-phase">
+      <span class="flow-phase-label">${esc(p.name)}</span>
+      <div class="flow-phase-row">
+        ${phaseSteps.map(s => {
+          const hasGate = s.gate !== null && s.gate !== undefined;
+          const conditional = !hasGate && Boolean(s.conditionalGate);
+          const cls = hasGate ? 'has-gate' : (conditional ? 'is-conditional' : '');
+          const badge = hasGate ? `<span class="fg">Gate ${s.gate}</span>`
+            : conditional ? `<span class="fg">Conditional</span>` : '';
+          return `
+        <div class="flow-item ${cls}">
+          <span class="fn">${s.n}</span>${esc(s.title)}
+          ${badge}
+        </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+
 /* --- Artefact block renderer ----------------------------------------------
    Renders the block shapes used by worked-example.js. Shared so the guide and
    any spec export display example artefacts identically.
@@ -118,6 +155,18 @@ export async function copyText(text, button) {
 
 export const hrs = (n) =>
   (Math.round(n * 10) / 10).toLocaleString('en-GB') + (n === 1 ? ' hr' : ' hrs');
+
+/* ROM (rough order of magnitude) display: these are calibration guesses,
+   not measured data, so a single decimal-precision number overstates
+   confidence. Shown as a range instead — variance is a placeholder,
+   narrow it once real project actuals exist. See romVariance in
+   data/effort-assumptions.js. */
+export const hrsRange = (n, variance) => {
+  if (!n) return hrs(0);
+  const lo = Math.round(n * (1 - variance));
+  const hi = Math.round(n * (1 + variance));
+  return lo === hi ? hrs(lo) : `${lo}–${hi} hrs`;
+};
 
 export const titleCase = (s) => String(s).charAt(0).toUpperCase() + String(s).slice(1);
 

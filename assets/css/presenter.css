@@ -1,0 +1,219 @@
+/* ===========================================================================
+   presenter.css — second-screen presenter view
+
+   Designed to be read at a glance, in a dim room, out of the corner of your
+   eye. Notes are set large and high-contrast; everything else is deliberately
+   quiet so it does not compete with them.
+=========================================================================== */
+
+html, body { height: 100%; }
+
+.pv-body {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  min-height: 100dvh;
+  margin: 0;
+  background: var(--cb-blue-dk);
+  color: #fff;
+  overflow: hidden;
+}
+
+/* --- Header ---------------------------------------------------------------- */
+
+.pv-top {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-5);
+  padding: var(--sp-4) clamp(1rem, 2.5vw, 2rem);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.pv-id { display: flex; align-items: center; gap: var(--sp-3); min-width: 0; }
+.pv-badge {
+  font-size: 0.68rem;
+  font-weight: var(--fw-black);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--cb-blue-dk);
+  background: var(--cb-green);
+  padding: 0.25em 0.6em;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+.pv-deck {
+  font-weight: var(--fw-bold);
+  color: #EDEDF2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pv-pos {
+  margin-left: auto;
+  font-size: clamp(1.1rem, 0.9rem + 0.8vw, 1.6rem);
+  font-weight: var(--fw-black);
+  font-variant-numeric: tabular-nums;
+  color: #fff;
+}
+.pv-pos .pv-of { color: var(--cb-muted-on-dk); margin: 0 0.25em; font-weight: var(--fw-normal); }
+
+.pv-clocks { display: flex; align-items: baseline; gap: var(--sp-4); }
+.pv-timer {
+  font-size: clamp(1.4rem, 1rem + 1.6vw, 2.4rem);
+  font-weight: var(--fw-black);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  color: var(--cb-muted-on-dk);
+  transition: color var(--dur) var(--ease);
+}
+.pv-timer.is-running { color: var(--cb-green); }
+.pv-clock {
+  font-size: var(--fs-sm);
+  font-variant-numeric: tabular-nums;
+  color: var(--cb-muted-on-dk);
+}
+
+/* --- Body ------------------------------------------------------------------ */
+
+.pv-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(15rem, 24vw, 22rem);
+  gap: clamp(1rem, 2.5vw, 2rem);
+  padding: clamp(1rem, 2.5vw, 2rem);
+  min-height: 0;
+}
+
+.pv-notes-pane {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.pv-slide-title {
+  font-size: clamp(1.3rem, 1rem + 1.4vw, 2.1rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: #fff;
+  margin: 0 0 var(--sp-4);
+  padding-bottom: var(--sp-3);
+  border-bottom: 2px solid var(--cb-green);
+}
+
+/* The main event. Large, generous line height, high contrast — it has to be
+   readable in a glance from a metre away without leaning in. */
+.pv-notes {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  font-size: clamp(1rem, 0.88rem + 0.62vw, 1.45rem);
+  line-height: 1.62;
+  color: #EDEDF2;
+  padding-right: var(--sp-3);
+}
+.pv-notes p { max-width: 62ch; margin: 0 0 0.9em; color: inherit; }
+.pv-notes p:last-child { margin-bottom: 0; }
+.pv-muted { color: var(--cb-muted-on-dk) !important; font-style: italic; }
+
+/* --- Sidebar --------------------------------------------------------------- */
+
+.pv-side {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.pv-card {
+  padding: var(--sp-4);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+}
+.pv-card h2 {
+  font-size: 0.68rem;
+  font-weight: var(--fw-black);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--cb-green);
+  margin: 0 0 var(--sp-2);
+}
+.pv-next {
+  margin: 0;
+  font-size: clamp(0.95rem, 0.88rem + 0.35vw, 1.2rem);
+  font-weight: var(--fw-bold);
+  line-height: 1.3;
+  color: #fff;
+  max-width: none;
+}
+
+.pv-timer-controls { display: flex; gap: var(--sp-2); }
+.pv-btn {
+  flex: 1;
+  padding: 0.5em 0.8em;
+  font: inherit;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  color: #EDEDF2;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.pv-btn:hover { background: rgba(255, 255, 255, 0.16); color: #fff; }
+
+.pv-status { border-color: rgba(244, 116, 121, 0.45); background: rgba(244, 116, 121, 0.1); }
+.pv-status h2 { color: var(--cb-red-on-dk); }
+.pv-status p { margin: 0; font-size: var(--fs-sm); color: #EDEDF2; max-width: none; }
+
+/* Disconnected: dim the stale content so it is obvious it is no longer live */
+.is-disconnected .pv-notes,
+.is-disconnected .pv-slide-title,
+.is-disconnected .pv-pos { opacity: 0.4; }
+
+/* --- Controls -------------------------------------------------------------- */
+
+.pv-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-4) clamp(1rem, 2.5vw, 2rem);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+.pv-hint {
+  margin: 0;
+  flex: 1;
+  text-align: center;
+  font-size: var(--fs-xs);
+  color: var(--cb-muted-on-dk);
+  max-width: none;
+}
+.pv-nav {
+  padding: 0.75em 1.5em;
+  font: inherit;
+  font-size: clamp(0.85rem, 0.8rem + 0.25vw, 1rem);
+  font-weight: var(--fw-bold);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.pv-nav:hover { background: rgba(255, 255, 255, 0.16); }
+.pv-nav-primary {
+  background: var(--cb-green);
+  border-color: var(--cb-green);
+  color: var(--cb-blue-dk);
+}
+.pv-nav-primary:hover { background: #9BD44E; border-color: #9BD44E; color: var(--cb-blue-dk); }
+
+/* --- Narrow / stacked ------------------------------------------------------ */
+
+@media (max-width: 720px) {
+  .pv-main { grid-template-columns: minmax(0, 1fr); }
+  .pv-side { flex-direction: row; flex-wrap: wrap; }
+  .pv-card { flex: 1 1 12rem; }
+  .pv-clocks { flex-direction: column; gap: 0; align-items: flex-end; }
+  .pv-hint { display: none; }
+}

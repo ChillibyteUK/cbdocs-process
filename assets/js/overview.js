@@ -7,17 +7,8 @@
 import { steps } from '../../data/steps.js';
 import { phases, roles, routes, routeOrder, gates, conditionalGates, conditions, roleName } from '../../data/process.js';
 import { project } from '../../data/worked-example.js';
-import { esc } from './ui.js';
-
-const slides = [...document.querySelectorAll('.slide')];
-const deck = document.getElementById('deck');
-const progress = document.getElementById('progress');
-const curEl = document.getElementById('cur');
-const notes = document.getElementById('notes');
-const notesBody = document.getElementById('notes-body');
-const overview = document.getElementById('overview');
-
-document.getElementById('total').textContent = slides.length;
+import { esc, renderFlow } from './ui.js';
+import { initDeck } from './deck-core.js';
 
 /* ========================== Static content from data ===================== */
 
@@ -29,12 +20,8 @@ document.getElementById('phase-strip').innerHTML = phases.map(p => `
     <p>${esc(p.tagline)}</p>
   </div>`).join('');
 
-/* Slide 4 — all 20 steps in order */
-document.getElementById('flow').innerHTML = steps.map(s => `
-  <div class="flow-item ${s.gate !== null && s.gate !== undefined ? 'has-gate' : ''}">
-    <span class="fn">${s.n}</span>${esc(s.title)}
-    ${s.gate !== null && s.gate !== undefined ? `<span class="fg">Gate ${s.gate}</span>` : ''}
-  </div>`).join('');
+/* Slide 4 — all 20 steps in order, grouped into the five phase clusters */
+document.getElementById('flow').innerHTML = renderFlow(steps, phases);
 
 /* Slides 5–9 — one step list per phase */
 document.querySelectorAll('[data-phase-list]').forEach(container => {
@@ -128,113 +115,12 @@ document.querySelectorAll('[data-phase-list]').forEach(container => {
   document.getElementById('we-why').textContent = project.whyThisExample;
 }
 
-/* ========================== Navigation =================================== */
+/* ========================== Engine ======================================= */
+/* Everything about how the deck behaves — navigation, keyboard, touch, notes,
+   overview grid, presenter view — is shared with the pitch deck in
+   deck-core.js. This file supplies content only. */
 
-let i = 0;
-
-function go(n, push = true) {
-  i = Math.max(0, Math.min(slides.length - 1, n));
-  slides.forEach((s, k) => {
-    s.classList.toggle('is-current', k === i);
-    if (k !== i) s.classList.remove('is-animating');
-  });
-  const cur = slides[i];
-  cur.classList.remove('is-animating');
-  void cur.offsetWidth;
-  cur.classList.add('is-animating');
-  curEl.textContent = i + 1;
-  progress.style.width = `${((i + 1) / slides.length) * 100}%`;
-  notesBody.textContent = slides[i].dataset.notes || 'No notes for this slide.';
-  document.querySelectorAll('.ov-item').forEach((b, k) => b.classList.toggle('is-current', k === i));
-  slides[i].scrollTop = 0;
-  if (push) history.replaceState(null, '', `#${i + 1}`);
-}
-
-const next = () => go(i + 1);
-const prev = () => go(i - 1);
-
-document.getElementById('btn-next').addEventListener('click', next);
-document.getElementById('btn-prev').addEventListener('click', prev);
-
-/* Click to advance — but never when the click was on something interactive. */
-deck.addEventListener('click', (e) => {
-  if (e.target.closest('a, button, input, label')) return;
-  const rect = deck.getBoundingClientRect();
-  (e.clientX - rect.left < rect.width / 2) ? prev() : next();
-});
-
-document.addEventListener('keydown', (e) => {
-  if (/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) {
-    if (e.key === 'Escape') e.target.blur();
-    return;
-  }
-  if (e.metaKey || e.ctrlKey || e.altKey) return;
-
-  switch (e.key) {
-    case 'ArrowRight': case 'PageDown': case ' ': e.preventDefault(); next(); break;
-    case 'ArrowLeft':  case 'PageUp':            e.preventDefault(); prev(); break;
-    case 'Home': e.preventDefault(); go(0); break;
-    case 'End':  e.preventDefault(); go(slides.length - 1); break;
-    case 'f': case 'F': toggleFullscreen(); break;
-    case 's': case 'S': notes.classList.toggle('is-open'); break;
-    case 'o': case 'O': toggleOverview(); break;
-    case 'p': case 'P': window.print(); break;
-    case 'Escape':
-      overview.classList.remove('is-open');
-      notes.classList.remove('is-open');
-      break;
-  }
-});
-
-/* --- Touch ---------------------------------------------------------------- */
-
-let touchX = null, touchY = null;
-deck.addEventListener('touchstart', (e) => {
-  touchX = e.changedTouches[0].clientX;
-  touchY = e.changedTouches[0].clientY;
-}, { passive: true });
-deck.addEventListener('touchend', (e) => {
-  if (touchX === null) return;
-  const dx = e.changedTouches[0].clientX - touchX;
-  const dy = e.changedTouches[0].clientY - touchY;
-  if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) dx < 0 ? next() : prev();
-  touchX = touchY = null;
-}, { passive: true });
-
-/* ========================== Chrome ======================================= */
-
-function toggleFullscreen() {
-  if (document.fullscreenElement) document.exitFullscreen?.();
-  else document.documentElement.requestFullscreen?.().catch(() => { /* denied — fine */ });
-}
-
-function toggleOverview() { overview.classList.toggle('is-open'); }
-
-document.getElementById('btn-full').addEventListener('click', toggleFullscreen);
-document.getElementById('btn-notes').addEventListener('click', () => notes.classList.toggle('is-open'));
-document.getElementById('btn-ov').addEventListener('click', toggleOverview);
-document.getElementById('btn-print').addEventListener('click', () => window.print());
-
-/* --- Overview grid -------------------------------------------------------- */
-
-document.getElementById('ov-grid').innerHTML = slides.map((s, k) => `
-  <button class="ov-item" type="button" data-i="${k}">
-    <span class="on">${k + 1}</span>
-    <span class="ot">${esc(s.dataset.title || `Slide ${k + 1}`)}</span>
-  </button>`).join('');
-
-overview.addEventListener('click', (e) => {
-  const b = e.target.closest('.ov-item');
-  if (b) { go(Number(b.dataset.i)); overview.classList.remove('is-open'); }
-  else if (e.target === overview) overview.classList.remove('is-open');
-});
-
-/* ========================== Boot ========================================= */
-
-const fromHash = parseInt(location.hash.slice(1), 10);
-go(Number.isFinite(fromHash) && fromHash > 0 ? fromHash - 1 : 0, false);
-
-window.addEventListener('hashchange', () => {
-  const n = parseInt(location.hash.slice(1), 10);
-  if (Number.isFinite(n) && n - 1 !== i) go(n - 1, false);
+initDeck({
+  deck: 'overview',
+  title: 'How the process works'
 });

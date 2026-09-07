@@ -754,7 +754,14 @@ Internal review comes before the client sees anything. Its job is to catch struc
     gate: 8,
     routes: ["light", "standard", "full"],
     conditions: [],
-    effortBand: { light: 8, standard: 22, full: 50 },
+    // Design effort doesn't scale with the same drivers as the rest of the
+    // build (pages, blocks, integrations) — it's bespoke per project and
+    // genuinely quoted by the designer, not formula-estimated. effortBand
+    // is kept as a rough reference only; the spec builder excludes this
+    // step from the automated total and asks for the designer's actual
+    // quote instead (see designerQuoteHours in the spec builder).
+    quotedSeparately: true,
+    effortBand: { light: 9, standard: 16, full: 24 },
     templates: ["design-review-notes"],
     example: "visual-design",
     parallelWith: ["local-setup"],
@@ -1472,6 +1479,16 @@ export function stepsForPhase(phaseId) {
 export function stepsForRoute(routeId) {
   return steps.filter((s) => s.routes.includes(routeId));
 }
+
+/* --- Effort modifiers for the Spec Builder ---------------------------------
+   effortBand above holds three calibration points per step (light/standard/
+   full) — a starting calibration, not gospel; adjust after real projects.
+   Every OTHER hour figure the Spec Builder adds (features, integrations,
+   SEO, multilingual, client overhead, accessibility QA, the ROM display
+   band, the route-score interpolation anchors) lives in ONE place:
+   data/effort-assumptions.js. That is deliberate — all of it is conjecture,
+   none of it is measured Chillibyte data, and it should be easy to find and
+   change without hunting through this file or spec.js. */
 
 export function totalEffort(routeId, includedIds = null) {
   return steps

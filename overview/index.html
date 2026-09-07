@@ -96,18 +96,24 @@
     </div>
     <p class="big" style="margin-top:1.5rem">Most steps end at a gate. A few don't &mdash;
     <strong>development</strong> is the clearest case: nobody approves &ldquo;has building
-    happened&rdquo;, they approve what it produced, at QA.
-    <span class="accent-2">On the next slide, green means the step ends at a gate. Red means it
-    doesn't.</span></p>
+    happened&rdquo;, they approve what it produced, at QA. Others only apply to some
+    projects at all &mdash; a redirect audit only matters if a site already exists.
+    <span class="accent-2">On the next slide, green means the step ends at a gate, hatched
+    amber means it's conditional on the project.</span></p>
   </div>
 </section>
 
 <!-- 4b --------------------------------------------------------------------->
 <section class="slide" data-title="The 20 steps"
-  data-notes="Don't read every step aloud — point at the shape: five clusters, green-topped items are gates. The order is deliberate and worth naming: sitemap before outlines, outlines before wireframes, blocks before design, spec before build.">
+  data-notes="Don't read every step aloud — point at the shape: five clusters (the rows), green-topped items are gates, hatched amber items are conditional (only some projects need them). The order is deliberate and worth naming: sitemap before outlines, outlines before wireframes, blocks before design, spec before build.">
   <div class="slide-inner">
     <span class="kicker">The whole spine, at a glance</span>
     <h2>Twenty work packages, in order.</h2>
+    <div class="flow-legend">
+      <span class="flow-legend-item"><span class="flow-legend-swatch has-gate"></span>Ends in a gate</span>
+      <span class="flow-legend-item"><span class="flow-legend-swatch is-conditional"></span>Conditional — only some projects</span>
+      <span class="flow-legend-item"><span class="flow-legend-swatch"></span>Mandatory, no formal gate</span>
+    </div>
     <div class="flow" id="flow"></div>
     <p class="big">Every one of those orderings exists because reversing it has caused rework we've
     actually had. <strong>We'll walk through each phase next.</strong></p>
@@ -321,6 +327,8 @@
     <button class="deck-btn" type="button" id="btn-next" aria-label="Next slide">→</button>
     <button class="deck-btn" type="button" id="btn-ov" title="Overview (O)">Overview</button>
     <button class="deck-btn" type="button" id="btn-notes" title="Speaker notes (S)">Notes</button>
+    <button class="deck-btn" type="button" id="btn-presenter"
+            title="Open presenter view in a second window (V) — put it on your laptop, deck on the projector">Presenter</button>
     <button class="deck-btn" type="button" id="btn-full" title="Fullscreen (F)">Full</button>
     <button class="deck-btn" type="button" id="btn-print" title="Print to PDF (P)">PDF</button>
     <a class="deck-btn" href="../index.html" title="Back">Exit</a>
@@ -328,6 +336,9 @@
 </div>
 
 <aside class="deck-notes" id="notes" aria-live="polite">
+  <button class="notes-close" id="notes-close" type="button" aria-label="Close speaker notes">
+    <span aria-hidden="true">×</span>
+  </button>
   <h4>Speaker notes</h4>
   <p id="notes-body"></p>
 </aside>
