@@ -478,7 +478,7 @@ export const artefacts = {
   'work-package':        { name: 'Work package',               type: 'docx', file: 'work-package.docx',              gate: null, routes: ['light','standard','full'], isNew: true },
   'approval-note':       { name: 'Client approval note',       type: 'docx', file: 'client-approval-note.docx',      gate: null, routes: ['light','standard','full'] },
   'gate-tracker':        { name: 'Gate tracker',               type: 'xlsx', file: 'chillibyte-project-trackers.xlsx', tab: 'Gate tracker', gate: null, routes: ['light','standard','full'] },
-  'redirect-map':        { name: 'Redirect map',               type: 'xlsx', file: 'chillibyte-project-trackers.xlsx', tab: 'Sitemap', gate: null, routes: [], conditions: ['existing-site'] },
+  'redirect-map':        { name: 'Redirect map',               type: 'xlsx', file: 'chillibyte-project-trackers.xlsx', tab: 'Sitemap', gate: 3, routes: ['light','standard','full'], conditions: ['existing-site'] },
 
   /* Full-route only. These are what the extra depth actually buys, and the
      concrete answer to "how is full different from standard?" */

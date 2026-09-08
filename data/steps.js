@@ -252,7 +252,7 @@ The audit captures the content inventory, the URL list, current organic performa
     contributors: ["head-of-web", "client"],
     approver: "head-of-web",
     inputs: ["Access to existing site, analytics and search console"],
-    deliverables: ["redirect-map"],
+    deliverables: [],
     doneWhen: [
       "Full URL inventory exported",
       "Organic traffic and top landing pages recorded with a date",
@@ -277,7 +277,7 @@ The audit captures the content inventory, the URL list, current organic performa
       "Identify the top 20 URLs by traffic and by inbound links. These are the ones that must be redirected correctly.",
       "Walk the site for load-bearing items: forms, gated PDFs, campaign URLs printed on physical material.",
       "Mark every page keep / rewrite / retire and agree it with the client.",
-      "In Basecamp: file the redirect map and audit findings in Docs & Files → 1-Understand, tick Step 4 on the Phase 1 — Understand to-do list, and — because this step only runs when replacing an existing site — paste the conditional audit gate ticket body into the Approval Gates list before ticking it.",
+      "In Basecamp: file the audit findings in Docs & Files → 1-Understand, tick Step 4 on the Phase 1 — Understand to-do list, and — because this step only runs when replacing an existing site — paste the conditional audit gate ticket body into the Approval Gates list before ticking it.",
     ],
     pitfalls: [
       {
@@ -321,7 +321,7 @@ The page inventory is the sitemap's operational twin: same pages, but with templ
       "Internal brief where applicable",
       "Current-state audit where there is an existing site",
     ],
-    deliverables: ["sitemap", "page-inventory"],
+    deliverables: ["sitemap", "page-inventory", "redirect-map"],
     doneWhen: [
       "Every page has a proposed URL and a parent",
       "Every page has a stated purpose and primary audience",
@@ -345,7 +345,7 @@ The page inventory is the sitemap's operational twin: same pages, but with templ
       "Mark what is deliberately excluded from the navigation and why.",
       "If replacing a site, map old URLs to new ones now while the structure is still malleable.",
       "Present to the client as a decision, not a menu of options. Take it to Gate 3.",
-      "In Basecamp: file the sitemap and page inventory in Docs & Files → 2-Structure, tick Step 5 on the Phase 2 — Structure to-do list, and paste the Gate 3 ticket body into the Approval Gates list before ticking it.",
+      "In Basecamp: file the sitemap, page inventory and — where there is an existing site — the redirect map in Docs & Files → 2-Structure, tick Step 5 on the Phase 2 — Structure to-do list, and paste the Gate 3 ticket body into the Approval Gates list before ticking it.",
     ],
     pitfalls: [
       {

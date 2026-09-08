@@ -175,13 +175,13 @@ export const examples = {
         ['Referring domains', '190, including 4 trade bodies and 2 university engineering departments']
       ]},
       { type: 'prose', text: 'Top landing pages by organic traffic — the URLs that must not break' },
-      { type: 'table', columns: ['URL', 'Sessions/mo', 'Note', 'Destination'], rows: [
-        ['/products/thermal-fluid-heaters/', '410', 'Ranks p1 for a high-intent term', '/process-heaters/thermal-fluid/'],
-        ['/products/shell-tube-heat-exchangers/', '295', 'Ranks p1', '/heat-exchangers/shell-and-tube/'],
-        ['/downloads/', '260', 'Datasheet library entry point', '/technical-library/'],
-        ['/about/accreditations/', '180', 'Linked from 2 trade bodies', '/about/accreditations/ (unchanged)'],
-        ['/products/electric-process-heaters/', '155', 'Ranks p2', '/process-heaters/electric/'],
-        ['/blog/thermal-fluid-degradation/', '140', 'Linked from a university page', '/insights/thermal-fluid-degradation/']
+      { type: 'table', columns: ['URL', 'Sessions/mo', 'Note'], rows: [
+        ['/products/thermal-fluid-heaters/', '410', 'Ranks p1 for a high-intent term'],
+        ['/products/shell-tube-heat-exchangers/', '295', 'Ranks p1'],
+        ['/downloads/', '260', 'Datasheet library entry point'],
+        ['/about/accreditations/', '180', 'Linked from 2 trade bodies'],
+        ['/products/electric-process-heaters/', '155', 'Ranks p2'],
+        ['/blog/thermal-fluid-degradation/', '140', 'Linked from a university page']
       ]},
       { type: 'prose', text: 'Content decisions' },
       { type: 'table', columns: ['Decision', 'Count', 'Note'], rows: [
@@ -228,9 +228,18 @@ export const examples = {
         'Insights — footer only. It exists to preserve link equity from the old blog, not to be a content marketing programme.',
         'Individual case studies — reached from the index and from contextual links on service detail pages.',
         'No "Products" top-level item. The old site used it; the new structure routes by problem type instead, which matches how specifying engineers search.'
+      ]},
+      { type: 'prose', text: 'Redirect map — the URLs flagged in the current-state audit, now mapped to their new home' },
+      { type: 'table', columns: ['Old URL', 'Sessions/mo', 'New URL'], rows: [
+        ['/products/thermal-fluid-heaters/', '410', '/process-heaters/thermal-fluid/'],
+        ['/products/shell-tube-heat-exchangers/', '295', '/heat-exchangers/shell-and-tube/'],
+        ['/downloads/', '260', '/technical-library/'],
+        ['/about/accreditations/', '180', '/about/accreditations/ (unchanged)'],
+        ['/products/electric-process-heaters/', '155', '/process-heaters/electric/'],
+        ['/blog/thermal-fluid-degradation/', '140', '/insights/thermal-fluid-degradation/']
       ]}
     ],
-    commentary: 'Sixteen rows, but the build is 7 unique layouts and 3 repeatable templates. Estimating from "16 pages" and estimating from "10 layouts" produce very different numbers, and only one of them is right.'
+    commentary: 'Sixteen rows, but the build is 7 unique layouts and 3 repeatable templates. Estimating from "16 pages" and estimating from "10 layouts" produce very different numbers, and only one of them is right. The redirect map could not exist before this step — the audit flagged which old URLs mattered, but only the sitemap decides what replaces them.'
   },
 
   'page-outlines': {
