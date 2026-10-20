@@ -497,6 +497,9 @@ const referenceViews = {
       ${conditionalGates.map(g => `<div class="card" style="margin-bottom:var(--sp-4)">
         <h3>${esc(g.title)} ${g.isNew ? newBadge() : ''}</h3>
         <p>${esc(g.purpose)}</p>
+        <p><strong>Sits after:</strong> Gate ${g.after}</p>
+        <p><strong>Artefacts:</strong> ${g.artefacts.map(esc).join(' · ')}</p>
+        <p><strong>Ticket:</strong> <span class="gate-ticket">${esc(g.ticket)}</span></p>
         <p class="muted" style="font-size:var(--fs-sm)"><strong>Triggered by:</strong>
         ${g.triggeredBy.map(c => esc(conditions[c].label)).join(' · ')}</p>
       </div>`).join('')}

@@ -13,6 +13,8 @@ Four tools built on one shared model of the process:
 Static HTML, CSS and ES modules. **No build step, no framework, no dependencies.**
 Serve the directory with anything.
 
+Changes to the process itself are recorded in [`CHANGELOG.md`](CHANGELOG.md).
+
 ```bash
 python3 -m http.server 8000    # or just point a vhost at it
 ```

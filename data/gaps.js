@@ -119,7 +119,7 @@ export const gaps = [
     consequence: 'A five-page brochure site on a domain that has ranked for a decade can lose more commercial value in a bad migration than a fifty-page site with no organic traffic. Risk follows traffic and links, not page count.',
     fix: 'These become conditionally triggered by "replaces an existing live site", independent of route. This is the clearest illustration of why the spec builder uses conditions rather than t-shirt sizes.',
     status: 'authored',
-    touches: ['Current-state audit step', 'Conditional gates C1 and C2', 'Spec builder rules engine']
+    touches: ['Current-state audit step', 'Conditional gates C1 and C3', 'Spec builder rules engine']
   },
   {
     id: 'G13', severity: 'high', title: 'Undefined browser and device support matrix',

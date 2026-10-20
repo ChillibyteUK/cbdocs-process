@@ -8,7 +8,7 @@
 export const meta = {
   name: 'Website delivery process',
   org: 'Chillibyte',
-  version: '1.1',
+  version: '1.2',
   basedOn: 'Website process operating model + Website project process overview',
   note: 'Items marked isNew were added to close a gap identified in the review. See gaps.js.'
 };
@@ -405,20 +405,20 @@ export const conditionalGates = [
     ticket: 'Gate C1: current-state audit accepted'
   },
   {
-    id: 'gate-c-migration', title: 'Migration and redirect plan approved', after: 3,
-    triggeredBy: ['existing-site', 'content-migration', 'high-seo-risk'],
-    purpose: 'Protect existing rankings and inbound links across the URL change.',
-    artefacts: ['SEO migration plan', 'Redirect map', 'Priority URL list'],
-    owner: 'seo-analytics', approver: 'head-of-web', approverSide: 'internal',
-    ticket: 'Gate C2: migration plan approved'
-  },
-  {
     id: 'gate-c-architecture', title: 'Technical architecture approved', after: 2,
     triggeredBy: ['integrations', 'transactional', 'multilingual'],
     purpose: 'Agree the technical shape before it is discovered during build.',
     artefacts: ['Technical architecture notes', 'Integration requirements', 'Data/content model'],
     owner: 'head-of-web', approver: 'head-of-web', approverSide: 'internal',
-    ticket: 'Gate C3: technical architecture approved'
+    ticket: 'Gate C2: technical architecture approved'
+  },
+  {
+    id: 'gate-c-migration', title: 'Migration and redirect plan approved', after: 3,
+    triggeredBy: ['existing-site', 'content-migration', 'high-seo-risk'],
+    purpose: 'Protect existing rankings and inbound links across the URL change.',
+    artefacts: ['SEO migration plan', 'Redirect map', 'Priority URL list'],
+    owner: 'seo-analytics', approver: 'head-of-web', approverSide: 'internal',
+    ticket: 'Gate C3: migration plan approved'
   },
   {
     id: 'gate-c-access', title: 'Access and credentials obtained', after: 10, isNew: true,
