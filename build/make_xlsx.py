@@ -191,11 +191,11 @@ def build():
     sheet(wb, 'Gate tracker', 'Gate tracker',
           'The spine of the project. Approval names artefacts AND their version — otherwise there is '
           'nothing to point at later.',
-          ['Gate', 'Name', 'Route', 'Required artefacts (with version)', 'Owner', 'Approver',
+          ['Approval', 'Name', 'Route', 'Required artefacts (with version)', 'Owner', 'Approver',
            'Basecamp ticket', 'Status', 'Sent for approval', 'Approved date', 'Days taken',
            'Within SLA?', 'Decision log refs', 'Change log refs', 'Notes'],
-          example=['0', 'Sales handover accepted', 'All', 'Sales handover note v1.0', 'Sales',
-                   'Head of Web', 'Gate 0: sales handover accepted', 'Complete', '14/04', '15/04',
+          example=['Studio brief', 'Studio brief accepted', 'All', 'Studio brief v1.0', 'Sales',
+                   'Head of Web', 'Approval: studio brief', 'Complete', '14/04', '15/04',
                    '1', 'Yes', '', '', 'Configurator excluded — phase 2 candidate'],
           new_cols=('Sent for approval', 'Days taken', 'Within SLA?'),
           validations={'Status': STATUS, 'Within SLA?': YESNO},
@@ -204,13 +204,13 @@ def build():
 
     # --- Estimate baseline (NEW) -------------------------------------------
     sheet(wb, 'Estimate baseline', 'Estimate baseline  [NEW]',
-          'Set at Gate 1, re-baselined at Gate 10, actuals recorded at Gate 14. Without this, scope '
+          'Set at the discovery approval, re-baselined at the build specification approval, actuals recorded at the project closure approval. Without this, scope '
           'creep cannot be demonstrated — only asserted.',
-          ['Phase', 'Step', 'Gate 1 baseline (hrs)', 'Gate 10 re-baseline (hrs)', 'Actual (hrs)',
+          ['Phase', 'Step', 'Discovery baseline (hrs)', 'Build spec re-baseline (hrs)', 'Actual (hrs)',
            'Variance', 'Variance %', 'Of which billed as variation', 'Why it varied'],
           example=['Structure', 'Block identification', '4', '4', '5', '+1', '25%', '0',
                    'One extra block found during outlining'],
-          new_cols=('Gate 1 baseline (hrs)', 'Gate 10 re-baseline (hrs)', 'Actual (hrs)',
+          new_cols=('Discovery baseline (hrs)', 'Build spec re-baseline (hrs)', 'Actual (hrs)',
                     'Variance', 'Variance %', 'Of which billed as variation', 'Why it varied'),
           widths={'Why it varied': 42, 'Step': 30},
           rows=30)
@@ -225,7 +225,7 @@ def build():
           example=['DEC-001', '', 'Discovery', 'Project route selected',
                    'Discovery indicates likely complexity', 'Light; standard; full', 'Standard',
                    'Default route for modular B2B service sites', 'Sets artefact depth and gate count',
-                   'Medium', 'Head of Web', 'Internal', 'Basecamp Gate 1', 'Proposed',
+                   'Medium', 'Head of Web', 'Internal', 'Approval: discovery ticket', 'Proposed',
                    'Discovery summary', ''],
           validations={'Status': DECISION, 'Reversal cost': LIKELIHOOD},
           widths={'Context': 30, 'Options considered': 28, 'Rationale': 34, 'Impact': 30, 'Notes': 26},
@@ -269,7 +269,7 @@ def build():
 
     # --- Sitemap ------------------------------------------------------------
     sheet(wb, 'Sitemap', 'Sitemap',
-          'Approved at Gate 3. Where there is an existing site, every old URL maps to a new one or to a '
+          'Approved at the sitemap approval. Where there is an existing site, every old URL maps to a new one or to a '
           'documented retirement.',
           ['Page', 'Proposed URL', 'Parent', 'Purpose', 'Primary audience', 'Primary CTA',
            'Secondary CTA', 'Template type', 'Navigation placement', 'SEO priority',
@@ -317,7 +317,7 @@ def build():
 
     # --- Block inventory ----------------------------------------------------
     sheet(wb, 'Block inventory', 'Block inventory',
-          'Approved at Gate 5. Collapse duplicates hard — if this list is as long as your section list, '
+          'Approved at the block inventory approval. Collapse duplicates hard — if this list is as long as your section list, '
           'no consolidation has happened.',
           ['Block', 'Used on', 'Status', 'Reuse decision', 'Purpose', 'Fields', 'Design needed',
            'Responsive notes', 'PHP structure', 'field group', 'Base SCSS', 'Theme SCSS',
@@ -378,7 +378,7 @@ def build():
         ('Analytics', 'Analytics firing and consent mode configured'),
     ]
     ws = sheet(wb, 'QA', 'QA checklist',
-               'Tested against the support matrix and accessibility target agreed at Gate 1 — and '
+               'Tested against the support matrix and accessibility target agreed at the discovery approval — and '
                'nothing beyond them. That is what makes QA finishable.',
                ['Category', 'Check', 'Owner', 'Status', 'Issue', 'Severity', 'Fix required',
                 'Retested', 'Basecamp reference', 'Notes'],
@@ -394,18 +394,18 @@ def build():
 
     # --- Launch -------------------------------------------------------------
     launch_rows = [
-        ('Pre-launch', 'Final client approval captured (Gate 12)', 'Gate 12'),
-        ('Pre-launch', 'Content freeze declared and confirmed to the client', 'Gate 12'),
+        ('Pre-launch', 'Final client approval captured', 'Staging approval'),
+        ('Pre-launch', 'Content freeze declared and confirmed to the client', 'Staging approval'),
         ('Pre-launch', 'Full backup taken AND restore verified', 'Hosting access'),
         ('Pre-launch', 'Redirects implemented and tested against the audit URL list', 'Current-state audit'),
         ('Pre-launch', 'DNS access confirmed and TTL reduced', 'DNS credentials'),
         ('Pre-launch', 'Hosting environment provisioned and tested', ''),
         ('Pre-launch', 'Integrations moved from sandbox to production', 'Credentials'),
-        ('Pre-launch', 'Compliance cleared — consent, privacy, retention', 'Gate C5'),
+        ('Pre-launch', 'Compliance cleared — consent, privacy, retention', 'Compliance approval'),
         ('Pre-launch', 'Rollback plan written and read by whoever is launching', ''),
         ('Pre-launch', 'Launch window scheduled in working hours, not a Friday', ''),
-        ('Pre-launch', 'Warranty window agreed with the client IN WRITING', 'Gate 13'),
-        ('Launch', 'Deploy to production', 'Gate 13'),
+        ('Pre-launch', 'Warranty window agreed with the client IN WRITING', 'Launch approval'),
+        ('Launch', 'Deploy to production', 'Launch approval'),
         ('Launch', 'DNS switched', ''),
         ('Post-launch', 'Live smoke test — all key journeys walked', 'DNS propagated'),
         ('Post-launch', 'Every form submitted with real data and confirmed arriving', ''),

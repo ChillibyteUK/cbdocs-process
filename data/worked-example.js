@@ -38,14 +38,14 @@ export const project = {
 
 export const examples = {
 
-  'sales-handover': {
-    title: 'Sales handover note',
+  'studio-brief': {
+    title: 'Studio brief',
     intro: 'Twenty minutes of writing at the point of sale. Note that the exclusions list is longer than the inclusions list — that is normal, and it is where the value is.',
     blocks: [
       { type: 'fields', items: [
         ['Client', 'Halcyon Thermal Ltd'],
         ['Sold by', 'New business'],
-        ['Handover date', '14 April'],
+        ['Brief date', '14 April'],
         ['Contract value', '£18,400 + VAT'],
         ['Payment structure', '40% on order, 30% at design approval, 30% on launch'],
         ['Target launch', 'End of August (soft — tied to a trade show, not contractual)'],
@@ -114,7 +114,7 @@ export const examples = {
         ['Home and About copy', 'Client, agency edits', 'To be written'],
         ['Photography', 'Client', 'Partial — factory shots exist, no product photography']
       ]},
-      { type: 'prose', text: 'Guardrails agreed at Gate 1' },
+      { type: 'prose', text: 'Guardrails agreed at the discovery approval' },
       { type: 'fields', items: [
         ['Named client approver', 'Technical Director. Sole approver. Others may comment; only he approves.'],
         ['Approval response window', '5 working days. Silence past the window pauses the project and moves the launch date.'],
@@ -125,13 +125,13 @@ export const examples = {
       ]},
       { type: 'prose', text: 'Risks and assumptions raised' },
       { type: 'table', columns: ['ID', 'Type', 'Item', 'Impact if realised', 'Owner', 'Mitigation'], rows: [
-        ['RA-001', 'Risk', 'Case study content does not exist and Sales has no time to write it', 'Six template pages with no content; launch delayed or pages dropped', 'Account Management', 'Content deadline at Gate 4. Reduce to 3 case studies if not met.'],
+        ['RA-001', 'Risk', 'Case study content does not exist and Sales has no time to write it', 'Six template pages with no content; launch delayed or pages dropped', 'Account Management', 'Content deadline at the page outlines approval. Reduce to 3 case studies if not met.'],
         ['RA-002', 'Risk', 'Existing site has 12 years of authority; migration could lose organic traffic', 'Direct revenue impact, attributed to the agency', 'SEO / Analytics', 'Current-state audit and redirect map forced on despite standard route'],
-        ['RA-003', 'Assumption', 'Client supplies usable product photography', 'Design quality compromised; stock imagery undermines credibility goal', 'Client', 'Confirm at Gate 4. Budget for a photography day if not.'],
-        ['RA-004', 'Risk', 'Fourth service line launches during the project', 'New page, new template variant, new copy — out of scope', 'Head of Web', 'Explicitly excluded at Gate 0. Handle as a variation if raised.']
+        ['RA-003', 'Assumption', 'Client supplies usable product photography', 'Design quality compromised; stock imagery undermines credibility goal', 'Client', 'Confirm at the page outlines approval. Budget for a photography day if not.'],
+        ['RA-004', 'Risk', 'Fourth service line launches during the project', 'New page, new template variant, new copy — out of scope', 'Head of Web', 'Explicitly excluded at the studio brief approval. Handle as a variation if raised.']
       ]}
     ],
-    commentary: 'Compare RA-001 with how it would normally be recorded: "client to provide case studies". Naming the owner, the impact and the fallback converts it from an aspiration into something that can actually be managed at Gate 4.'
+    commentary: 'Compare RA-001 with how it would normally be recorded: "client to provide case studies". Naming the owner, the impact and the fallback converts it from an aspiration into something that can actually be managed at the page outlines approval.'
   },
 
   'internal-brief': {
@@ -152,7 +152,7 @@ export const examples = {
         'Gated downloads use a single reusable pattern, not per-page implementations.',
         'Performance posture: technical pages carry tables and PDFs, so image weight is the budget to protect.'
       ]},
-      { type: 'prose', text: 'Exclusions carried forward from Gate 0' },
+      { type: 'prose', text: 'Exclusions carried forward from the studio brief approval' },
       { type: 'list', style: 'cross', items: [
         'Copywriting, photography, translation',
         'Product configurator — phase 2 candidate',
@@ -425,7 +425,7 @@ export const examples = {
 
   'visual-design': {
     title: 'Internal design review notes',
-    intro: 'Gate 8, before anything reached the client. This review took about an hour and prevented a revision round.',
+    intro: 'The internal design review, before anything reached the client. This review took about an hour and prevented a revision round.',
     blocks: [
       { type: 'table', columns: ['Criterion', 'Verdict', 'Note'], rows: [
         ['Follows approved structure', 'Pass', 'Section order matches outlines on all templates'],
@@ -461,7 +461,7 @@ export const examples = {
         ['3', 'Prefer the blue heading treatment from concept A', 'Preference', 'Applied — within revision allowance'],
         ['4', 'More space between spec table rows', 'Preference', 'Applied — within allowance'],
         ['5', 'Accreditation logos should be larger', 'Preference', 'Applied — within allowance'],
-        ['6', 'Can we add a product configurator?', 'New scope', 'Excluded at Gate 0. Logged CHG-006, quoted separately as phase 2.'],
+        ['6', 'Can we add a product configurator?', 'New scope', 'Excluded at the studio brief approval. Logged CHG-006, quoted separately as phase 2.'],
         ['7', 'Add a fourth service line — Controls & Instrumentation', 'New scope', 'The risk flagged as RA-004. Logged CHG-007. Variation VAR-003 — new landing page, 2 detail pages, template variant. £2,150. Accepted.'],
         ['8', 'Can the case studies have video?', 'New scope', 'Logged CHG-008. No video exists and none is in scope. Deferred to post-launch backlog.'],
         ['9', 'Move the datasheet CTA higher', 'Preference', 'Applied — within allowance'],
@@ -478,8 +478,8 @@ export const examples = {
       ]},
       { type: 'prose', text: 'The counterfactual' },
       { type: 'list', style: 'plain', items: [
-        'Item 7 is the fourth service line flagged as a risk at discovery and explicitly excluded at Gate 0. Because it was excluded in writing, adding it was a straightforward priced variation rather than an argument.',
-        'Without Gate 0, item 7 arrives as "we always assumed all our service lines would be covered" — and is absorbed, at a cost of roughly 14 hours.'
+        'Item 7 is the fourth service line flagged as a risk at discovery and explicitly excluded at the studio brief approval. Because it was excluded in writing, adding it was a straightforward priced variation rather than an argument.',
+        'Without the studio brief approval, item 7 arrives as "we always assumed all our service lines would be covered" — and is absorbed, at a cost of roughly 14 hours.'
       ]}
     ],
     commentary: 'Three new-scope items in one feedback round is completely normal. The process did not stop the client asking. It made asking a commercial conversation instead of an expectation.'
@@ -489,7 +489,7 @@ export const examples = {
 
   'build-spec': {
     title: 'Build specification (extract)',
-    intro: 'The block build list and the estimate re-baseline. This is where the Gate 1 guess meets the known scope.',
+    intro: 'The block build list and the estimate re-baseline. This is where the discovery estimate meets the known scope.',
     blocks: [
       { type: 'fields', items: [
         ['Stack', 'WordPress · custom theme · block framework'],
@@ -517,8 +517,8 @@ export const examples = {
         ['Home, About, Accreditations, Contact, Privacy', '5', 'Agency', '4 hrs'],
         ['Insights migration', '11', 'Agency', '3 hrs']
       ]},
-      { type: 'prose', text: 'Estimate re-baseline at Gate 10' },
-      { type: 'table', columns: ['', 'Gate 1 baseline', 'Gate 10 re-baseline', 'Variance'], rows: [
+      { type: 'prose', text: 'Estimate re-baseline at the build specification approval' },
+      { type: 'table', columns: ['', 'Discovery baseline', 'Build spec re-baseline', 'Variance'], rows: [
         ['Core process steps', '145 hrs', '149 hrs', '+4'],
         ['Conditional work (audit, redirects, compliance)', '22 hrs', '26 hrs', '+4'],
         ['Approved variations (VAR-002, VAR-003)', '—', '20 hrs', '+20 (billed)'],
@@ -582,9 +582,9 @@ export const examples = {
       { type: 'prose', text: 'Content deadline escalation, invoked once' },
       { type: 'fields', items: [
         ['6 June', 'Case study content deadline passes. Two of six supplied.'],
-        ['9 June', 'Escalation as agreed at Gate 4: client informed that the case study section will launch with three studies and the remaining three added post-launch as a content task.'],
+        ['9 June', 'Escalation as agreed at the page outlines approval: client informed that the case study section will launch with three studies and the remaining three added post-launch as a content task.'],
         ['20 June', 'Four supplied. Launched with four. No delay to the launch date.'],
-        ['Outcome', 'The deadline and its consequence were agreed at Gate 4, so invoking it was a routine email rather than a difficult conversation.']
+        ['Outcome', 'The deadline and its consequence were agreed at the page outlines approval, so invoking it was a routine email rather than a difficult conversation.']
       ]}
     ],
     commentary: 'The gated download ran 2 hours over — the integration always does. Everything else landed within an hour of estimate. That is what estimating from a known block list rather than a page count gets you.'
@@ -615,7 +615,7 @@ export const examples = {
 
   'internal-qa': {
     title: 'Internal QA — against the agreed matrix',
-    intro: 'QA is finishable here because Gate 1 defined what "tested" means. Everything below is tested against the support matrix and WCAG 2.2 AA, and nothing beyond it.',
+    intro: 'QA is finishable here because the discovery approval defined what "tested" means. Everything below is tested against the support matrix and WCAG 2.2 AA, and nothing beyond it.',
     blocks: [
       { type: 'table', columns: ['Category', 'Check', 'Result', 'Issue'], rows: [
         ['Structure', 'Matches approved sitemap v1.1', 'Pass', '—'],
@@ -643,7 +643,7 @@ export const examples = {
         'Caught at QA because the audit produced a testable list. Without the audit there would have been no list to test against, and the failure would have been discovered by a customer.'
       ]}
     ],
-    commentary: 'Seven issues found internally, two found by the client — and both of those cosmetic. That ratio is the entire argument for Gate 11. Every one of those seven, found by the client instead, would have cost an approval round and a small amount of confidence.'
+    commentary: 'Seven issues found internally, two found by the client — and both of those cosmetic. That ratio is the entire argument for the internal QA approval. Every one of those seven, found by the client instead, would have cost an approval round and a small amount of confidence.'
   },
 
   'staging-review': {
@@ -659,18 +659,18 @@ export const examples = {
         ['6', 'Add a news section for the trade show', 'New scope', 'Logged CHG-011. Insights template already exists — offered as 2 hrs post-launch. Accepted.'],
         ['7', 'Change the home hero photograph', 'Preference', 'Client supplied a new image; applied'],
         ['8', 'Make the phone number bigger in the header', 'Preference', 'Applied'],
-        ['9', 'Can we see how it looks on my old iPad?', 'Out of matrix', 'iPad 2 running iOS 9 is outside the agreed support matrix. Explained with reference to Gate 1. Not pursued.']
+        ['9', 'Can we see how it looks on my old iPad?', 'Out of matrix', 'iPad 2 running iOS 9 is outside the agreed support matrix. Explained with reference to the discovery approval. Not pursued.']
       ]},
       { type: 'fields', items: [
         ['Review window', '5 working days as agreed. Feedback returned on day 4.'],
         ['Rounds used', '1 of 1 consolidated round'],
-        ['Content freeze', 'Declared on approval. No content edits between Gate 12 and launch.'],
+        ['Content freeze', 'Declared on approval. No content edits between the staging approval and launch.'],
         ['Approval', 'Technical Director, in writing, naming: Staging build, 22 August.']
       ]},
       { type: 'prose', text: 'Item 9 is worth noting' },
       { type: 'list', style: 'plain', items: [
         'A request to support a fourteen-year-old device is entirely reasonable from a client who does not think about support matrices.',
-        'Because the matrix was agreed at Gate 1 and written down, declining it was a two-sentence explanation rather than a negotiation.',
+        'Because the matrix was agreed at the discovery approval and written down, declining it was a two-sentence explanation rather than a negotiation.',
         'Without the matrix, this becomes an open question that someone eventually spends half a day on.'
       ]}
     ],
@@ -682,7 +682,7 @@ export const examples = {
     intro: 'Everything below was done before launch day. Launch itself took 40 minutes.',
     blocks: [
       { type: 'table', columns: ['Task', 'Owner', 'Done', 'Note'], rows: [
-        ['Final client approval captured (Gate 12)', 'Account Management', '22 Aug', 'In writing, naming the staging build'],
+        ['Final client approval captured (staging approval)', 'Account Management', '22 Aug', 'In writing, naming the staging build'],
         ['Full backup of existing site taken', 'Head of Web', '22 Aug', 'Restore tested on a scratch environment — not just taken'],
         ['84 redirects implemented and tested', 'Head of Web', '23 Aug', 'Tested against the audit URL list, including the 40 PDF paths and /hx'],
         ['DNS TTL reduced to 300s', 'Head of Web', '24 Aug', '48 hrs ahead of the switch'],
@@ -718,12 +718,12 @@ export const examples = {
       ]},
       { type: 'prose', text: 'Estimate variance — the number worth keeping' },
       { type: 'table', columns: ['', 'Hours'], rows: [
-        ['Gate 1 baseline', '200'],
-        ['Gate 10 re-baseline', '234'],
+        ['Discovery baseline', '200'],
+        ['Build spec re-baseline', '234'],
         ['Actual', '249'],
         ['Variance vs re-baseline', '+15 (6.4%)'],
         ['Of which billed as variations', '20 hrs (VAR-002 £780, VAR-003 £2,150)'],
-        ['Genuine estimating error', '+29 hrs against the Gate 1 baseline — concentrated in content entry (+3) and QA fixes (+6)']
+        ['Genuine estimating error', '+29 hrs against the Discovery baseline — concentrated in content entry (+3) and QA fixes (+6)']
       ]},
       { type: 'prose', text: 'Commercial outcome' },
       { type: 'table', columns: ['', 'This project', 'Previous approach (estimated)'], rows: [
@@ -744,7 +744,7 @@ export const examples = {
       { type: 'prose', text: 'Retrospective — each item with an owner and a date' },
       { type: 'table', columns: ['Finding', 'Action', 'Owner', 'Due'], rows: [
         ['Content entry consistently under-estimated', 'Raise the content-entry effort band by 15% in the estimate model', 'Head of Web', 'Before next estimate'],
-        ['DNS access nearly derailed a fixed deadline', 'Move DNS confirmation earlier — request at Gate 1 rather than Gate 10', 'Account Management', 'Next project'],
+        ['DNS access nearly derailed a fixed deadline', 'Move DNS confirmation earlier — request at the discovery approval rather than at the build specification approval', 'Account Management', 'Next project'],
         ['Cookie consent was configured but non-functional', 'Add "test that consent actually gates tracking" as an explicit QA line', 'Head of Web', 'Template update, 2 weeks'],
         ['Case study content risk was correctly predicted and correctly managed', 'No action — the mechanism worked. Note as evidence for the content deadline rule.', '—', '—']
       ]},

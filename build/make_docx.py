@@ -6,7 +6,7 @@ Run:  build/venv/bin/python build/make_docx.py
       (or point at any venv with python-docx installed)
 
 Templates 1-7 come from the existing Google Docs template pack.
-Templates 8-9 are new, closing gaps G4 (sales handover) and G2 (variation order).
+Templates 8-9 are new, closing gaps G4 (studio brief) and G2 (variation order).
 """
 
 import os
@@ -205,12 +205,12 @@ def save(doc, name):
     print(f'  {name}')
 
 
-# --------------------------------------------------------------------------- 1. Sales handover
+# --------------------------------------------------------------------------- 1. Studio brief
 
-def sales_handover():
-    d = new_doc('Sales handover note',
+def studio_brief():
+    d = new_doc('Studio brief',
                 'Completed by sales, accepted by delivery, before discovery is scheduled.',
-                gate='Gate 0', route='light / standard / full', is_new=True)
+                gate='Approval: studio brief', route='light / standard / full', is_new=True)
 
     callout(d, 'Why this exists.',
             'What sales promised is the commonest single origin of scope disagreement. Twenty minutes here '
@@ -218,7 +218,7 @@ def sales_handover():
 
     h2(d, 'Commercial basis')
     fields(d, [
-        ('Client', ''), ('Project name', ''), ('Sold by', ''), ('Handover date', ''),
+        ('Client', ''), ('Project name', ''), ('Sold by', ''), ('Brief date', ''),
         ('Contract value', ''), ('Payment structure', 'e.g. 40% on order, 30% at design approval, 30% on launch'),
         ('Target launch', 'State whether this is contractual or aspirational'),
         ('Route sold as', 'light / standard / full'),
@@ -255,9 +255,9 @@ def sales_handover():
         ('Gap between sold and deliverable',
          'If what was sold cannot be delivered for the price, say so NOW. It gets harder every week.'),
         ('Resolution', 'Repriced / rescoped / accepted as-is with the shortfall recorded'),
-        ('Basecamp reference', 'Gate 0: sales handover accepted'),
+        ('Basecamp reference', 'Approval: studio brief'),
     ])
-    save(d, 'sales-handover-note.docx')
+    save(d, 'studio-brief.docx')
 
 
 # --------------------------------------------------------------------------- 2. Discovery summary
@@ -265,7 +265,7 @@ def sales_handover():
 def discovery_summary():
     d = new_doc('Discovery summary',
                 'The foundation artefact. Every later document traces back to an answer in here.',
-                gate='Gate 1', route='light / standard / full')
+                gate='Approval: discovery', route='light / standard / full')
 
     h2(d, 'Project')
     fields(d, [
@@ -319,7 +319,7 @@ def discovery_summary():
         ('Known technical risks', ''),
     ])
 
-    h2(d, 'Guardrails — agreed at Gate 1')
+    h2(d, 'Guardrails — agreed at the discovery approval')
     callout(d, 'These take minutes now and are close to impossible to impose later.',
             'Do not skip this section on small projects. It is where the process pays for itself.')
     fields(d, [
@@ -327,7 +327,7 @@ def discovery_summary():
         ('Approval response window', 'e.g. 5 working days. Silence past it pauses the project — it does not mean yes.'),
         ('Browser and device support matrix', 'Which browsers, devices and breakpoints. This is what makes QA finishable.'),
         ('Accessibility target', 'e.g. WCAG 2.2 AA. "Accessible" is not a testable statement.'),
-        ('Revision allowance', 'Carried forward from the sales handover'),
+        ('Revision allowance', 'Carried forward from the studio brief'),
         ('Estimate baseline', 'From the spec builder. Core hours + contingency. The yardstick for all later change.'),
     ])
 
@@ -338,7 +338,7 @@ def discovery_summary():
     table(d, ['Risk', 'Likelihood', 'Impact', 'Mitigation', 'Owner'], rows=4)
 
     h2(d, 'Exclusions')
-    guidance(d, 'Carry forward from the sales handover and add anything discovery has ruled out. '
+    guidance(d, 'Carry forward from the studio brief and add anything discovery has ruled out. '
                 'The spec builder generates a client-ready version of this list.')
     table(d, ['Item', 'Reason excluded', 'Future phase candidate?'], rows=4)
 
@@ -352,7 +352,7 @@ def discovery_summary():
 def page_outline():
     d = new_doc('Page outline',
                 'What a page must say and do, before any layout decision is made.',
-                gate='Gate 4', route='light / standard / full')
+                gate='Approval: page outlines', route='light / standard / full')
 
     callout(d, 'Outline templates, not every page.',
             'A repeatable template needs one outline, not twenty. Outline the unique pages and each '
@@ -394,7 +394,7 @@ def page_outline():
 def block_spec():
     d = new_doc('Block specification',
                 'One per block being adapted or built new. Reused blocks do not need one.',
-                gate='Gate 5', route='standard / full')
+                gate='Approval: block inventory', route='standard / full')
 
     h2(d, 'Block')
     fields(d, [
@@ -453,7 +453,7 @@ def block_spec():
 def designer_brief():
     d = new_doc('Designer brief and style direction',
                 'Approved structure and principles. What is fixed, and where judgement is wanted.',
-                gate='Gate 7', route='standard / full')
+                gate='Approval: style direction', route='standard / full')
 
     callout(d, 'The point of this document.',
             'Separating what is fixed from what is open is not a constraint on the designer — it is a '
@@ -463,7 +463,7 @@ def designer_brief():
     h2(d, 'Project')
     fields(d, [('Project', ''), ('Client', ''), ('Prepared by', ''), ('Date', ''),
                ('Design route', 'light / standard / full'),
-               ('Concepts and revisions included', 'From the sales handover')])
+               ('Concepts and revisions included', 'From the studio brief')])
 
     h2(d, 'Context')
     fields(d, [('Business summary', ''), ('Website purpose', ''), ('Audience summary', ''),
@@ -473,7 +473,7 @@ def designer_brief():
     guidance(d, 'Name the version. The designer is working from these specific versions, and a later '
                 'change to any of them is a change log entry.')
     table(d, ['Artefact', 'Version', 'Approved at'], rows=6,
-          hints=['Sitemap', 'v1.0', 'Gate 3'])
+          hints=['Sitemap', 'v1.0', 'Sitemap approval'])
 
     h2(d, 'What is FIXED — approved, do not change')
     bullets(d, ['Sitemap and URL structure', 'Page section order per the outlines',
@@ -535,7 +535,7 @@ def designer_brief():
 def build_spec():
     d = new_doc('Build specification',
                 'Approved design translated into templates, blocks, fields and a re-baselined estimate.',
-                gate='Gate 10', route='standard / full')
+                gate='Approval: build specification', route='standard / full')
 
     h2(d, 'Project')
     fields(d, [('Project', ''), ('Prepared by', ''), ('Date', ''),
@@ -569,10 +569,10 @@ def build_spec():
 
     h2(d, 'Estimate re-baseline')
     callout(d, 'Keep the variance.',
-            'The difference between the Gate 1 baseline and this re-baseline is one of the most useful '
+            'The difference between the Discovery baseline and this re-baseline is one of the most useful '
             'numbers the process produces. Project after project it shows where estimating is '
             'systematically wrong — and that is worth more than any single estimate.')
-    table(d, ['', 'Gate 1 baseline', 'Gate 10 re-baseline', 'Variance'], rows=5,
+    table(d, ['', 'Discovery baseline', 'Build spec re-baseline', 'Variance'], rows=5,
           hints=['Core process steps', '167 hrs', '171 hrs', '+4'])
 
     h2(d, 'Access and credentials')
@@ -584,8 +584,8 @@ def build_spec():
     table(d, ['Risk', 'Impact', 'Mitigation', 'Owner'], rows=4)
 
     h2(d, 'QA focus')
-    fields(d, [('Support matrix', 'From Gate 1 — QA tests against this and nothing beyond it'),
-               ('Accessibility target', 'From Gate 1'),
+    fields(d, [('Support matrix', 'From the discovery approval — QA tests against this and nothing beyond it'),
+               ('Accessibility target', 'From the discovery approval'),
                ('Forms', ''), ('Navigation', ''), ('Performance', ''),
                ('SEO basics', ''), ('Analytics', ''),
                ('Redirects', 'Test against the real old URL list from the audit')])
@@ -595,9 +595,9 @@ def build_spec():
 # --------------------------------------------------------------------------- 7. Gate ticket
 
 def gate_ticket():
-    d = new_doc('Basecamp gate ticket',
-                'Paste into Basecamp. One ticket per gate. This is what approval actually looks like.',
-                gate='Every gate', route='light / standard / full')
+    d = new_doc('Basecamp approval ticket',
+                'Paste into Basecamp. One ticket per approval. This is what approval actually looks like.',
+                gate='Every approval', route='light / standard / full')
 
     callout(d, 'Approval is not "looks good".',
             'It means the named artefacts, at the named versions, are accepted as the basis for the next '
@@ -605,8 +605,8 @@ def gate_ticket():
 
     h2(d, 'Ticket')
     fields(d, [
-        ('Gate', 'Number and name'),
-        ('Purpose', 'What this gate confirms'),
+        ('Approval', 'Name of what is being approved'),
+        ('Purpose', 'What this approval confirms'),
         ('Artefacts reviewed', 'Name AND version for each one'),
         ('Decision', 'Approved / approved with notes / not approved / deferred'),
         ('Notes', 'Conditions, caveats, follow-up points'),
@@ -625,7 +625,7 @@ def gate_ticket():
     guidance(d, 'Copy the block below into the Basecamp ticket body and fill it in.')
     p = d.add_paragraph()
     r = p.add_run(
-        'GATE [n]: [name]\n\n'
+        'APPROVAL: [name]\n\n'
         'Artefacts being approved:\n'
         '- [Artefact name] [version]\n'
         '- [Artefact name] [version]\n\n'
@@ -646,7 +646,7 @@ def gate_ticket():
 def approval_note():
     d = new_doc('Client approval note',
                 'The client-facing version. Sanitised, short, and specific about what is being agreed.',
-                gate='Client gates', route='light / standard / full')
+                gate='Client approvals', route='light / standard / full')
 
     h2(d, 'Approval')
     p = d.add_paragraph()
@@ -694,7 +694,7 @@ def variation_order():
         ('Date raised', ''), ('Raised by', ''),
         ('Related change log entry', 'CHG-000'),
         ('Related approved artefact', 'What this changes, and at which version it was approved'),
-        ('Gate affected', ''),
+        ('Approval affected', ''),
     ])
 
     h2(d, 'What is being requested')
@@ -738,7 +738,7 @@ def variation_order():
 if __name__ == '__main__':
     os.makedirs(OUT, exist_ok=True)
     print('Generating document templates:')
-    sales_handover()
+    studio_brief()
     discovery_summary()
     page_outline()
     block_spec()

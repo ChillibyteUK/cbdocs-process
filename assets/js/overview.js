@@ -36,7 +36,7 @@ document.querySelectorAll('[data-phase-list]').forEach(container => {
     const hasGate = s.gate !== null && s.gate !== undefined;
     const conditional = !hasGate && Boolean(s.conditionalGate);
     const noGate = !hasGate && !conditional;
-    const gateLabel = hasGate ? `Gate ${s.gate}` : (s.conditionalGate ? 'Conditional' : '');
+    const gateLabel = hasGate ? 'Approval' : (s.conditionalGate ? 'Conditional' : '');
     return `
     <div class="step-row ${conditional ? 'is-conditional' : ''} ${noGate ? 'is-nogate' : ''}">
       <span class="sn">${s.n}</span>
@@ -59,9 +59,9 @@ document.querySelectorAll('[data-phase-list]').forEach(container => {
   document.getElementById('gate-light-count').textContent = gates.filter(g => g.routes.includes('light')).length;
   document.getElementById('cgate-count').textContent = conditionalGates.length;
 
-  const g = gates[3]; // Gate 3 — sitemap approved: concrete and easy to picture
+  const g = gates[3]; // the sitemap approval: concrete and easy to picture
   document.getElementById('gate-example').innerHTML = `
-    <h3>Example — Gate ${g.n}: ${esc(g.title)}</h3>
+    <h3>Example — ${esc(g.ticket)}</h3>
     <p>${esc(g.purpose)}</p>
     <p style="margin-top:.5rem"><strong>Names:</strong> ${esc(g.artefacts.join(', '))}</p>
     <p><strong>Approver:</strong> ${esc(roleName(g.approver))}</p>

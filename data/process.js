@@ -8,7 +8,7 @@
 export const meta = {
   name: 'Website delivery process',
   org: 'Chillibyte',
-  version: '1.2',
+  version: '1.4',
   basedOn: 'Website process operating model + Website project process overview',
   note: 'Items marked isNew were added to close a gap identified in the review. See gaps.js.'
 };
@@ -70,7 +70,7 @@ export const roles = {
     id: 'sales',
     name: 'Sales / New Business',
     short: 'Sales',
-    owns: 'What was sold, at what price, with which inclusions and exclusions. Hands over to delivery at Gate 0.',
+    owns: 'What was sold, at what price, with which inclusions and exclusions. Passes to delivery at the studio brief approval.',
     colour: 'grey',
     isNew: true,
     newBecause: 'The process began after sales, so what sales promised never entered the record (G4).'
@@ -232,159 +232,159 @@ export const conditions = {
 
 export const gates = [
   {
-    n: 0, id: 'gate-0', title: 'Sales handover accepted', isNew: true,
+    n: 0, id: 'gate-0', title: 'Studio brief accepted', name: 'studio brief', isNew: true,
     purpose: 'Put on the record what was sold, at what price, with which inclusions and exclusions, before delivery inherits it.',
-    artefacts: ['Sales handover note', 'Signed proposal or scope', 'Commercial constraints'],
+    artefacts: ['Studio brief', 'Signed proposal or scope', 'Commercial constraints'],
     owner: 'sales', approver: 'head-of-web', approverSide: 'internal',
     routes: ['light', 'standard', 'full'],
-    ticket: 'Gate 0: sales handover accepted',
+    ticket: 'Approval: studio brief',
     unlocks: 'Discovery may be scheduled.',
     failPath: 'Delivery does not accept the project until the gap between what was sold and what is deliverable is written down and priced.',
     newBecause: 'What sales promised is the commonest origin of scope creep, and it was entering delivery unrecorded (G4).'
   },
   {
-    n: 1, id: 'gate-1', title: 'Discovery complete',
+    n: 1, id: 'gate-1', title: 'Discovery complete', name: 'discovery',
     purpose: 'Confirm there is enough context to proceed.',
     artefacts: ['Discovery notes', 'Discovery summary', 'Requirements list', 'Risk and assumption log', 'Project classification', 'Estimate baseline', 'Approval SLA and named approver', 'Support matrix'],
     owner: 'head-of-web', approver: 'head-of-web', approverSide: 'internal',
     routes: ['light', 'standard', 'full'],
-    ticket: 'Gate 1: discovery complete',
+    ticket: 'Approval: discovery',
     unlocks: 'Internal brief, sitemap work and any parallel audits.',
     failPath: 'Return to discovery. Book a second session rather than proceeding on assumptions — a missing answer here costs a multiple of itself later.',
     additions: ['Estimate baseline (G1)', 'Approval SLA + named approver (G3)', 'Support matrix (G13)', 'Accessibility target (G15)', 'Revision allowance (G6)']
   },
   {
-    n: 2, id: 'gate-2', title: 'Internal brief agreed',
+    n: 2, id: 'gate-2', title: 'Internal brief agreed', name: 'internal brief',
     purpose: 'Turn discovery into a usable working brief.',
     artefacts: ['Goals', 'Stakeholders', 'Requirements', 'Assumptions', 'Risks', 'Exclusions', 'Design principles', 'Technical principles'],
     owner: 'head-of-web', approver: 'head-of-web', approverSide: 'internal',
     routes: ['standard', 'full'],
-    ticket: 'Gate 2: internal brief agreed',
+    ticket: 'Approval: internal brief',
     unlocks: 'Structural work with a shared internal understanding.',
     failPath: 'Rewrite the brief. If the team cannot agree the brief internally, the client certainly will not resolve it.'
   },
   {
-    n: 3, id: 'gate-3', title: 'Sitemap approved',
+    n: 3, id: 'gate-3', title: 'Sitemap approved', name: 'sitemap',
     purpose: 'Lock the site structure before page outlining and design.',
     artefacts: ['Sitemap', 'URL hierarchy', 'Navigation model', 'Page inventory', 'Page template notes'],
     owner: 'head-of-web', approver: 'client', approverSide: 'client',
     routes: ['light', 'standard', 'full'],
-    ticket: 'Gate 3: sitemap approved',
+    ticket: 'Approval: sitemap',
     unlocks: 'Page outlining, content planning and redirect mapping.',
     failPath: 'Revise and re-approve. Pages added after this point go through the change log and are assessed for a variation.'
   },
   {
-    n: 4, id: 'gate-4', title: 'Page outlines approved',
+    n: 4, id: 'gate-4', title: 'Page outlines approved', name: 'page outlines',
     purpose: 'Define content structure before wireframing.',
     artefacts: ['Key page outlines', 'Content matrix', 'Content deadlines'],
     owner: 'head-of-web', approver: 'client', approverSide: 'client',
     routes: ['light', 'standard', 'full'],
-    ticket: 'Gate 4: page outlines approved',
+    ticket: 'Approval: page outlines',
     unlocks: 'Copywriting, wireframing and block identification.',
     failPath: 'Revise outlines. Do not proceed to wireframes on a contested outline — the wireframe will inherit the argument.',
     additions: ['Content deadlines and late-content escalation (G11)']
   },
   {
-    n: 5, id: 'gate-5', title: 'Block inventory approved',
+    n: 5, id: 'gate-5', title: 'Block inventory approved', name: 'block inventory',
     purpose: 'Control reusable component scope.',
     artefacts: ['Block inventory', 'Reuse / adapt / build decisions', 'field notes', 'Design needs', 'Build impact'],
     owner: 'head-of-web', approver: 'head-of-web', approverSide: 'internal',
     routes: ['light', 'standard', 'full'],
-    ticket: 'Gate 5: block inventory approved',
+    ticket: 'Approval: block inventory',
     unlocks: 'Block wireframing and block design.',
     failPath: 'Re-cut the inventory. A block count that keeps growing is a signal the page outlines were not specific enough.'
   },
   {
-    n: 6, id: 'gate-6', title: 'Wireframes approved',
+    n: 6, id: 'gate-6', title: 'Wireframes approved', name: 'wireframes',
     purpose: 'Agree structure, hierarchy, content density and component behaviour before visual treatment.',
     artefacts: ['Key page wireframes', 'Block wireframes', 'Responsive notes', 'Open decisions'],
     owner: 'head-of-web', approver: 'client', approverSide: 'internal/client',
     routes: ['light', 'standard', 'full'],
-    ticket: 'Gate 6: wireframes approved',
+    ticket: 'Approval: wireframes',
     unlocks: 'Style direction sign-off and designer briefing.',
     failPath: 'Iterate wireframes. Cheap here, expensive after design. Track rounds against the revision allowance.'
   },
   {
-    n: 7, id: 'gate-7', title: 'Style direction approved',
+    n: 7, id: 'gate-7', title: 'Style direction approved', name: 'style direction',
     purpose: 'Give design work a clear foundation.',
     artefacts: ['Visual principles', 'Colour direction', 'Typography direction', 'Image treatment', 'UI tone', 'Accessibility notes', 'References to avoid'],
     owner: 'head-of-web', approver: 'client', approverSide: 'internal/client',
     routes: ['standard', 'full'],
-    ticket: 'Gate 7: style direction approved',
+    ticket: 'Approval: style direction',
     unlocks: 'Designer briefing and visual design.',
     failPath: 'Re-explore direction. Resolving taste here costs hours; resolving it on finished page designs costs days.'
   },
   {
-    n: 8, id: 'gate-8', title: 'Design internally approved',
+    n: 8, id: 'gate-8', title: 'Design internally approved', name: 'internal design review',
     purpose: 'Prevent inconsistent or structurally flawed design work reaching the client.',
     artefacts: ['Internal review notes', 'Accepted revisions', 'Unresolved decisions', 'Change log entries'],
     owner: 'head-of-web', approver: 'head-of-web', approverSide: 'internal',
     routes: ['standard', 'full'],
-    ticket: 'Gate 8: design internally approved',
+    ticket: 'Approval: internal design review',
     unlocks: 'Client design presentation.',
     failPath: 'Back to the designer with written notes referencing the approved artefact that was departed from. Any new scope introduced by the design is logged before it goes further.'
   },
   {
-    n: 9, id: 'gate-9', title: 'Client design approved',
+    n: 9, id: 'gate-9', title: 'Client design approved', name: 'client design',
     purpose: 'Get stakeholder approval before build.',
     artefacts: ['Approved page designs', 'Approved component direction', 'Logged changes'],
     owner: 'account-management', approver: 'client', approverSide: 'client',
     routes: ['light', 'standard', 'full'],
-    ticket: 'Gate 9: design approved',
+    ticket: 'Approval: client design',
     unlocks: 'Build specification.',
-    failPath: 'Consolidate feedback into one list, classify each item as correction / preference / new scope, then return to Gate 8. New-scope items go to the change log and are priced. Rounds count against the revision allowance.'
+    failPath: 'Consolidate feedback into one list, classify each item as correction / preference / new scope, then return to the internal design review. New-scope items go to the change log and are priced. Rounds count against the revision allowance.'
   },
   {
-    n: 10, id: 'gate-10', title: 'Build spec approved',
+    n: 10, id: 'gate-10', title: 'Build spec approved', name: 'build specification',
     purpose: 'Convert approved structure and design into build-ready instructions, and re-baseline the estimate.',
     artefacts: ['Page/template list', 'Block build list', 'field list', 'Styling notes', 'Content entry plan', 'Launch requirements', 'Re-baselined estimate', 'Access and credentials confirmed'],
     owner: 'head-of-web', approver: 'head-of-web', approverSide: 'internal',
     routes: ['standard', 'full'],
-    ticket: 'Gate 10: build spec approved',
+    ticket: 'Approval: build specification',
     unlocks: 'Development.',
     failPath: 'Do not start building. An unclear spec produces a build that has to be argued about later.',
     additions: ['Re-baselined estimate (G1)', 'Access and credentials obtained (G17)', 'Environments and Git workflow (G19)']
   },
   {
-    n: 11, id: 'gate-11', title: 'Internal QA complete',
+    n: 11, id: 'gate-11', title: 'Internal QA complete', name: 'internal QA',
     purpose: 'Verify the site against the agreed support matrix and accessibility target before the client sees it.',
     artefacts: ['QA checklist', 'Known issues', 'Content checks', 'Responsive checks against support matrix', 'Form checks', 'Performance basics', 'Accessibility test against target', 'Compliance check'],
     owner: 'head-of-web', approver: 'head-of-web', approverSide: 'internal',
     routes: ['light', 'standard', 'full'],
-    ticket: 'Gate 11: internal QA complete',
+    ticket: 'Approval: internal QA',
     unlocks: 'Client staging review.',
     failPath: 'Fix and re-test. Never open staging to a client on a site with known structural defects — every defect they find costs an approval round.',
     additions: ['Tested against agreed support matrix (G13)', 'Accessibility target verified (G15)', 'Data protection and consent check (G16)']
   },
   {
-    n: 12, id: 'gate-12', title: 'Staging approved',
+    n: 12, id: 'gate-12', title: 'Staging approved', name: 'staging',
     purpose: 'Confirm client review is complete and launch blockers are closed.',
     artefacts: ['Accepted feedback', 'Rejected/deferred requests', 'Final corrections', 'Launch blockers closed', 'Content freeze'],
     owner: 'account-management', approver: 'client', approverSide: 'client',
     routes: ['light', 'standard', 'full'],
-    ticket: 'Gate 12: staging approved',
+    ticket: 'Approval: staging',
     unlocks: 'Launch preparation.',
     failPath: 'Re-review only the disputed items. Each feedback item is classified correction / preference / new scope; new scope is priced, not absorbed.',
     additions: ['Content freeze on all routes, not just full (G11)']
   },
   {
-    n: 13, id: 'gate-13', title: 'Launch approved',
+    n: 13, id: 'gate-13', title: 'Launch approved', name: 'launch',
     purpose: 'Confirm production deployment can proceed.',
     artefacts: ['Launch checklist', 'Backup', 'Redirect map', 'DNS/hosting readiness', 'Final content freeze', 'Rollback plan', 'Warranty window agreed'],
     owner: 'head-of-web', approver: 'client', approverSide: 'client/internal',
     routes: ['light', 'standard', 'full'],
-    ticket: 'Gate 13: launch approved',
+    ticket: 'Approval: launch',
     unlocks: 'Production deployment.',
     failPath: 'Hold the launch. A delayed launch is a scheduling problem; a bad launch is a reputation problem.',
     additions: ['Defect warranty window agreed and communicated (G5)']
   },
   {
-    n: 14, id: 'gate-14', title: 'Project closed',
+    n: 14, id: 'gate-14', title: 'Project closed', name: 'project closure',
     purpose: 'Close the project, set the commercial boundary, and preserve learning.',
     artefacts: ['Post-launch QA', 'Final decision log', 'Final change log', 'Reusable block updates', 'Handover notes', 'Retrospective notes', 'Warranty start date', 'Care plan proposal'],
     owner: 'head-of-web', approver: 'client', approverSide: 'internal/client',
     routes: ['light', 'standard', 'full'],
-    ticket: 'Gate 14: project closed',
+    ticket: 'Approval: project closure',
     unlocks: 'Warranty period begins. Anything beyond defect fixing is quoted.',
     failPath: 'A project that will not close is usually a project whose exclusions were never written down. Close it formally and quote the remainder.',
     additions: ['Warranty start and boundary (G5)', 'Care plan / retainer conversation (G22)', 'Retrospective feeds the process itself (G20)']
@@ -397,61 +397,61 @@ export const gates = [
 
 export const conditionalGates = [
   {
-    id: 'gate-c-audit', title: 'Current-state audit accepted', after: 1,
+    id: 'gate-c-audit', title: 'Current-state audit accepted', name: 'current-state audit', after: 1,
     triggeredBy: ['existing-site'],
     purpose: 'Establish what the existing site currently does, ranks for and contains, before it is replaced.',
     artefacts: ['Current-state audit', 'Content audit', 'SEO and traffic baseline'],
     owner: 'seo-analytics', approver: 'head-of-web', approverSide: 'internal',
-    ticket: 'Gate C1: current-state audit accepted'
+    ticket: 'Approval: current-state audit'
   },
   {
-    id: 'gate-c-architecture', title: 'Technical architecture approved', after: 2,
+    id: 'gate-c-architecture', title: 'Technical architecture approved', name: 'technical architecture', after: 2,
     triggeredBy: ['integrations', 'transactional', 'multilingual'],
     purpose: 'Agree the technical shape before it is discovered during build.',
     artefacts: ['Technical architecture notes', 'Integration requirements', 'Data/content model'],
     owner: 'head-of-web', approver: 'head-of-web', approverSide: 'internal',
-    ticket: 'Gate C2: technical architecture approved'
+    ticket: 'Approval: technical architecture'
   },
   {
-    id: 'gate-c-migration', title: 'Migration and redirect plan approved', after: 3,
+    id: 'gate-c-migration', title: 'Migration and redirect plan approved', name: 'migration and redirect plan', after: 3,
     triggeredBy: ['existing-site', 'content-migration', 'high-seo-risk'],
     purpose: 'Protect existing rankings and inbound links across the URL change.',
     artefacts: ['SEO migration plan', 'Redirect map', 'Priority URL list'],
     owner: 'seo-analytics', approver: 'head-of-web', approverSide: 'internal',
-    ticket: 'Gate C3: migration plan approved'
+    ticket: 'Approval: migration and redirect plan'
   },
   {
-    id: 'gate-c-access', title: 'Access and credentials obtained', after: 10, isNew: true,
+    id: 'gate-c-access', title: 'Access and credentials obtained', name: 'access and credentials', after: 10, isNew: true,
     triggeredBy: ['integrations', 'existing-site', 'transactional'],
     purpose: 'Confirm every third-party account, API key, DNS and hosting credential is in hand before build depends on it.',
     artefacts: ['Access register', 'Credential handover record'],
     owner: 'account-management', approver: 'head-of-web', approverSide: 'internal',
-    ticket: 'Gate C4: access and credentials obtained',
+    ticket: 'Approval: access and credentials',
     newBecause: 'Missing credentials stall builds silently and the delay is invisible in the record (G17).'
   },
   {
-    id: 'gate-c-compliance', title: 'Compliance and data protection cleared', after: 11, isNew: true,
+    id: 'gate-c-compliance', title: 'Compliance and data protection cleared', name: 'compliance and data protection', after: 11, isNew: true,
     triggeredBy: ['forms', 'transactional'],
     purpose: 'Confirm the site meets privacy, consent and data-handling obligations before it goes live.',
     artefacts: ['Privacy policy', 'Cookie consent configuration', 'Form data destination and retention', 'DPA position'],
     owner: 'head-of-web', approver: 'client', approverSide: 'client',
-    ticket: 'Gate C5: compliance cleared',
+    ticket: 'Approval: compliance and data protection',
     newBecause: 'Forms were QA-tested for submission only. Privacy, consent, retention and DPA were entirely absent (G16).'
   },
   {
-    id: 'gate-c-backlog', title: 'Post-launch backlog agreed', after: 14,
+    id: 'gate-c-backlog', title: 'Post-launch backlog agreed', name: 'post-launch backlog', after: 14,
     triggeredBy: ['transactional', 'multilingual', 'high-seo-risk'],
     purpose: 'Convert deferred items into an owned, quoted forward plan rather than an open-ended expectation.',
     artefacts: ['Post-launch improvement backlog', 'Care plan proposal'],
     owner: 'account-management', approver: 'client', approverSide: 'client',
-    ticket: 'Gate C6: post-launch backlog agreed'
+    ticket: 'Approval: post-launch backlog'
   }
 ];
 
 /* --- Artefacts ------------------------------------------------------------ */
 
 export const artefacts = {
-  'sales-handover':      { name: 'Sales handover note',        type: 'docx', file: 'sales-handover-note.docx',       gate: 0,  routes: ['light','standard','full'], isNew: true },
+  'studio-brief':      { name: 'Studio brief',        type: 'docx', file: 'studio-brief.docx',       gate: 0,  routes: ['light','standard','full'], isNew: true },
   'discovery-summary':   { name: 'Discovery summary',          type: 'docx', file: 'discovery-summary.docx',         gate: 1,  routes: ['light','standard','full'] },
   'requirements':        { name: 'Requirements list',          type: 'docx', file: 'discovery-summary.docx',         gate: 1,  routes: ['standard','full'] },
   'risk-log':            { name: 'Risk & assumption log',      type: 'xlsx', file: 'chillibyte-project-trackers.xlsx', tab: 'Risks & assumptions', gate: 1, routes: ['light','standard','full'] },
@@ -474,7 +474,7 @@ export const artefacts = {
   'change-log':          { name: 'Change log',                 type: 'xlsx', file: 'chillibyte-project-trackers.xlsx', tab: 'Change log', gate: null, routes: ['light','standard','full'] },
   'variation-order':     { name: 'Variation order',            type: 'docx', file: 'variation-order.docx',           gate: null, routes: ['light','standard','full'], isNew: true },
   'variation-register':  { name: 'Variation register',         type: 'xlsx', file: 'chillibyte-project-trackers.xlsx', tab: 'Variation register', gate: null, routes: ['light','standard','full'], isNew: true },
-  'gate-ticket':         { name: 'Basecamp gate ticket',       type: 'docx', file: 'gate-ticket.docx',               gate: null, routes: ['light','standard','full'] },
+  'gate-ticket':         { name: 'Basecamp approval ticket',       type: 'docx', file: 'gate-ticket.docx',               gate: null, routes: ['light','standard','full'] },
   'work-package':        { name: 'Work package',               type: 'docx', file: 'work-package.docx',              gate: null, routes: ['light','standard','full'], isNew: true },
   'approval-note':       { name: 'Client approval note',       type: 'docx', file: 'client-approval-note.docx',      gate: null, routes: ['light','standard','full'] },
   'gate-tracker':        { name: 'Gate tracker',               type: 'xlsx', file: 'chillibyte-project-trackers.xlsx', tab: 'Gate tracker', gate: null, routes: ['light','standard','full'] },
@@ -504,7 +504,7 @@ export const rules = [
   { text: 'Every project has an estimate baseline before work starts, and a re-baseline at build spec.', source: 'new', gap: 'G1' },
   { text: 'A change that adds effort gets an effort figure. If it is chargeable, it becomes a variation order before the work happens.', source: 'new', gap: 'G2' },
   { text: 'Every gate has a named client approver and an agreed response window. Silence past the window pauses the project; it does not mean yes.', source: 'new', gap: 'G3' },
-  { text: 'Nothing enters delivery without a sales handover on the record.', source: 'new', gap: 'G4' },
+  { text: 'Nothing enters delivery without a studio brief on the record.', source: 'new', gap: 'G4' },
   { text: 'Defects are fixed free inside the warranty window. Changes are quoted, inside it or outside it.', source: 'new', gap: 'G5' },
   { text: 'Design and feedback rounds are counted. Rounds beyond the allowance are a variation, not a favour.', source: 'new', gap: 'G6' },
   { text: 'No work package starts until its inputs exist. No work package finishes until its done-when conditions are met.', source: 'new', gap: 'G7' },
@@ -526,3 +526,13 @@ export function roleName(id) {
 export function phaseById(id) {
   return phases.find(p => p.id === id) || null;
 }
+
+/* --- Approval names ---------------------------------------------------------
+   Gates are named for what they approve, not numbered. `n` stays as the
+   internal key that steps point at; it is never shown to people. The ticket for
+   a gate is 'Approval: <name>', identical in Basecamp, the guide and the spec
+   builder. */
+
+export const gateByN = (n) => gates.find(g => g.n === n) || null;
+export const approvalName = (n) => gateByN(n)?.name ?? '';
+export const approvalTicket = (n) => gateByN(n)?.ticket ?? '';

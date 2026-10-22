@@ -11,7 +11,7 @@
 
 import {
   phases, roles, routes, routeOrder, gates, conditionalGates,
-  artefacts, conditions as CONDITIONS, roleName
+  artefacts, conditions as CONDITIONS, roleName, approvalName, approvalTicket
 } from '../../data/process.js';
 import { steps, stepById } from '../../data/steps.js';
 import {
@@ -441,7 +441,7 @@ function seedRisks(plan) {
   if (c.includes('client-writes'))
     push('Client-written content arrives late or not at all',
          'Build stalls; pages launch empty or the date moves',
-         'Content deadline and escalation agreed in writing at Gate 4. Named owner per page.',
+         'Content deadline and escalation agreed in writing at the page outlines approval. Named owner per page.',
          'Account Management');
 
   if (c.includes('high-seo-risk'))
@@ -465,7 +465,7 @@ function seedRisks(plan) {
   if (c.includes('many-stakeholders'))
     push('Contradictory feedback from multiple approvers',
          'Revision rounds multiply; nobody can approve',
-         'Single named approver captured at Gate 1. Contradictions go back to the client to resolve.',
+         'Single named approver captured at the discovery approval. Contradictions go back to the client to resolve.',
          'Account Management');
 
   if (c.includes('tight-deadline'))
@@ -495,7 +495,7 @@ function seedRisks(plan) {
   if (a.clientMaturity === 'known-hard')
     push('Previous engagement with this client was difficult',
          'Approval drift and revision creep recur',
-         'Tighten the approval SLA and state the revision allowance explicitly at Gate 0.',
+         'Tighten the approval SLA and state the revision allowance explicitly at the studio brief approval.',
          'Account Management');
 
   push('Scope grows after approval',
@@ -552,7 +552,7 @@ function terms(plan) {
     revisionRounds: plan.route === 'full' ? 3 : 2,
     stagingRounds: 1,
     warrantyDays: 30,
-    approver: 'One named individual, captured at Gate 1. Others may comment; only the named approver approves.'
+    approver: 'One named individual, captured at the discovery approval. Others may comment; only the named approver approves.'
   };
 }
 
@@ -729,7 +729,7 @@ function renderSpec() {
               <a href="../guide/index.html#/step/${s.id}">${esc(s.title)}</a>
               ${s.isNew ? ' ' + newBadge() : ''}
               <span class="pmeta">${esc(roleName(s.owner))}${
-                s.gate !== null && s.gate !== undefined ? ` · Gate ${s.gate}` : ''}</span>
+                s.gate !== null && s.gate !== undefined ? ` · Approval: ${approvalName(s.gate)}` : ''}</span>
             </span>
             <span class="ph">${s.quotedSeparately ? 'By designer quote' : (i.in && plan.stepHours(s) ? hrsRange(plan.stepHours(s), romVariance) : '—')}</span>
             ${!i.in ? `<span class="why">Omitted: ${esc(i.why)}</span>` : ''}
@@ -745,10 +745,10 @@ function renderSpec() {
       <p class="sec-note">Each gate names the artefacts being approved and states what work it
       unlocks. Raise one Basecamp ticket per gate.</p>
       <div class="table-scroll"><table>
-        <thead><tr><th>Gate</th><th>Approver</th><th>Ticket</th><th>Unlocks</th></tr></thead>
+        <thead><tr><th>Approval</th><th>Approver</th><th>Ticket</th><th>Unlocks</th></tr></thead>
         <tbody>
           ${plan.activeGates.map(g => `<tr>
-            <td><strong>${g.n}. ${esc(g.title)}</strong>${g.isNew ? ' ' + newBadge() : ''}</td>
+            <td><strong>${esc(g.title)}</strong>${g.isNew ? ' ' + newBadge() : ''}</td>
             <td>${esc(roleName(g.approver))}</td>
             <td><code>${esc(g.ticket)}</code></td>
             <td>${esc(g.unlocks)}</td>
@@ -864,7 +864,7 @@ function renderSpec() {
         <tbody>${plan.artefactList.sort((a, b) => (a.gate ?? 99) - (b.gate ?? 99)).map(a => `<tr>
           <td><strong>${esc(a.name)}</strong>${a.isNew ? ' ' + newBadge() : ''}</td>
           <td>${a.type === 'other' ? 'Design tool' : '.' + a.type}${a.tab ? ` → ${esc(a.tab)}` : ''}</td>
-          <td>${a.gate !== null && a.gate !== undefined ? 'Gate ' + a.gate : 'Ongoing'}</td>
+          <td>${a.gate !== null && a.gate !== undefined ? 'Approval: ' + approvalName(a.gate) : 'Ongoing'}</td>
           <td>${a.file ? `<a href="../templates/${a.type === 'xlsx' ? 'xlsx' : 'docx'}/${a.file}" download>Download</a>` : '—'}</td>
         </tr>`).join('')}</tbody>
       </table></div>
@@ -885,7 +885,7 @@ function renderSpec() {
     </section>
 
     <section>
-      <h2><span class="num">8</span>Commercial terms to agree at Gate 0/1</h2>
+      <h2><span class="num">8</span>Commercial terms to agree at the studio brief and discovery approvals</h2>
       <p class="sec-note">Agreeing these takes minutes at the start and is close to impossible to
       impose later.</p>
       <div class="table-scroll"><table>
@@ -894,10 +894,10 @@ function renderSpec() {
           <tr><th>Approval response window</th><td><strong>${t.slaDays} working days.</strong> ${esc(t.slaNote)} Silence past the window pauses the project and moves the timeline — it does not mean yes.</td></tr>
           <tr><th>Design concepts included</th><td>${t.concepts}</td></tr>
           <tr><th>Revision rounds included</th><td>${t.revisionRounds} on the chosen concept, plus ${t.stagingRounds} consolidated round at staging. Further rounds are a variation.</td></tr>
-          <tr><th>Support matrix</th><td>To be agreed at Gate 1 and recorded. QA tests against it and nothing beyond it.</td></tr>
+          <tr><th>Support matrix</th><td>To be agreed at the discovery approval and recorded. QA tests against it and nothing beyond it.</td></tr>
           <tr><th>Accessibility target</th><td>${
             answers.accessibility === 'formal' ? 'Formally required — confirm the exact standard and whether external audit is expected.'
-            : answers.accessibility === 'aa' ? 'WCAG 2.2 AA, tested at Gate 11.'
+            : answers.accessibility === 'aa' ? 'WCAG 2.2 AA, tested at the internal QA approval.'
             : 'No contractual standard. We work to AA by default, but it is not a commitment — consider making it one.'}</td></tr>
           <tr><th>Defect warranty</th><td>${t.warrantyDays} days from launch. Defects fixed free; changes quoted, inside the window or outside it.</td></tr>
           <tr><th>Change control</th><td>Any change adding effort gets an hours figure. Chargeable changes become a variation order <em>before</em> the work happens.</td></tr>
@@ -922,7 +922,7 @@ function renderSpec() {
       <h2><span class="num">10</span>Exclusions</h2>
       <div class="exclusions">
         <h3>Not included in this project</h3>
-        <p class="client-safe">Written to be pasted into a proposal or a Gate 0 handover.
+        <p class="client-safe">Written to be pasted into a proposal or a studio brief.
         This list is the project's scope defence — every line is something that would otherwise
         be assumed to be included.</p>
         <ul class="list-cross">${exclusions.map(x => `<li>${esc(x)}</li>`).join('')}</ul>
@@ -952,7 +952,7 @@ function toMarkdown() {
     L.push(`### ${ph.n}. ${ph.name}`, '');
     for (const i of items) {
       L.push(`- [ ] **${i.step.n}. ${i.step.title}** — ${roleName(i.step.owner)}${
-        i.step.gate != null ? `, Gate ${i.step.gate}` : ''}, ${plan.stepHours(i.step)} hrs${
+        i.step.gate != null ? `, ${approvalTicket(i.step.gate)}` : ''}, ${plan.stepHours(i.step)} hrs${
         i.reason === 'conditional' ? ` _(triggered by: ${i.triggeredBy.join(', ')})_` : ''}`);
     }
     for (const o of out) L.push(`- ~~${o.step.n}. ${o.step.title}~~ — omitted: ${o.why}`);
@@ -983,7 +983,7 @@ function toMarkdown() {
   L.push('');
 
   L.push('## Gates', '');
-  for (const g of plan.activeGates) L.push(`- **Gate ${g.n}: ${g.title}** — ${roleName(g.approver)} — \`${g.ticket}\``);
+  for (const g of plan.activeGates) L.push(`- **${g.ticket}** — ${roleName(g.approver)}`);
   for (const g of plan.activeConditionalGates) L.push(`- **${g.title}** (conditional) — \`${g.ticket}\``);
   L.push('');
 
@@ -1008,20 +1008,20 @@ function toCSV() {
   const plan = buildPlan(answers);
   const q = (v) => `"${String(v).replace(/"/g, '""')}"`;
   const rows = [
-    ['Step', 'Title', 'Phase', 'Status', 'Reason', 'Owner', 'Approver', 'Gate', 'Estimate (hrs)', 'Actual (hrs)', 'Deliverables', 'Blocks']
+    ['Step', 'Title', 'Phase', 'Status', 'Reason', 'Owner', 'Approver', 'Approval', 'Estimate (hrs)', 'Actual (hrs)', 'Deliverables', 'Blocks']
   ];
   for (const i of plan.included) {
     const s = i.step;
     rows.push([s.n, s.title, phases.find(p => p.id === s.phase).name, 'Included',
       i.reason === 'conditional' ? 'Triggered by: ' + i.triggeredBy.join('; ') : `${plan.route} route`,
-      roleName(s.owner), roleName(s.approver), s.gate ?? '',
+      roleName(s.owner), roleName(s.approver), s.gate != null ? approvalTicket(s.gate) : '',
       plan.stepHours(s), '',
       (s.deliverables || []).map(d => artefacts[d]?.name || d).join('; '),
       (s.blocks || []).map(b => stepById[b]?.title || b).join('; ')]);
   }
   for (const o of plan.omitted) {
     rows.push([o.step.n, o.step.title, phases.find(p => p.id === o.step.phase).name,
-      'Omitted', o.why, '', '', o.step.gate ?? '', 0, '', '', '']);
+      'Omitted', o.why, '', '', o.step.gate != null ? approvalTicket(o.step.gate) : '', 0, '', '', '']);
   }
   for (const f of plan.featureRows) {
     const label = QUESTIONS.find(x => x.id === 'features').options.find(o => o.v === f.id)?.label || f.id;

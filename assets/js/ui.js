@@ -2,6 +2,8 @@
    ui.js — small shared rendering helpers used by the guide and spec builder.
 --------------------------------------------------------------------------- */
 
+import { approvalName } from '../../data/process.js';
+
 export const esc = (s) => String(s ?? '')
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
   .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
@@ -29,7 +31,7 @@ export function routeBadges(routes = []) {
 export const newBadge = () => '';
 
 export const gateBadge = (n) =>
-  `<span class="badge badge-gate">Gate ${esc(n)}</span>`;
+  `<span class="badge badge-gate">Approval: ${esc(approvalName(n))}</span>`;
 
 /* --- Flow diagram (pitch slide 6, overview slide 4) ------------------------
    Both decks render the same "all steps, in order" flow, grouped into the
@@ -37,7 +39,7 @@ export const gateBadge = (n) =>
    decks cannot render it differently again.
 
    Exactly two markers, so each means one thing:
-     .has-gate     — step ends in a formal approval ("Gate N")
+     .has-gate     — step ends in a formal approval
      .is-conditional — step only applies to some projects ("Conditional"),
                        i.e. gate === null but conditionalGate is set
    A step with neither (only step 15, Development) is mandatory and just
@@ -55,7 +57,7 @@ export function renderFlow(steps, phases) {
           const hasGate = s.gate !== null && s.gate !== undefined;
           const conditional = !hasGate && Boolean(s.conditionalGate);
           const cls = hasGate ? 'has-gate' : (conditional ? 'is-conditional' : '');
-          const badge = hasGate ? `<span class="fg">Gate ${s.gate}</span>`
+          const badge = hasGate ? `<span class="fg">Approval</span>`
             : conditional ? `<span class="fg">Conditional</span>` : '';
           return `
         <div class="flow-item ${cls}">

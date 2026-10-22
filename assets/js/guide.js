@@ -5,7 +5,7 @@
 
 import {
   phases, roles, routes, routeOrder, gates, conditionalGates,
-  artefacts, conditions, rules, meta, roleName
+  artefacts, conditions, rules, meta, roleName, approvalName
 } from '../../data/process.js';
 import { steps, stepById } from '../../data/steps.js';
 import { project, examples } from '../../data/worked-example.js';
@@ -291,7 +291,7 @@ function renderStep(id) {
         <div><dt>Owner</dt><dd>${esc(roleName(s.owner))}</dd></div>
         <div><dt>Contributors</dt><dd>${(s.contributors || []).map(r => esc(roleName(r))).join(', ') || '—'}</dd></div>
         <div><dt>Approver</dt><dd>${esc(roleName(s.approver))}</dd></div>
-        <div><dt>Gate</dt><dd>${gate ? `Gate ${gate.n} — ${esc(gate.title)}` : (cGate ? esc(cGate.title) : 'No gate')}</dd></div>
+        <div><dt>Approval</dt><dd>${gate ? esc(gate.ticket) : (cGate ? esc(cGate.ticket) : 'None')}</dd></div>
         <div><dt>Effort (${route})</dt><dd>${s.effortBand[route] ? hrs(s.effortBand[route]) : 'n/a'}</dd></div>
         <div><dt>Routes</dt><dd>${s.routes.map(r => esc(r)).join(' · ')}</dd></div>
       </dl>
@@ -355,10 +355,10 @@ function renderStep(id) {
     </section>` : ''}
 
     ${gate ? `<section class="sec">
-      <h2><span class="sec-hint">Approval</span>Gate ${gate.n} — ${esc(gate.title)}</h2>
+      <h2><span class="sec-hint">Approval</span>${esc(gate.title)}</h2>
       <div class="gate-panel">
         <div class="gate-panel-head">
-          <h3>Gate ${gate.n}: ${esc(gate.title)}</h3>
+          <h3>${esc(gate.ticket)}</h3>
           ${gate.isNew ? newBadge(gate.newBecause) : ''}
         </div>
         <div class="gate-panel-body">
@@ -452,7 +452,7 @@ const referenceViews = {
       different jobs, and separating them is what stops a project being limited by one person's
       capacity — or stalling entirely when that person is on holiday.</p>
       <p style="margin-top:.6rem">It also means nobody signs off their own work: the person who
-      built something is not the person who approves it at Gate 11.</p>
+      built something is not the person who approves it at the internal QA approval.</p>
     </div>
     <section class="sec">
       <h2>Who owns what</h2>
@@ -477,7 +477,7 @@ const referenceViews = {
     <div class="table-scroll"><table>
       <thead><tr><th>Gate</th><th>Routes</th><th>Owner</th><th>Approver</th><th>Unlocks</th></tr></thead>
       <tbody>${gates.map(g => `<tr>
-        <td><strong>${g.n}. ${esc(g.title)}</strong> ${g.isNew ? newBadge() : ''}</td>
+        <td><strong>${esc(g.title)}</strong> ${g.isNew ? newBadge() : ''}</td>
         <td>${routeBadges(g.routes)}</td>
         <td>${esc(roleName(g.owner))}</td>
         <td>${esc(roleName(g.approver))}</td>
@@ -485,7 +485,7 @@ const referenceViews = {
       </tr>`).join('')}</tbody>
     </table></div>
     ${gates.map(g => `<section class="sec">
-      <h2>Gate ${g.n} — ${esc(g.title)} ${g.isNew ? newBadge() : ''}</h2>
+      <h2>${esc(g.title)} ${g.isNew ? newBadge() : ''}</h2>
       <p>${esc(g.purpose)}</p>
       <p><strong>Artefacts:</strong> ${g.artefacts.map(esc).join(' · ')}</p>
       <p><strong>Ticket:</strong> <span class="gate-ticket">${esc(g.ticket)}</span></p>
@@ -497,7 +497,7 @@ const referenceViews = {
       ${conditionalGates.map(g => `<div class="card" style="margin-bottom:var(--sp-4)">
         <h3>${esc(g.title)} ${g.isNew ? newBadge() : ''}</h3>
         <p>${esc(g.purpose)}</p>
-        <p><strong>Sits after:</strong> Gate ${g.after}</p>
+        <p><strong>Sits after:</strong> ${esc(gates.find(x => x.n === g.after)?.title ?? '')}</p>
         <p><strong>Artefacts:</strong> ${g.artefacts.map(esc).join(' · ')}</p>
         <p><strong>Ticket:</strong> <span class="gate-ticket">${esc(g.ticket)}</span></p>
         <p class="muted" style="font-size:var(--fs-sm)"><strong>Triggered by:</strong>
@@ -518,7 +518,7 @@ const referenceViews = {
       below marked <code>.xlsx</code> lives on one shared workbook,
       <code>chillibyte-project-trackers.xlsx</code> — Sitemap, Block inventory, Risks, the
       decision/change/variation logs, QA, Launch, the estimate baseline, all of it. Download it
-      <strong>once</strong>, at Gate 1, to duplicate as that project's live workbook on the
+      <strong>once</strong>, at the discovery approval, to duplicate as that project's live workbook on the
       Chillibyte Team Site / Excel Online — don't re-download it per artefact, and don't treat a
       later download as a new version. See <a href="#/reference/basecamp">Basecamp</a> for where
       it lives and how a gate points at a specific version of it.</p>
@@ -528,7 +528,7 @@ const referenceViews = {
       <tbody>${Object.entries(artefacts).map(([k, a]) => `<tr>
         <td><strong>${esc(a.name)}</strong> ${a.isNew ? newBadge() : ''}</td>
         <td>${a.type === 'other' ? 'Design tool' : '.' + a.type}${a.tab ? ` <span class="muted">→ ${esc(a.tab)}</span>` : ''}</td>
-        <td>${a.gate !== null && a.gate !== undefined ? 'Gate ' + a.gate : 'Ongoing'}</td>
+        <td>${a.gate !== null && a.gate !== undefined ? 'Approval: ' + approvalName(a.gate) : 'Ongoing'}</td>
         <td>${a.routes.length ? routeBadges(a.routes) : '<span class="badge">Conditional</span>'}</td>
         <td>${a.file
           ? `<a href="../templates/${a.type === 'xlsx' ? 'xlsx' : 'docx'}/${a.file}" download>${a.type === 'xlsx' ? 'Starting template' : 'Download'}</a>`
@@ -560,13 +560,13 @@ const referenceViews = {
       folder for discovery, and so on as the project moves through the gates in the
       <a href="#/reference/gates">Gates index</a>. The number in the folder name is what makes
       provenance obvious without opening anything — a file in folder <code>3</code> was produced
-      at or before Gate 3.</p>
+      at or before the sitemap approval.</p>
       <ul class="list-check">
         <li>Anything the client sends unprompted (a brief, a scoping note) goes straight into the
         current stage folder, with the file's Notes field saying who it came from — "From the
         client." is enough. That one line is the difference between an artefact and an email
         attachment nobody can place later.</li>
-        <li>Anything Chillibyte produces as a single, point-in-time document — the sales handover
+        <li>Anything Chillibyte produces as a single, point-in-time document — the studio brief
         note, the internal brief, the designer brief, approval notes — lives here too, filed under
         the stage that produced it. See <a href="#/reference/artefacts">Artefacts &amp; templates</a>
         for the full list of what should end up here and by which gate.</li>
@@ -586,7 +586,7 @@ const referenceViews = {
       above — download, edit, re-upload a new <code>_v1.1</code> copy — produces exactly the stale-
       duplicate problem Docs &amp; Files is supposed to prevent: two copies, one of them wrong, and
       no way to tell which without opening both.</p>
-      <p>Instead: duplicate the template once, at Gate 1, as a live workbook on Chillibyte's
+      <p>Instead: duplicate the template once, at the discovery approval, as a live workbook on Chillibyte's
       SharePoint / Excel Online (<a href="https://excel.cloud.microsoft/en-gb/">excel.cloud.microsoft</a>)
       — everyone who needs it edits that one file for the rest of the project. Pin the link near
       the top of Docs &amp; Files (it is not stage-specific, so it doesn't belong in a numbered
@@ -600,7 +600,7 @@ const referenceViews = {
         <p style="margin-top:.6rem">That something is SharePoint's built-in
         <strong>version history</strong>, not a filename. At the moment of approval: open
         <em>Version History</em> on the workbook, label the current version in terms anyone can
-        find later ("Gate 3 approved — 3 Sept 2026"), and put that label — not a
+        find later ("Sitemap approved — 3 Sept 2026"), and put that label — not a
         <code>v1.0</code> suffix — in the gate ticket's artefact line. The workbook carries on
         changing after that; the named version stays frozen in the history, exactly as a separate
         exported file would have been, without the duplicate file.</p>
@@ -626,13 +626,12 @@ const referenceViews = {
         </div>
         <div class="card card-accent-2">
           <h3>The Approval Gates list</h3>
-          <p>A single list, separate from the phase lists, with one to-do per gate — <code>Gate 0
-          — ${esc(gates[0]?.title ?? '')}</code> through <code>Gate ${gates[gates.length - 1]?.n ?? ''}
-          — ${esc(gates[gates.length - 1]?.title ?? '')}</code> — mirroring the
+          <p>A single list, separate from the phase lists, with one to-do per approval — <code>${esc(gates[0]?.ticket ?? '')}</code>
+          through <code>${esc(gates[gates.length - 1]?.ticket ?? '')}</code> — mirroring the
           <a href="#/reference/gates">Gates index</a> one-for-one.</p>
           <p class="muted" style="font-size:var(--fs-sm)">Ticking a gate means the named artefacts,
           at a named version, were actually <strong>approved</strong> — paste the
-          <span class="gate-ticket">Basecamp gate ticket</span> body into the to-do first.</p>
+          <span class="gate-ticket">Basecamp approval ticket</span> body into the to-do first.</p>
         </div>
       </div>
       <p>Keeping them apart matters for the same reason the
@@ -642,7 +641,7 @@ const referenceViews = {
       <div class="note note-warn">
         <p><strong>A gate to-do is not a checkbox — it is the ticket.</strong> Before ticking it,
         its Notes should carry (or link to) the filled-in
-        <span class="gate-ticket">Basecamp gate ticket</span> template: artefacts and versions,
+        <span class="gate-ticket">Basecamp approval ticket</span> template: artefacts and versions,
         the decision, what the approval unlocks, and the fail path if it isn't approved. A gate
         ticked with no ticket body is a gate nobody can point back to later.</p>
       </div>
@@ -849,7 +848,7 @@ const referenceViews = {
     <div class="table-scroll"><table>
       <thead><tr><th>TOGAF domain</th><th>In this process</th></tr></thead>
       <tbody>
-        <tr><td><strong>Architecture vision</strong></td><td>Sales handover, discovery summary and success criteria</td></tr>
+        <tr><td><strong>Architecture vision</strong></td><td>Studio brief, discovery summary and success criteria</td></tr>
         <tr><td><strong>Stakeholder concerns</strong></td><td>Discovery goals, stakeholder map, pain points, named approvers</td></tr>
         <tr><td><strong>Business architecture</strong></td><td>Business goals, audiences, services and conversion paths</td></tr>
         <tr><td><strong>Information architecture</strong></td><td>Sitemap, content model, page outlines, content matrix</td></tr>
@@ -891,7 +890,7 @@ const referenceViews = {
   glossary: () => {
     const terms = [
       ['Artefact', 'A named, versioned document or record that a gate approves. Approval is always of artefacts, never of a general impression.'],
-      ['Baseline', 'The estimate recorded at Gate 1 and re-recorded at Gate 10. Everything that moves afterwards is measured against it.'],
+      ['Baseline', 'The estimate recorded at the discovery approval and re-recorded at the build specification approval. Everything that moves afterwards is measured against it.'],
       ['Block', 'A reusable block. Structure and fields are shared across projects; appearance varies through theme SCSS.'],
       ['Block inventory', 'The controlled list of every block a project needs, each with a reuse / adapt / build-new decision.'],
       ['Change log', 'The record of movement after approval. Protects scope.'],
@@ -976,7 +975,7 @@ const index = [
            (s.pitfalls || []).map(p => p.risk + ' ' + p.control).join(' ')].join(' ').toLowerCase()
   })),
   ...gates.map(g => ({
-    title: `Gate ${g.n}: ${g.title}`,
+    title: g.ticket,
     meta: 'Approval gate',
     href: '#/reference/gates',
     text: [g.title, g.purpose, g.unlocks, g.failPath, g.artefacts.join(' ')].join(' ').toLowerCase()
